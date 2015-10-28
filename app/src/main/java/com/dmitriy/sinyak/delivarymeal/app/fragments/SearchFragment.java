@@ -10,12 +10,12 @@ import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.fragments.Ifragments.IFragments;
 
 /**
- * Created by 1 on 27.10.2015.
+ * Created by 1 on 28.10.2015.
  */
-public class NullFragment extends Fragment implements IFragments {
+public class SearchFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return  inflater.inflate(R.layout.null_fragment, container, false);
+        return inflater.inflate(R.layout.search_fragment, container, false);
     }
 }

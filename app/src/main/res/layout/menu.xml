@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_height="wrap_content"
               android:background="#f1f1f1"
               android:orientation="vertical" android:id="@+id/menu">
 
@@ -13,25 +14,91 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/base_frame">
             <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Large Text"
-                        android:id="@+id/textView" android:layout_gravity="left|center_vertical"/>
-                <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/imageView" android:src="@drawable/arrow"
-                        android:layout_gravity="center_vertical"/>
-            </LinearLayout>
-            <ImageView
+                    android:orientation="vertical"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView2" android:layout_gravity="bottom" android:src="@drawable/line"/>
+                    android:layout_height="wrap_content" android:id="@+id/baseLayout">
+                <fragment
+                        android:name="com.dmitriy.sinyak.delivarymeal.app.fragments.SearchFragment"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/searchFrame"
+                        android:layout_gravity="top"
+                        tools:layout="@layout/search_fragment"/>
+                <LinearLayout android:orientation="horizontal" android:layout_width="match_parent"
+                              android:layout_height="wrap_content" android:id="@+id/countryLayout"
+                              android:layout_gravity="top">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceLarge" android:text="Large Text"
+                              android:id="@+id/countryText" android:layout_gravity="left|center_vertical"
+                              android:clickable="true" android:onClick="onClick"/>
+                    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                               android:id="@+id/arrowImg" android:src="@drawable/arrow"
+                               android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+                <ImageView android:layout_width="match_parent" android:layout_height="match_parent"
+                           android:id="@+id/lineView" android:background="@drawable/line"/>
+                <FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                             android:id="@+id/countryFrame" android:layout_gravity="bottom"/>
+                <LinearLayout android:orientation="horizontal" android:layout_width="match_parent"
+                              android:layout_height="wrap_content" android:id="@+id/cityLayout"
+                              android:layout_gravity="bottom">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceLarge" android:text="Large Text"
+                              android:id="@+id/cityText" android:layout_gravity="left|center_vertical"
+                              android:clickable="true" android:onClick="onClick"/>
+                    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                               android:id="@+id/arrowImg2" android:src="@drawable/arrow"
+                               android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+                <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                           android:id="@+id/lineView2" android:layout_gravity="bottom"
+                           android:background="@drawable/line"/>
+                <FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+                             android:id="@+id/cityFrame" android:layout_gravity="bottom"/>
+                <LinearLayout android:orientation="horizontal" android:layout_width="match_parent"
+                              android:layout_height="wrap_content" android:id="@+id/kitchenLayout"
+                              android:layout_gravity="bottom">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceLarge" android:text="kitchen"
+                              android:id="@+id/kitchenText" android:layout_gravity="left|center_vertical"
+                              android:clickable="true" android:onClick="onClick"/>
+                    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                               android:id="@+id/arrowImg3" android:src="@drawable/arrow"
+                               android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+                <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                           android:id="@+id/lineView3" android:layout_gravity="bottom"
+                           android:background="@drawable/line"/>
+                <FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+                             android:id="@+id/kitchenFrame" android:layout_gravity="bottom"/>
+                <LinearLayout android:orientation="horizontal" android:layout_width="match_parent"
+                              android:layout_height="wrap_content" android:id="@+id/categoryLayout"
+                              android:layout_gravity="bottom">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceLarge" android:text="Large Text"
+                              android:id="@+id/categoryText" android:layout_gravity="left|center_vertical"
+                              android:clickable="true" android:onClick="onClick"/>
+                    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                               android:id="@+id/arrowImg4" android:src="@drawable/arrow"
+                               android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+                <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                           android:id="@+id/lineView4" android:layout_gravity="bottom"
+                           android:background="@drawable/line"/>
+                <FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+                             android:id="@+id/categoryFrame" android:layout_gravity="bottom"/>
+                <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                           android:id="@+id/lineView5" android:layout_gravity="bottom"
+                           android:background="@drawable/line"/>
+                <FrameLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent" android:id="@+id/signatureFrame">
+                </FrameLayout>
+                <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                           android:id="@+id/lineView6" android:layout_gravity="bottom"
+                           android:background="@drawable/line"/>
+            </LinearLayout>
         </FrameLayout>
     </ScrollView>
+    <FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/filterFrame"/>
 </LinearLayout>
