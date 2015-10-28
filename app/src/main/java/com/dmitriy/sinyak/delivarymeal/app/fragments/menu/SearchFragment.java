@@ -1,4 +1,4 @@
-package com.dmitriy.sinyak.delivarymeal.app.fragments;
+package com.dmitriy.sinyak.delivarymeal.app.fragments.menu;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.dmitriy.sinyak.delivarymeal.app.R;
-import com.dmitriy.sinyak.delivarymeal.app.fragments.Ifragments.IFragments;
 
 /**
  * Created by 1 on 28.10.2015.

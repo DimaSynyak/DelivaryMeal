@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <FrameLayout android:orientation="horizontal" android:layout_width="match_parent"
+                  android:layout_height="wrap_content" android:id="@+id/countryLayout"
+                  android:layout_gravity="top" android:onClick="onClick" android:clickable="true">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:textAppearance="?android:attr/textAppearanceLarge" android:text="country"
+                  android:id="@+id/countryText" android:layout_gravity="left|center_vertical"
+                  android:clickable="false" android:layout_marginLeft="15dp"/>
+        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                   android:id="@+id/arrowImg1" android:src="@drawable/arrow"
+                   android:layout_gravity="center_vertical|right" android:layout_marginRight="15dp"/>
+    </FrameLayout>
+    <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
+               android:id="@+id/lineView1" android:background="@drawable/line"/>
+
+</LinearLayout>

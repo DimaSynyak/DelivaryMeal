@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
+              android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:background="#f1f1f1"
               android:orientation="vertical" android:id="@+id/menu">
 
     <ScrollView
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="400dp"
             android:id="@+id/scrollView" android:fillViewport="false">
         <FrameLayout
                 android:layout_width="match_parent"
@@ -18,87 +18,127 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" android:id="@+id/baseLayout">
                 <fragment
-                        android:name="com.dmitriy.sinyak.delivarymeal.app.fragments.SearchFragment"
+                        android:name="com.dmitriy.sinyak.delivarymeal.app.fragments.menu.SearchFragment"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/searchFrame"
                         android:layout_gravity="top"
                         tools:layout="@layout/search_fragment"/>
-                <LinearLayout android:orientation="horizontal" android:layout_width="match_parent"
-                              android:layout_height="wrap_content" android:id="@+id/countryLayout"
-                              android:layout_gravity="top">
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                              android:textAppearance="?android:attr/textAppearanceLarge" android:text="Large Text"
-                              android:id="@+id/countryText" android:layout_gravity="left|center_vertical"
-                              android:clickable="true" android:onClick="onClick"/>
-                    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                               android:id="@+id/arrowImg" android:src="@drawable/arrow"
-                               android:layout_gravity="center_vertical"/>
-                </LinearLayout>
-                <ImageView android:layout_width="match_parent" android:layout_height="match_parent"
-                           android:id="@+id/lineView" android:background="@drawable/line"/>
                 <FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
                              android:id="@+id/countryFrame" android:layout_gravity="bottom"/>
-                <LinearLayout android:orientation="horizontal" android:layout_width="match_parent"
-                              android:layout_height="wrap_content" android:id="@+id/cityLayout"
-                              android:layout_gravity="bottom">
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                              android:textAppearance="?android:attr/textAppearanceLarge" android:text="Large Text"
-                              android:id="@+id/cityText" android:layout_gravity="left|center_vertical"
-                              android:clickable="true" android:onClick="onClick"/>
-                    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                               android:id="@+id/arrowImg2" android:src="@drawable/arrow"
-                               android:layout_gravity="center_vertical"/>
-                </LinearLayout>
-                <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
-                           android:id="@+id/lineView2" android:layout_gravity="bottom"
-                           android:background="@drawable/line"/>
-                <FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
-                             android:id="@+id/cityFrame" android:layout_gravity="bottom"/>
-                <LinearLayout android:orientation="horizontal" android:layout_width="match_parent"
-                              android:layout_height="wrap_content" android:id="@+id/kitchenLayout"
-                              android:layout_gravity="bottom">
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                              android:textAppearance="?android:attr/textAppearanceLarge" android:text="kitchen"
-                              android:id="@+id/kitchenText" android:layout_gravity="left|center_vertical"
-                              android:clickable="true" android:onClick="onClick"/>
-                    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                               android:id="@+id/arrowImg3" android:src="@drawable/arrow"
-                               android:layout_gravity="center_vertical"/>
-                </LinearLayout>
-                <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
-                           android:id="@+id/lineView3" android:layout_gravity="bottom"
-                           android:background="@drawable/line"/>
-                <FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
-                             android:id="@+id/kitchenFrame" android:layout_gravity="bottom"/>
-                <LinearLayout android:orientation="horizontal" android:layout_width="match_parent"
-                              android:layout_height="wrap_content" android:id="@+id/categoryLayout"
-                              android:layout_gravity="bottom">
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                              android:textAppearance="?android:attr/textAppearanceLarge" android:text="Large Text"
-                              android:id="@+id/categoryText" android:layout_gravity="left|center_vertical"
-                              android:clickable="true" android:onClick="onClick"/>
-                    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                               android:id="@+id/arrowImg4" android:src="@drawable/arrow"
-                               android:layout_gravity="center_vertical"/>
-                </LinearLayout>
-                <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
-                           android:id="@+id/lineView4" android:layout_gravity="bottom"
-                           android:background="@drawable/line"/>
-                <FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
-                             android:id="@+id/categoryFrame" android:layout_gravity="bottom"/>
-                <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
-                           android:id="@+id/lineView5" android:layout_gravity="bottom"
-                           android:background="@drawable/line"/>
-                <FrameLayout
+
+                <fragment
+                        android:name="com.dmitriy.sinyak.delivarymeal.app.fragments.menu.CountryButtonFragment"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/countryLayout"
+                          android:layout_gravity="top"
+                        tools:layout="@layout/country_button"/>
+
+                <FrameLayout android:layout_width="fill_parent"
+                             android:layout_height="fill_parent"
+                             android:id="@+id/cityFrame"
+                             android:layout_gravity="bottom"/>
+
+
+                <fragment android:name="com.dmitriy.sinyak.delivarymeal.app.fragments.menu.CityButtonFragment"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/cityLayout"
+                          android:layout_gravity="bottom"
+                          tools:layout="@layout/city_button"/>
+
+
+                <FrameLayout android:layout_width="fill_parent"
+                             android:layout_height="fill_parent"
+                             android:id="@+id/kitchenFrame"
+                             android:layout_gravity="bottom"/>
+
+
+                <fragment android:name="com.dmitriy.sinyak.delivarymeal.app.fragments.menu.KitchenButtonFragment"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/kitchenLayout"
+                          android:layout_gravity="bottom"
+                        tools:layout="@layout/kitchen_button"/>
+
+
+                <FrameLayout android:layout_width="fill_parent"
+                             android:layout_height="fill_parent"
+                             android:id="@+id/categoryFrame"
+                             android:layout_gravity="bottom"/>
+
+
+                <fragment android:name="com.dmitriy.sinyak.delivarymeal.app.fragments.menu.CategoryButtonFragment"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/categoryLayout"
+                          android:layout_gravity="bottom"
+                        tools:layout="@layout/category_button"/>
+
+
+                <fragment
+                        android:name="com.dmitriy.sinyak.delivarymeal.app.fragments.menu.SignatureFragment"
                         android:layout_width="fill_parent"
-                        android:layout_height="fill_parent" android:id="@+id/signatureFrame">
-                </FrameLayout>
-                <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
-                           android:id="@+id/lineView6" android:layout_gravity="bottom"
-                           android:background="@drawable/line"/>
+                        android:layout_height="fill_parent"
+                        android:id="@+id/signatureFrame"
+                        tools:layout="@layout/menu_signature"/>
             </LinearLayout>
         </FrameLayout>
     </ScrollView>
-    <FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/filterFrame"/>
+    <FrameLayout android:layout_width="fill_parent" android:layout_height="150dp" android:id="@+id/filterFrame">
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Button"
+                android:id="@+id/button11" android:layout_gravity="left|center_vertical"/>
+        <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Button"
+                android:id="@+id/button12" android:layout_gravity="left|top"/>
+        <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Button"
+                android:id="@+id/button13" android:layout_gravity="center_horizontal|top"/>
+        <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Button"
+                android:id="@+id/button14" android:layout_gravity="right|top"/>
+        <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Button"
+                android:id="@+id/button15" android:layout_gravity="center"/>
+        <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Button"
+                android:id="@+id/button16" android:layout_gravity="right|center_vertical"/>
+        <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Button"
+                android:id="@+id/button17" android:layout_gravity="left|bottom"/>
+        <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Button"
+                android:id="@+id/button18" android:layout_gravity="center_horizontal|bottom"/>
+        <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Button"
+                android:id="@+id/button19" android:layout_gravity="right|bottom"/>
+    </FrameLayout>
 </LinearLayout>

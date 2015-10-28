@@ -7,9 +7,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
-import com.dmitriy.sinyak.delivarymeal.app.fragments.*;
-import com.dmitriy.sinyak.delivarymeal.app.fragments.Ifragments.IFragments;
+import android.widget.TextView;
+import com.dmitriy.sinyak.delivarymeal.app.fragments.menu.*;
+import com.dmitriy.sinyak.delivarymeal.app.fragments.menu.Ifragments.IFragments;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 
@@ -26,12 +26,20 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private NullFragment null_fragment3;
     private NullFragment null_fragment4;
     private FragmentTransaction ft;
-    private ListView countryList;
+    private TextView countryText;
+    private TextView cityText;
+    private TextView kitchenText;
+    private TextView categoryText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        countryText = (TextView) findViewById(R.id.countryText);
+        cityText = (TextView) findViewById(R.id.cityText);
+        kitchenText = (TextView) findViewById(R.id.kitchenText);
+        categoryText = (TextView) findViewById(R.id.categoryText);
 
         initSlidingMenu();
         initFragment();
@@ -62,19 +70,19 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.countryText:{
+            case R.id.countryLayout:{
                 slidingMenu(R.id.countryFrame, countryFragment, null_fragment1);
                 break;
             }
-            case R.id.cityText:{
+            case R.id.cityLayout:{
                 slidingMenu(R.id.cityFrame, cityFragment, null_fragment2);
                 break;
             }
-            case R.id.kitchenText:{
+            case R.id.kitchenLayout:{
                 slidingMenu(R.id.kitchenFrame, kitchenFragment, null_fragment3);
                 break;
             }
-            case R.id.categoryText:{
+            case R.id.categoryLayout:{
                 slidingMenu(R.id.categoryFrame, categoryFragment, null_fragment4);
                 break;
             }
