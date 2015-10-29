@@ -2,31 +2,59 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+    android:paddingLeft="90dp"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp">
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView4"/>
+            android:text="@string/pizza"
+            android:id="@+id/pizzaClick"
+        android:onClick="onClick"
+        android:textSize="24dp"
+        android:fontFamily="@string/geometric_706_black"
+        android:layout_margin="5dp"
+        android:clickable="true" />
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView5"/>
+            android:text="@string/sushi"
+            android:id="@+id/sushiClick"
+        android:onClick="onClick"
+        android:layout_margin="5dp"
+        android:textSize="24dp"
+        android:fontFamily="@string/geometric_706_black"
+        android:clickable="true" />
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView6"/>
+            android:text="@string/caucasian"
+            android:id="@+id/caucasianClick"
+        android:onClick="onClick"
+        android:layout_margin="5dp"
+        android:textSize="24dp"
+        android:fontFamily="@string/geometric_706_black"
+        android:clickable="true" />
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView7"/>
+            android:text="@string/asian"
+            android:id="@+id/asianClick"
+        android:onClick="onClick"
+        android:layout_margin="5dp"
+        android:textSize="24dp"
+        android:fontFamily="@string/geometric_706_black"
+        android:clickable="true" />
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView8"/>
+            android:text="@string/european"
+            android:id="@+id/europeanClick"
+        android:onClick="onClick"
+        android:layout_margin="5dp"
+        android:textSize="24dp"
+        android:fontFamily="@string/geometric_706_black"
+        android:clickable="true" />
 </LinearLayout>

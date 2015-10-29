@@ -10,6 +10,11 @@ import android.view.View;
 import android.widget.TextView;
 import com.dmitriy.sinyak.delivarymeal.app.fragments.menu.*;
 import com.dmitriy.sinyak.delivarymeal.app.fragments.menu.Ifragments.IFragments;
+import com.dmitriy.sinyak.delivarymeal.app.fragments.menu.category.AsianButtonFragment;
+import com.dmitriy.sinyak.delivarymeal.app.fragments.menu.category.CaucasianButtonFragment;
+import com.dmitriy.sinyak.delivarymeal.app.fragments.menu.category.EuropeanButtonFragment;
+import com.dmitriy.sinyak.delivarymeal.app.fragments.menu.category.PizzaButtonFragment;
+import com.dmitriy.sinyak.delivarymeal.app.fragments.menu.category.SushiButtonFragment;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 
@@ -30,6 +35,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private TextView cityText;
     private TextView kitchenText;
     private TextView categoryText;
+
+    /*Категории ресторанов*/
+    private PizzaButtonFragment pizzaButtonFragment;
+    private SushiButtonFragment sushiButtonFragment;
+    private AsianButtonFragment asianButtonFragment;
+    private EuropeanButtonFragment europeanButtonFragment;
+    private CaucasianButtonFragment caucasianButtonFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +98,90 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 slidingMenu(R.id.categoryFrame, categoryFragment, null_fragment4);
                 break;
             }
+            case R.id.pizzaClick:{
+                if (pizzaButtonFragment != null){
+                    return;
+                }
+
+                pizzaButtonFragment = new PizzaButtonFragment();
+                addFragmentOnPlace(R.id.filterLayout, pizzaButtonFragment);
+                break;
+            }
+            case R.id.sushiClick:{
+                if (sushiButtonFragment != null){
+                    return;
+                }
+
+                sushiButtonFragment = new SushiButtonFragment();
+                addFragmentOnPlace(R.id.filterLayout, sushiButtonFragment);
+                break;
+            }
+            case R.id.caucasianClick:{
+                if (caucasianButtonFragment != null){
+                    return;
+                }
+
+                caucasianButtonFragment = new CaucasianButtonFragment();
+                addFragmentOnPlace(R.id.filterLayout, caucasianButtonFragment);
+                break;
+            }
+            case R.id.asianClick:{
+                if (asianButtonFragment != null){
+                    return;
+                }
+
+                asianButtonFragment = new AsianButtonFragment();
+                addFragmentOnPlace(R.id.filterLayout, asianButtonFragment);
+                break;
+            }
+            case R.id.europeanClick:{
+                if (europeanButtonFragment != null){
+                    return;
+                }
+
+                europeanButtonFragment = new EuropeanButtonFragment();
+                addFragmentOnPlace(R.id.filterLayout, europeanButtonFragment);
+                break;
+            }
+            case R.id.pizzaClickRemove:{
+                removeFragmentFromPlace(pizzaButtonFragment);
+                pizzaButtonFragment = null;
+                break;
+            }
+            case R.id.sushiClickRemove:{
+                removeFragmentFromPlace(sushiButtonFragment);
+                sushiButtonFragment = null;
+                break;
+            }
+            case R.id.caucasianClickRemove:{
+                removeFragmentFromPlace(caucasianButtonFragment);
+                caucasianButtonFragment = null;
+                break;
+            }
+            case R.id.asianClickRemove:{
+                removeFragmentFromPlace(asianButtonFragment);
+                asianButtonFragment = null;
+                break;
+            }
+            case R.id.europeanClickRemove:{
+                removeFragmentFromPlace(europeanButtonFragment);
+                europeanButtonFragment = null;
+                break;
+            }
             default: break;
         }
+    }
+
+    private void addFragmentOnPlace(int idFrame, IFragments objKitchen){
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.add(idFrame, (Fragment) objKitchen);
+        ft.commit();
+    }
+
+    private void removeFragmentFromPlace(IFragments objKitchen){
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.remove((Fragment) objKitchen);
+        ft.commit();
     }
 
     private void slidingMenu(int idFrame, IFragments fragment, IFragments nullFragment){
@@ -129,7 +223,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         null_fragment4 = new NullFragment();
 
         idFragmentGlobal = -1;
-
     }
 
     private void initSlidingMenu(){

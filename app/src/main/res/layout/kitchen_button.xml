@@ -10,10 +10,11 @@
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:textAppearance="?android:attr/textAppearanceLarge" android:text="kitchen"
                   android:id="@+id/kitchenText" android:layout_gravity="left|center_vertical"
-                  android:clickable="false" android:layout_marginLeft="15dp"/>
-        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:clickable="false" android:layout_marginLeft="40dp" android:textSize="30sp"
+                  android:fontFamily="@string/geometric_706_black"/>
+        <ImageView android:layout_width="20dp" android:layout_height="20dp"
                    android:id="@+id/arrowImg3" android:src="@drawable/arrow"
-                   android:layout_gravity="center_vertical|right" android:layout_marginRight="15dp"/>
+                   android:layout_gravity="center_vertical|right" android:layout_marginRight="35dp"/>
     </FrameLayout>
     <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
                android:id="@+id/lineView3" android:background="@drawable/line"/>

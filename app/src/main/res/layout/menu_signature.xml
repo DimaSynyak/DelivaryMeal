@@ -12,32 +12,41 @@
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:layout_marginRight="15dp" android:paddingTop="5dp">
+                android:layout_height="wrap_content" android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:paddingTop="10dp">
             <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/envelope_id" android:src="@drawable/envelope" android:layout_marginBottom="15dp"/>
+                    android:layout_width="28dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/envelope_id" android:src="@drawable/envelope" android:layout_marginBottom="15dp"
+                android:layout_weight="1" />
             <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/phone_id" android:src="@drawable/phone"/>
+                    android:layout_width="24dp"
+                    android:layout_height="32dp"
+                    android:id="@+id/phone_id" android:src="@drawable/phone"
+                android:layout_weight="1" />
         </LinearLayout>
         <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+            android:layout_weight="12">
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="@string/email"
-                    android:id="@+id/email_id" android:layout_marginBottom="15dp"/>
+                    android:id="@+id/email_id" android:layout_marginBottom="15dp"
+                android:fontFamily="@string/geometric_706_black"
+                android:textSize="25sp" />
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="@string/phone_number"
-                    android:id="@+id/number_id"/>
+                    android:id="@+id/number_id"
+                android:fontFamily="@string/geometric_706_black"
+                android:textSize="25sp" />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -45,13 +54,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:paddingLeft="15dp" android:paddingBottom="15dp">
         <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/facebook_id" android:src="@drawable/facebook" android:layout_marginRight="15dp"/>
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/facebook_id" android:src="@drawable/facebook" android:layout_marginRight="15dp"
+            android:layout_weight="1" />
         <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/instagram_id" android:src="@drawable/cam"/>
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/instagram_id" android:src="@drawable/cam"
+            android:layout_weight="1" />
     </LinearLayout>
     <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
                android:id="@+id/lineView6" android:layout_gravity="bottom"
