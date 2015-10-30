@@ -15,4 +15,8 @@
     <string name="asian">Азиатская еда</string>
     <string name="european">Европейская еда</string>
 
+    <string name="Estonia">Эстония</string>
+    <string name="Finland">Финляндия</string>
+    <string name="Latvia">Латвия</string>
+
 </resources>

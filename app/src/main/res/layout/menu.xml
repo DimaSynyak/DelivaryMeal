@@ -102,17 +102,33 @@
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp">
 
-                <HorizontalScrollView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/horizontalScrollView" >
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:id="@+id/filterLayout" />
-                </HorizontalScrollView>
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/lineVIew6"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/line" />
+
+                    <HorizontalScrollView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/horizontalScrollView"
+                        android:fillViewport="true">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/filterLayout" >
+
+                        </LinearLayout>
+                    </HorizontalScrollView>
+                </LinearLayout>
             </FrameLayout>
         </LinearLayout>
     </FrameLayout>

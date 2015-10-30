@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/languages_fragment">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:background="#f1f1f1"
+        android:id="@+id/languages_layout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Русский"
+            android:id="@+id/russianText"
+            android:layout_gravity="center"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:fontFamily="@string/geometric_706_black"
+            android:layout_margin="7dp"
+            android:clickable="true"
+            android:onClick="onClick" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Эстонский"
+            android:id="@+id/estoniaText"
+            android:layout_gravity="center"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:fontFamily="@string/geometric_706_black"
+            android:layout_margin="7dp"
+            android:clickable="true"
+            android:onClick="onClick" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Английский"
+            android:id="@+id/englishText"
+            android:layout_gravity="center"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:fontFamily="@string/geometric_706_black"
+            android:layout_margin="7dp"
+            android:clickable="true"
+            android:onClick="onClick" />
+    </LinearLayout>
+
+</FrameLayout>

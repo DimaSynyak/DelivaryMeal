@@ -3,25 +3,24 @@
               android:orientation="horizontal"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent" android:id="@+id/baseLayout"
-    android:paddingTop="20dp"
-    android:paddingBottom="20dp">
+    android:paddingTop="20dp">
 
     <EditText
         android:layout_width="wrap_content"
-        android:layout_height="27dp"
+        android:layout_height="32dp"
         android:id="@+id/editText"
         android:background="#d4d4d4"
         android:layout_marginLeft="16dp"
         android:hint="@string/search"
         android:paddingLeft="25dp"
-        android:fontFamily="@string/geometric_706_black"
+        android:fontFamily="@string/arimo_regular"
         android:textSize="20sp"
         android:layout_gravity="left"
         android:layout_weight="25"/>
 
     <ImageButton
-        android:layout_width="27dp"
-        android:layout_height="27dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:id="@+id/imageButton"
         android:src="@drawable/loupe"
         android:background="#d4d4d4"

@@ -2,36 +2,40 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+    android:paddingLeft="90dp"
+    android:paddingTop="20dp">
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView9"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Тарту"
+        android:id="@+id/textView2"
+        android:textStyle="bold"
+        android:textIsSelectable="false"
+        android:textSize="18sp"
+        android:fontFamily="@string/geometric_706_black"
+        android:layout_margin="5dp" />
+
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView10"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Вилджанди"
+        android:id="@+id/textView3"
+        android:textStyle="bold"
+        android:textIsSelectable="false"
+        android:textSize="18sp"
+        android:fontFamily="@string/geometric_706_black"
+        android:layout_margin="5dp" />
+
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView12"/>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView11"/>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView13"/>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView14"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Рапла"
+        android:id="@+id/textView4"
+        android:textStyle="bold"
+        android:textIsSelectable="false"
+        android:textSize="18sp"
+        android:fontFamily="@string/geometric_706_black"
+        android:layout_margin="5dp" />
 </LinearLayout>

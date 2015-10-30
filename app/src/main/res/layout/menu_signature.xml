@@ -38,7 +38,8 @@
                     android:text="@string/email"
                     android:id="@+id/email_id" android:layout_marginBottom="15dp"
                 android:fontFamily="@string/geometric_706_black"
-                android:textSize="25sp" />
+                android:textSize="25sp"
+                android:textStyle="bold" />
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -46,7 +47,8 @@
                     android:text="@string/phone_number"
                     android:id="@+id/number_id"
                 android:fontFamily="@string/geometric_706_black"
-                android:textSize="25sp" />
+                android:textSize="25sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -64,7 +66,4 @@
                 android:id="@+id/instagram_id" android:src="@drawable/cam"
             android:layout_weight="1" />
     </LinearLayout>
-    <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
-               android:id="@+id/lineView6" android:layout_gravity="bottom"
-               android:background="@drawable/line"/>
 </LinearLayout>

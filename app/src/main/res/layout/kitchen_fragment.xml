@@ -2,86 +2,65 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+    android:paddingLeft="90dp"
+    android:paddingTop="20dp">
+
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
-            android:id="@+id/textView15"/>
-    <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button"/>
-    <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button2"/>
-    <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New RadioButton"
-            android:id="@+id/radioButton"/>
-    <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New CheckBox"
-            android:id="@+id/checkBox"/>
-    <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button7"/>
-    <ProgressBar
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/progressBar"/>
-    <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New RadioButton"
-            android:id="@+id/radioButton2"/>
-    <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New RadioButton"
-            android:id="@+id/radioButton3"/>
-    <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New RadioButton"
-            android:id="@+id/radioButton4"/>
-    <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="fill_parent"
-            android:layout_height="100dp"
-            android:text="New Button"
-            android:id="@+id/button8"/>
-    <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="fill_parent"
-            android:layout_height="100dp"
-            android:text="New Button"
-            android:id="@+id/button9"/>
-    <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New CheckBox"
-            android:id="@+id/checkBox2"/>
-    <Button
-            android:layout_width="fill_parent"
-            android:layout_height="100dp"
-            android:text="New Button"
-            android:id="@+id/button10"/>
-    <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New CheckBox"
-            android:id="@+id/checkBox3"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pizza"
+        android:id="@+id/pizzaClickKitchen"
+        android:onClick="onClick"
+        android:textSize="18sp"
+        android:fontFamily="@string/geometric_706_black"
+        android:layout_margin="5dp"
+        android:clickable="true"
+        android:textStyle="bold" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sushi"
+        android:id="@+id/sushiClickKitchen"
+        android:onClick="onClick"
+        android:layout_margin="5dp"
+        android:textSize="18sp"
+        android:fontFamily="@string/geometric_706_black"
+        android:clickable="true"
+        android:textStyle="bold" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/caucasian"
+        android:id="@+id/caucasianClickKitchen"
+        android:onClick="onClick"
+        android:layout_margin="5dp"
+        android:textSize="18sp"
+        android:fontFamily="@string/geometric_706_black"
+        android:clickable="true"
+        android:textStyle="bold" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/asian"
+        android:id="@+id/asianClickKitchen"
+        android:onClick="onClick"
+        android:layout_margin="5dp"
+        android:textSize="18sp"
+        android:fontFamily="@string/geometric_706_black"
+        android:clickable="true"
+        android:textStyle="bold" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/european"
+        android:id="@+id/europeanClickKitchen"
+        android:onClick="onClick"
+        android:layout_margin="5dp"
+        android:textSize="18sp"
+        android:fontFamily="@string/geometric_706_black"
+        android:clickable="true"
+        android:textStyle="bold" />
+
 </LinearLayout>

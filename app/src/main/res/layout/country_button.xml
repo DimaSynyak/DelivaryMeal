@@ -6,12 +6,15 @@
 
     <FrameLayout android:orientation="horizontal" android:layout_width="match_parent"
                   android:layout_height="wrap_content" android:id="@+id/countryLayout"
-                  android:layout_gravity="top" android:onClick="onClick" android:clickable="true">
+                  android:layout_gravity="top" android:onClick="onClick" android:clickable="true"
+        android:layout_marginBottom="9dp"
+        android:layout_marginTop="18dp">
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:textAppearance="?android:attr/textAppearanceLarge" android:text="country"
+                  android:textAppearance="?android:attr/textAppearanceLarge" android:text="Эстония"
                   android:id="@+id/countryText" android:layout_gravity="left|center_vertical"
                   android:clickable="false" android:layout_marginLeft="40dp"
-                  android:fontFamily="@string/geometric_706_black" android:textSize="30sp"/>
+                  android:fontFamily="@string/geometric_706_black" android:textSize="20sp"
+            android:textStyle="bold" />
         <ImageView android:layout_width="20dp" android:layout_height="20dp"
                    android:id="@+id/arrowImg1" android:src="@drawable/arrow"
                    android:layout_gravity="center_vertical|right" android:layout_marginRight="35dp"/>
