@@ -3,7 +3,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:context=".MainActivity"
-    android:background="#Cf0CC6"
+    android:background="#f1f1f1"
     android:id="@+id/languageContainer">
 
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView2" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/restaurants_list"
+            android:background="#f1f1f1">
+
+        </LinearLayout>
+    </ScrollView>
 </FrameLayout>

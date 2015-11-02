@@ -58,7 +58,6 @@ public class SlidingMenuConfig {
     private List<String> latvia;
     private List<Country> countries;
     private String[] string;
-    private LinearLayout layout;
 
     /*Категории ресторанов*/
     private PizzaButtonFragment pizzaButtonFragment;
@@ -77,12 +76,6 @@ public class SlidingMenuConfig {
         cityText = (TextView) activity.findViewById(R.id.cityText);
         kitchenText = (TextView) activity.findViewById(R.id.kitchenText);
         categoryText = (TextView) activity.findViewById(R.id.categoryText);
-
-        layout = new LinearLayout(activity);
-        TextView textView = new TextView(activity);
-        textView.setText("78787");
-        layout.addView(textView);
-
 
         /*Инициализация стран и городов*/
         List<Country> countries = new ArrayList<Country>();

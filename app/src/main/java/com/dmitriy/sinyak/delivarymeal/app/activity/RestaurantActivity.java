@@ -3,22 +3,23 @@ package com.dmitriy.sinyak.delivarymeal.app.activity;
 import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.config.menu.SlidingMenuConfig;
-import com.dmitriy.sinyak.delivarymeal.app.fragments.restaurants.Restaurant;
 import com.dmitriy.sinyak.delivarymeal.app.fragments.title.LanguagesTitle;
 import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove;
 
-
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
+/**
+ * Created by 1 on 02.11.2015.
+ */
+public class RestaurantActivity extends AppCompatActivity implements View.OnClickListener {
+    private EditText editText;
     private SlidingMenuConfig slidingMenuConfig;
     private LanguagesTitle languagesFragment;
-    private Restaurant restaurant;
+    private Button button;
     private CustomViewAbove customViewAbove;
 
     @Override
@@ -26,38 +27,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_restaurant);
         getSupportActionBar().setCustomView(R.layout.title);
+
+        editText = (EditText) findViewById(R.id.editText2);
+
+        editText.setText(getIntent().getStringExtra("object"));
+
         languagesFragment = new LanguagesTitle(this);
 
         slidingMenuConfig = new SlidingMenuConfig(this);
         slidingMenuConfig.initSlidingMenu();
         customViewAbove = CustomViewAbove.customViewAbove;
-
-        restaurant = new Restaurant(this);
-        restaurant.init();
+        button = (Button) findViewById(R.id.button);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-
-
-        return super.onOptionsItemSelected(item);
-    }
-
-//    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onClick(View v) {
         slidingMenuConfig.onClickDp(v.getId());
@@ -72,10 +57,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             }
+            case R.id.button:{
+                this.finish();
+                break;
+            }
             case R.id.imageView3:{
-                if (customViewAbove.getCurrentItem() == 0){
-                    customViewAbove.setCurrentItem(1);
-                }
+                finish();
                 break;
             }
         }

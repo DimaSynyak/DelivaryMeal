@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageView3"
         android:src="@drawable/black_hirt"
-        android:layout_weight="3"
+        android:layout_weight="50"
         android:clickable="true"
         android:onClick="onClick" />
 
