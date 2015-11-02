@@ -1,4 +1,4 @@
-package com.dmitriy.sinyak.delivarymeal.app.fragments.title;
+package com.dmitriy.sinyak.delivarymeal.app.fragments.title.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,10 +12,10 @@ import com.dmitriy.sinyak.delivarymeal.app.R;
 /**
  * Created by 1 on 30.10.2015.
  */
-public class LanguagesImg extends Fragment {
+public class LanguagesImgRu extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.languages_img, container, false);
+        return inflater.inflate(R.layout.languages_img_ru, container, false);
     }
 }

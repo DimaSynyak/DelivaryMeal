@@ -1,4 +1,4 @@
-package com.dmitriy.sinyak.delivarymeal.app.fragments.title;
+package com.dmitriy.sinyak.delivarymeal.app.fragments.title.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
