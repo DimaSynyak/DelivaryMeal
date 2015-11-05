@@ -45,10 +45,10 @@
                 android:layout_height="wrap_content"
                 android:text="Тануки"
                 android:id="@+id/restaurantName"
-                android:textStyle="bold"
                 android:textSize="18sp"
-                android:fontFamily="@string/geometric_706_black"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="2dp"
+                android:textColor="#000000"
+                android:visibility="visible" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -56,7 +56,7 @@
                 android:text="Китайская кухня"
                 android:id="@+id/restaurantProfile"
                 android:textSize="10sp"
-                android:fontFamily="@string/arimo_regular" />
+                android:textColor="#a1a1a1" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -77,7 +77,9 @@
                     android:text="4.5"
                     android:id="@+id/restaurantLevel"
                     android:layout_gravity="center_vertical"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:textColor="#000000"
+                    android:textSize="21sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -90,18 +92,18 @@
                     android:layout_height="wrap_content"
                     android:text="1000 $"
                     android:id="@+id/costMeal"
-                    android:fontFamily="@string/geometric_706_black"
-                    android:textSize="13sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
-                    android:layout_marginRight="2dp" />
+                    android:layout_marginRight="2dp"
+                    android:textColor="#000000" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="мин. сумма заказа"
                     android:id="@+id/costMealText"
-                    android:fontFamily="@string/arimo_regular"
-                    android:textSize="10sp" />
+                    android:textSize="10sp"
+                    android:textColor="#a1a1a1" />
             </LinearLayout>
 
             <LinearLayout
@@ -115,9 +117,8 @@
                     android:text="Бесплатно"
                     android:id="@+id/costDeliver"
                     android:layout_marginRight="2dp"
-                    android:fontFamily="@string/geometric_706_black"
-                    android:textStyle="bold"
-                    android:textSize="13sp" />
+                    android:textSize="14sp"
+                    android:textColor="#000000" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -125,7 +126,7 @@
                     android:text="стоимость доставки"
                     android:id="@+id/costDeliverText"
                     android:textSize="10sp"
-                    android:fontFamily="@string/arimo_regular" />
+                    android:textColor="#a1a1a1" />
             </LinearLayout>
 
             <LinearLayout
@@ -139,9 +140,8 @@
                     android:text="60 мин"
                     android:id="@+id/timeDeliver"
                     android:layout_marginRight="2dp"
-                    android:fontFamily="@string/geometric_706_black"
-                    android:textStyle="bold"
-                    android:textSize="13sp" />
+                    android:textSize="14sp"
+                    android:textColor="#000000" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -149,7 +149,7 @@
                     android:text="среднее время доставки"
                     android:id="@+id/timeDeliverText"
                     android:textSize="10sp"
-                    android:fontFamily="@string/arimo_regular" />
+                    android:textColor="#a1a1a1" />
             </LinearLayout>
         </LinearLayout>
         </LinearLayout>
@@ -183,8 +183,7 @@
                 android:id="@+id/textView7"
                 android:layout_gravity="center"
                 android:textSize="19sp"
-                android:textStyle="bold"
-                android:fontFamily="@string/geometric_706_black" />
+                android:textColor="#000000" />
 
             <ImageView
                 android:layout_width="wrap_content"

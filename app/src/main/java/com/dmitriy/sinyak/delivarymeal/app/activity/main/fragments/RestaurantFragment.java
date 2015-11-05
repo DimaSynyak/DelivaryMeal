@@ -1,6 +1,7 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.main.fragments;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.RestaurantActivity;
@@ -29,7 +31,23 @@ public class RestaurantFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.restaurant_fragment, container, false);
+        View view = inflater.inflate(R.layout.restaurant_fragment, container, false);
+
+        Typeface geometric = Typeface.createFromAsset(getActivity().getAssets(), "fonts/geometric/geometric_706_black.ttf");
+        Typeface arimo = Typeface.createFromAsset(getActivity().getAssets(), "fonts/arimo/Arimo_Regular.ttf");
+
+        ((TextView) view.findViewById(R.id.restaurantName)).setTypeface(geometric);
+        ((TextView) view.findViewById(R.id.restaurantLevel)).setTypeface(geometric);
+        ((TextView) view.findViewById(R.id.costMeal)).setTypeface(geometric);
+        ((TextView) view.findViewById(R.id.costDeliver)).setTypeface(geometric);
+        ((TextView) view.findViewById(R.id.timeDeliver)).setTypeface(geometric);
+
+        ((TextView) view.findViewById(R.id.restaurantProfile)).setTypeface(arimo);
+        ((TextView) view.findViewById(R.id.costMealText)).setTypeface(arimo);
+        ((TextView) view.findViewById(R.id.costDeliverText)).setTypeface(arimo);
+        ((TextView) view.findViewById(R.id.timeDeliverText)).setTypeface(arimo);
+
+        return view;
     }
 
     public void onClickListener(){

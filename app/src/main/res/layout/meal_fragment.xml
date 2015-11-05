@@ -43,18 +43,20 @@
                     android:layout_height="wrap_content"
                     android:text="Филадельфия"
                     android:id="@+id/restaurantName"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:fontFamily="@string/geometric_706_black"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1" />
+                    android:layout_marginTop="2dp"
+                    android:layout_weight="1"
+                    android:textColor="#000000" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="250г"
                     android:id="@+id/costText"
-                    android:layout_marginTop="10dp" />
+                    android:layout_marginTop="2dp"
+                    android:textColor="#000000"
+                    android:textSize="20sp" />
             </LinearLayout>
 
             <TextView
@@ -66,7 +68,8 @@
                 android:fontFamily="@string/arimo_regular"
                 android:paddingTop="4dp"
                 android:paddingBottom="4dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:textColor="#a1a1a1" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -83,13 +86,13 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1000 $"
+                        android:text="133 $"
                         android:id="@+id/costMeal"
                         android:fontFamily="@string/geometric_706_black"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
+                        android:textSize="21dp"
                         android:layout_marginRight="2dp"
-                        android:layout_gravity="center" />
+                        android:layout_gravity="center"
+                        android:textColor="#000000" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -104,7 +107,8 @@
                         android:paddingLeft="20dp"
                         android:paddingRight="20dp"
                         android:layout_gravity="center_horizontal|bottom"
-                        android:layout_marginTop="5dp" />
+                        android:layout_marginTop="5dp"
+                        android:textColor="#000000" />
 
                 </LinearLayout>
 
@@ -131,13 +135,15 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="1"
-                            android:id="@+id/textView11" />
+                            android:id="@+id/textView11"
+                            android:textColor="#000000" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="шт"
-                            android:id="@+id/textView12" />
+                            android:id="@+id/textView12"
+                            android:textColor="#000000" />
                     </LinearLayout>
 
                     <ImageView

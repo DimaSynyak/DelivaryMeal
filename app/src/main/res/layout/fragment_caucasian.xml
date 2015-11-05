@@ -16,7 +16,6 @@
         android:id="@+id/pizzaText"
         android:fontFamily="@string/geometric_706_black"
         android:textSize="13dp"
-        android:textStyle="bold"
         android:layout_margin="5dp" />
 
     <ImageView

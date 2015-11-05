@@ -3,7 +3,7 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-    android:paddingLeft="90dp"
+    android:paddingLeft="60dp"
     android:paddingTop="20dp">
 
     <TextView
@@ -11,31 +11,31 @@
         android:layout_height="wrap_content"
         android:text="Тарту"
         android:id="@+id/textView2"
-        android:textStyle="bold"
         android:textIsSelectable="false"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:fontFamily="@string/geometric_706_black"
-        android:layout_margin="5dp" />
+        android:layout_margin="5dp"
+        android:textColor="#000000" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Вилджанди"
         android:id="@+id/textView3"
-        android:textStyle="bold"
         android:textIsSelectable="false"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:fontFamily="@string/geometric_706_black"
-        android:layout_margin="5dp" />
+        android:layout_margin="5dp"
+        android:textColor="#000000" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Рапла"
         android:id="@+id/textView4"
-        android:textStyle="bold"
         android:textIsSelectable="false"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:fontFamily="@string/geometric_706_black"
-        android:layout_margin="5dp" />
+        android:layout_margin="5dp"
+        android:textColor="#000000" />
 </LinearLayout>

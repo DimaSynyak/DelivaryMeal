@@ -3,7 +3,7 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-    android:paddingLeft="90dp"
+    android:paddingLeft="60dp"
     android:paddingTop="20dp">
 
 
@@ -13,11 +13,11 @@
         android:text="@string/pizza"
         android:id="@+id/pizzaClickKitchen"
         android:onClick="onClick"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:fontFamily="@string/geometric_706_black"
         android:layout_margin="5dp"
         android:clickable="true"
-        android:textStyle="bold" />
+        android:textColor="#000000" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,10 +25,10 @@
         android:id="@+id/sushiClickKitchen"
         android:onClick="onClick"
         android:layout_margin="5dp"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:fontFamily="@string/geometric_706_black"
         android:clickable="true"
-        android:textStyle="bold" />
+        android:textColor="#000000" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,10 +36,10 @@
         android:id="@+id/caucasianClickKitchen"
         android:onClick="onClick"
         android:layout_margin="5dp"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:fontFamily="@string/geometric_706_black"
         android:clickable="true"
-        android:textStyle="bold" />
+        android:textColor="#000000" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -47,10 +47,10 @@
         android:id="@+id/asianClickKitchen"
         android:onClick="onClick"
         android:layout_margin="5dp"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:fontFamily="@string/geometric_706_black"
         android:clickable="true"
-        android:textStyle="bold" />
+        android:textColor="#000000" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,9 +58,9 @@
         android:id="@+id/europeanClickKitchen"
         android:onClick="onClick"
         android:layout_margin="5dp"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:fontFamily="@string/geometric_706_black"
         android:clickable="true"
-        android:textStyle="bold" />
+        android:textColor="#000000" />
 
 </LinearLayout>

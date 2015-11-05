@@ -1,10 +1,13 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.Ifragments.IFragments;
 
@@ -15,8 +18,16 @@ public class CategoryFragment extends Fragment implements IFragments {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View viewHierarchy = inflater.inflate(R.layout.category_fragment, container, false);
+        View view = inflater.inflate(R.layout.category_fragment, container, false);
 
-        return viewHierarchy;
+        Typeface geometric = Typeface.createFromAsset(getActivity().getAssets(), "fonts/geometric/geometric_706_black.ttf");
+
+        ((TextView) view.findViewById(R.id.pizzaClick)).setTypeface(geometric);
+        ((TextView) view.findViewById(R.id.sushiClick)).setTypeface(geometric);
+        ((TextView) view.findViewById(R.id.caucasianClick)).setTypeface(geometric);
+        ((TextView) view.findViewById(R.id.asianClick)).setTypeface(geometric);
+        ((TextView) view.findViewById(R.id.europeanClick)).setTypeface(geometric);
+
+        return view;
     }
 }

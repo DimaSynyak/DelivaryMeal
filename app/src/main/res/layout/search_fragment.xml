@@ -16,7 +16,9 @@
         android:fontFamily="@string/arimo_regular"
         android:textSize="20sp"
         android:layout_gravity="left"
-        android:layout_weight="25"/>
+        android:layout_weight="25"
+        android:textColor="#000000"
+        android:textColorHint="#000000" />
 
     <ImageButton
         android:layout_width="32dp"

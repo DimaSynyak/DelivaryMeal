@@ -1,6 +1,7 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.main;
 
 import android.app.ActionBar;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -109,5 +110,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         language.getLanguagesImg().updateLanguage();
+    }
+    private class MainService extends AsyncTask<String, String, String>{
+
+        @Override
+        protected String doInBackground(String... params) {
+
+
+            return null;
+        }
     }
 }

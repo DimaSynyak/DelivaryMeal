@@ -31,6 +31,7 @@ public class LanguagesImg extends Fragment {
     private ImageView languagesImage;
     private Language language;
     private Fragment iconFragment;
+    private boolean languageTitleInitFlag;
 
     public LanguagesImg() {
         super();
@@ -72,18 +73,6 @@ public class LanguagesImg extends Fragment {
             public void onClick(View v) {
                 dropDownUpLanguageList();
 
-                Thread th = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            TimeUnit.MILLISECONDS.sleep(100);
-                            languagesTitle.init();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-                th.start();
             }
         });
     }
@@ -118,11 +107,26 @@ public class LanguagesImg extends Fragment {
         }
         ft = activity.getSupportFragmentManager().beginTransaction();
         if (!flag) {
-            ft.add(((IActivity) activity).getLanguageContainerId(),languagesFragmentOpacityLow);
+            ft.add(((IActivity) activity).getLanguageContainerId(), languagesFragmentOpacityLow);
             ft.commit();
             ft = activity.getSupportFragmentManager().beginTransaction();
             ft.setCustomAnimations(R.anim.abc_slide_in_top, R.anim.abc_slide_in_bottom);
             ft.add(((IActivity) activity).getLanguageContainerId(), languagesTitle);
+            ft.commit();
+            
+            Thread th = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        TimeUnit.MILLISECONDS.sleep(100);
+                        languagesTitle.init();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            th.start();
+
             flag = true;
         }
         else {
@@ -130,9 +134,10 @@ public class LanguagesImg extends Fragment {
             ft.commit();
             ft = activity.getSupportFragmentManager().beginTransaction();
             ft.remove(languagesFragmentOpacityLow);
+            ft.commit();
             flag = false;
         }
-        ft.commit();
+
     }
 
     public void setLanguagesTitle(LanguagesTitle languagesTitle) {

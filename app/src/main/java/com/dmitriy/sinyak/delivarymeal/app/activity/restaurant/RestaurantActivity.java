@@ -2,22 +2,20 @@ package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant;
 
 import android.app.ActionBar;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.IActivity;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.SlidingMenuConfig;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Language;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Languages;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments.LanguagesTitle;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantHeadFragment;
-import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantMealFragment;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.body.RestaurantMealFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantMiniHeadFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantMiniMenuFragment;
 import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove;
@@ -35,12 +33,16 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
     private ScrollView scrollView;
     private FrameLayout restaurantHeadContainer;
     private int languageContainerId;
+    private static int MIN_SCROLLY = -100;
+    private static int MAX_SCROLLY = 300;
+
 
     private RestaurantMealFragment mealFragment1;
     private RestaurantMealFragment mealFragment2;
     private RestaurantMealFragment mealFragment3;
     private RestaurantMealFragment mealFragment4;
     private RestaurantMealFragment mealFragment5;
+    private TextView restaurantTitle;
 
 
     private boolean firstFlag = true;
@@ -68,6 +70,9 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         initFragment();
         scrollInit();
         restaurantHeadContainer = (FrameLayout) findViewById(R.id.restaurantHeadContainer);
+
+        scrollView = (ScrollView) findViewById(R.id.scrollView3);
+
     }
 
 
@@ -88,33 +93,26 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
                 finish();
                 break;
             }
+            case R.id.fullRestaurantImg:{
+                ft = getSupportFragmentManager().beginTransaction();
+                ft.remove(restaurantMiniHeadFragment);
+                ft.commit();
+                ft = getSupportFragmentManager().beginTransaction();
+                ft.setCustomAnimations(R.anim.abc_slide_in_top, R.anim.abc_slide_out_bottom);
+                ft.add(R.id.restaurantHeadContainer, restaurantHeadFragment);
+                ft.commit();
+                firstFlag = true;
+                break;
+            }
         }
     }
 
-    @Override
-    public void setCustomViewAbove(CustomViewAbove customViewAbove) {
-        this.customViewAbove = customViewAbove;
-    }
-
-    @Override
-    public CustomViewAbove getCustomViewAbove() {
-        return this.customViewAbove;
-    }
-
-    @Override
-    public int getLanguageContainerId() {
-        return languageContainerId;
-    }
-
-    @Override
-    public void setLanguageContainerId(int languageContainerId) {
-        this.languageContainerId = languageContainerId;
-    }
 
     private void initFragment(){
         restaurantHeadFragment = new RestaurantHeadFragment();
         restaurantMiniHeadFragment = new RestaurantMiniHeadFragment();
         restaurantMiniMenuFragment = new RestaurantMiniMenuFragment();
+        restaurantMiniHeadFragment.setRestaurantHeadFragment(restaurantHeadFragment);
 
         mealFragment1 = new RestaurantMealFragment();
         mealFragment2 = new RestaurantMealFragment();
@@ -144,7 +142,7 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_SCROLL:
                     case MotionEvent.ACTION_MOVE:
-                        if (scrollY < -100 && !firstFlag){
+                        if (scrollView.getScrollY() < MIN_SCROLLY && !firstFlag){
                             firstFlag = true;
                             ft = getSupportFragmentManager().beginTransaction();
                             ft.remove(restaurantMiniHeadFragment);
@@ -154,7 +152,7 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
                             ft.add(R.id.restaurantHeadContainer, restaurantHeadFragment);
                             ft.commit();
                         }else
-                        if (scrollY > 300 && firstFlag){
+                        if (scrollView.getScrollY() > MAX_SCROLLY && firstFlag){
                             firstFlag = false;
                             ft = getSupportFragmentManager().beginTransaction();
                             ft.remove(restaurantHeadFragment);
@@ -178,5 +176,24 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         });
     }
 
+    @Override
+    public void setCustomViewAbove(CustomViewAbove customViewAbove) {
+        this.customViewAbove = customViewAbove;
+    }
+
+    @Override
+    public CustomViewAbove getCustomViewAbove() {
+        return this.customViewAbove;
+    }
+
+    @Override
+    public int getLanguageContainerId() {
+        return languageContainerId;
+    }
+
+    @Override
+    public void setLanguageContainerId(int languageContainerId) {
+        this.languageContainerId = languageContainerId;
+    }
 
 }
