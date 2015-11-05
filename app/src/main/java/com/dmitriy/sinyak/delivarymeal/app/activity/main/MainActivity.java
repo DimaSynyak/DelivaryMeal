@@ -30,6 +30,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Fragment languagesFragment1;
     private int languageContainerId;
 
+    public static final String RESTAURANTS_URL_RU = "http://www.menu24.ee/ru/restaurant/";
+    public static final String RESTAURANTS_URL_EE = "http://www.menu24.ee/restaurant/";
+    public static final String RESTAURANTS_URL_EN = "http://www.menu24.ee/en/restaurant/";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,12 +49,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         language.init();
         /*END INIT LANGUAGE*/
 
-        slidingMenuConfig = new SlidingMenuConfig(this);
-        slidingMenuConfig.initSlidingMenu();
-        customViewAbove = CustomViewAbove.customViewAbove;
+//        slidingMenuConfig = new SlidingMenuConfig(this);
+//        slidingMenuConfig.initSlidingMenu();
+//        customViewAbove = CustomViewAbove.customViewAbove;
+//
+//        restaurant = new Restaurant(this);
+//        restaurant.init();
 
-        restaurant = new Restaurant(this);
-        restaurant.init();
+        new MainService().execute(RESTAURANTS_URL_RU);
     }
 
     @Override
@@ -118,6 +124,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            slidingMenuConfig = new SlidingMenuConfig(MainActivity.this);
+            slidingMenuConfig.initSlidingMenu();
+            customViewAbove = CustomViewAbove.customViewAbove;
+
+            restaurant = new Restaurant(MainActivity.this);
+            restaurant.init();
         }
     }
 }
