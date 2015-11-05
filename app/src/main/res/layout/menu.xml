@@ -27,7 +27,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content" android:id="@+id/baseLayout">
                         <fragment
-                                android:name="com.dmitriy.sinyak.delivarymeal.app.fragments.menu.SearchFragment"
+                                android:name="com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.SearchFragment"
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
                                 android:id="@+id/searchFrame"
@@ -38,7 +38,7 @@
                                 />
 
                         <fragment
-                                android:name="com.dmitriy.sinyak.delivarymeal.app.fragments.menu.CountryButtonFragment"
+                                android:name="com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.CountryButtonFragment"
                                   android:layout_width="match_parent"
                                   android:layout_height="wrap_content"
                                   android:id="@+id/countryLayout"
@@ -51,7 +51,7 @@
                                      android:layout_gravity="bottom"/>
 
 
-                        <fragment android:name="com.dmitriy.sinyak.delivarymeal.app.fragments.menu.CityButtonFragment"
+                        <fragment android:name="com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.CityButtonFragment"
                                   android:layout_width="match_parent"
                                   android:layout_height="wrap_content"
                                   android:id="@+id/cityLayout"
@@ -65,7 +65,7 @@
                                      android:layout_gravity="bottom"/>
 
 
-                        <fragment android:name="com.dmitriy.sinyak.delivarymeal.app.fragments.menu.KitchenButtonFragment"
+                        <fragment android:name="com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.KitchenButtonFragment"
                                   android:layout_width="match_parent"
                                   android:layout_height="wrap_content"
                                   android:id="@+id/kitchenLayout"
@@ -79,14 +79,14 @@
                                      android:layout_gravity="bottom"/>
 
 
-                        <fragment android:name="com.dmitriy.sinyak.delivarymeal.app.fragments.menu.CategoryButtonFragment"
+                        <fragment android:name="com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.CategoryButtonFragment"
                                   android:layout_width="match_parent"
                                   android:layout_height="wrap_content"
                                   android:id="@+id/categoryLayout"
                                   android:layout_gravity="bottom"
                                 tools:layout="@layout/category_button"/>
                         <fragment tools:layout="@layout/menu_signature"
-                                  android:name="com.dmitriy.sinyak.delivarymeal.app.fragments.menu.SignatureFragment"
+                                  android:name="com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.SignatureFragment"
                                   android:layout_width="fill_parent" android:layout_height="wrap_content"
                                   android:id="@+id/fragment" android:layout_gravity="bottom"/>
 

@@ -146,6 +146,7 @@ public class CustomViewBehind extends ViewGroup {
 	}
 
 	private int mMode;
+	private boolean bMode;
 	private boolean mFadeEnabled;
 	private final Paint mFadePaint = new Paint();
 	private float mScrollScale;
@@ -162,6 +163,13 @@ public class CustomViewBehind extends ViewGroup {
 				mSecondaryContent.setVisibility(View.INVISIBLE);
 		}
 		mMode = mode;
+	}
+
+	public void setbMode(boolean mode){
+		bMode = mode;
+	}
+	public boolean getbMode(){
+		return bMode;
 	}
 
 	public int getMode() {
