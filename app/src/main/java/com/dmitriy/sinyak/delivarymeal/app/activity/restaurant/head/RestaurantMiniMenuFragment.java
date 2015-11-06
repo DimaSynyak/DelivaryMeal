@@ -10,11 +10,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 
 /**
  * Created by 1 on 03.11.2015.
  */
 public class RestaurantMiniMenuFragment extends Fragment {
+    private Restaurant restaurant;
+
+    public RestaurantMiniMenuFragment(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

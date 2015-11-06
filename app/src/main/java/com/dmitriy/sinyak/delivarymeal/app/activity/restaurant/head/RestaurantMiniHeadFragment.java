@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 
 import java.util.concurrent.TimeUnit;
 
@@ -24,13 +25,16 @@ public class RestaurantMiniHeadFragment extends Fragment {
     private AppCompatActivity activity;
     private RestaurantMiniHeadFragment restaurantMiniHeadFragment;
     private RestaurantHeadFragment restaurantHeadFragment;
+    private Restaurant restaurant;
 
-    public RestaurantMiniHeadFragment() {
+    public RestaurantMiniHeadFragment(Restaurant restaurant) {
         super();
+        this.restaurant = restaurant;
     }
-    public RestaurantMiniHeadFragment(AppCompatActivity activity) {
+    public RestaurantMiniHeadFragment(AppCompatActivity activity,Restaurant restaurant) {
         this.activity = activity;
         restaurantMiniHeadFragment = this;
+        this.restaurant = restaurant;
     }
 
     @Nullable
@@ -39,6 +43,11 @@ public class RestaurantMiniHeadFragment extends Fragment {
         View view =  inflater.inflate(R.layout.restaurant_mini_head_fragment, container, false);
 
         TextView restaurantTitle = (TextView) view.findViewById(R.id.restaurantTitle);
+        restaurantTitle.setText(restaurant.getName());
+
+        ImageView img = (ImageView) view.findViewById(R.id.restaurantAvatar);
+        img.setImageBitmap(restaurant.getImgBitmap());
+
         TextView menu = (TextView) view.findViewById(R.id.textView7);
 
         Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/geometric/geometric_706_black.ttf");

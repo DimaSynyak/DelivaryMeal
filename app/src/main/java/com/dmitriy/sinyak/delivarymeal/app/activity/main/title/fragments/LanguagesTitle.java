@@ -28,31 +28,28 @@ public class LanguagesTitle extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View viewHierarchy = inflater.inflate(R.layout.languages_fragment, container, false);
 
-        return viewHierarchy;
-    }
-
-    public void init(){
-        ((TextView) getView().findViewById(R.id.russianText)).setOnClickListener(new View.OnClickListener() {
+        viewHierarchy.findViewById(R.id.russianText).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 languagesImg.changeLanguage(Languages.RU);
                 languagesImg.dropDownUpLanguageList();
             }
         });
-        ((TextView) getView().findViewById(R.id.estoniaText)).setOnClickListener(new View.OnClickListener() {
+        viewHierarchy.findViewById(R.id.estoniaText).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 languagesImg.changeLanguage(Languages.EE);
                 languagesImg.dropDownUpLanguageList();
             }
         });
-        ((TextView) getView().findViewById(R.id.englishText)).setOnClickListener(new View.OnClickListener() {
+        viewHierarchy.findViewById(R.id.englishText).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 languagesImg.changeLanguage(Languages.EN);
                 languagesImg.dropDownUpLanguageList();
             }
         });
+        return viewHierarchy;
     }
 
 

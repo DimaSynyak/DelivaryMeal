@@ -2,17 +2,21 @@ package com.dmitriy.sinyak.delivarymeal.app.activity.main.service;
 
 import android.graphics.Bitmap;
 
+import java.math.BigDecimal;
+
 /**
  * Created by 1 on 05.11.2015.
  */
 public class Restaurant {
     private String name;
-    private String composition; //sostav edi
-    private float stars;
-    private String cost;
-    private String delivarCost;
-    private String delivarTime;
-    private Bitmap img;
+    private String profile; //sostav edi
+    private String stars;
+    private String costMeal;
+    private String costDeliver;
+    private String timeDeliver;
+    private String imgSRC;
+    private Bitmap imgBitmap;
+    private String menuLink;
 
     public String getName() {
         return name;
@@ -22,51 +26,84 @@ public class Restaurant {
         this.name = name;
     }
 
-    public String getComposition() {
-        return composition;
+    public String getProfile() {
+        return profile;
     }
 
-    public void setComposition(String composition) {
-        this.composition = composition;
+    public void setProfile(String profile) {
+        this.profile = profile;
     }
 
-    public float getStars() {
-        return stars;
+    public Float getStars() {
+        char[] str = stars.toCharArray();
+        Float m = 0f;
+        StringBuilder stringBuilder = new StringBuilder();
+        for (char ch :str){
+            if (ch >= '0' && ch <= '9' || ch == '.'){
+                stringBuilder.append(ch);
+            }
+        }
+        m =5 * Float.parseFloat(String.valueOf(stringBuilder))/100;
+
+        return roundDownScale2(m);
     }
 
-    public void setStars(float stars) {
-        this.stars = stars;
+    public float roundDownScale2(float aValue) {
+        BigDecimal decimal = new BigDecimal(aValue);
+//        decimal = decimal.setScale(1,BigDecimal.ROUND_UP);
+        decimal = decimal.setScale(1,BigDecimal.ROUND_DOWN);
+        return  decimal.floatValue();
     }
 
-    public String getCost() {
-        return cost;
+    public void setStars(String stars) {
+        this.stars = stars;  //Warning
     }
 
-    public void setCost(String cost) {
-        this.cost = cost;
+    public String getCostMeal() {
+        return costMeal;
     }
 
-    public String getDelivarCost() {
-        return delivarCost;
+    public void setCostMeal(String costMeal) {
+        this.costMeal = costMeal;
     }
 
-    public void setDelivarCost(String delivarCost) {
-        this.delivarCost = delivarCost;
+    public String getCostDeliver() {
+        return costDeliver;
     }
 
-    public String getDelivarTime() {
-        return delivarTime;
+    public void setCostDeliver(String costDeliver) {
+        this.costDeliver = costDeliver;
     }
 
-    public void setDelivarTime(String delivarTime) {
-        this.delivarTime = delivarTime;
+    public String getTimeDeliver() {
+        return timeDeliver;
     }
 
-    public Bitmap getImg() {
-        return img;
+    public void setTimeDeliver(String timeDeliver) {
+        this.timeDeliver = timeDeliver;
     }
 
-    public void setImg(Bitmap img) {
-        this.img = img;
+    public String getImgSRC() {
+        return imgSRC;
+    }
+
+    public void setImgSRC(String imgSRC) {
+        this.imgSRC = imgSRC;
+    }
+
+    public Bitmap getImgBitmap() {
+        return imgBitmap;
+    }
+
+    public void setImgBitmap(Bitmap imgBitmap) {
+        this.imgBitmap = imgBitmap;
+    }
+
+    public String getMenuLink() {
+        return menuLink;
+    }
+
+    public void setMenuLink(String menuLink) {
+        this.menuLink = menuLink;
     }
 }

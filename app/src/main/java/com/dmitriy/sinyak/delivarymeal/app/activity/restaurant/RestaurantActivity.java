@@ -1,6 +1,8 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant;
 
 import android.app.ActionBar;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -12,13 +14,27 @@ import android.widget.TextView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.IActivity;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.RestaurantBody;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.fragments.RestaurantFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.SlidingMenuConfig;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.RestaurantList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Language;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantHeadFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.body.RestaurantMealFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantMiniHeadFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantMiniMenuFragment;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
 import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
+import java.net.URL;
 
 /**
  * Created by 1 on 02.11.2015.
@@ -35,7 +51,9 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
     private int languageContainerId;
     private static int MIN_SCROLLY = -100;
     private static int MAX_SCROLLY = 300;
-
+    private RestaurantActivity restaurantActivity;
+    private MealBody mealBody;
+    private Restaurant restaurant;
 
     private RestaurantMealFragment mealFragment1;
     private RestaurantMealFragment mealFragment2;
@@ -63,16 +81,15 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         language.init();
         /*END INIT LANGUAGE*/
 
-        slidingMenuConfig = new SlidingMenuConfig(this);
-        slidingMenuConfig.initSlidingMenu();
-        customViewAbove = CustomViewAbove.customViewAbove;
+        restaurantActivity = this;
 
-        initFragment();
-        scrollInit();
         restaurantHeadContainer = (FrameLayout) findViewById(R.id.restaurantHeadContainer);
 
         scrollView = (ScrollView) findViewById(R.id.scrollView3);
-
+        restaurant = RestaurantList.getRestaurants().get((Integer) getIntent().getSerializableExtra("restaurant"));
+        new MainService().execute(restaurant.getMenuLink());
+        initFragment();
+        scrollInit();
     }
 
 
@@ -109,28 +126,16 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
 
 
     private void initFragment(){
-        restaurantHeadFragment = new RestaurantHeadFragment();
-        restaurantMiniHeadFragment = new RestaurantMiniHeadFragment();
-        restaurantMiniMenuFragment = new RestaurantMiniMenuFragment();
+        restaurantHeadFragment = new RestaurantHeadFragment(restaurant);
+        restaurantMiniHeadFragment = new RestaurantMiniHeadFragment(restaurant);
+        restaurantMiniMenuFragment = new RestaurantMiniMenuFragment(restaurant);
         restaurantMiniHeadFragment.setRestaurantHeadFragment(restaurantHeadFragment);
-
-        mealFragment1 = new RestaurantMealFragment();
-        mealFragment2 = new RestaurantMealFragment();
-        mealFragment3 = new RestaurantMealFragment();
-        mealFragment4 = new RestaurantMealFragment();
-        mealFragment5 = new RestaurantMealFragment();
 
         ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.restaurantHeadContainer, restaurantHeadFragment);
-        ft.add(R.id.restaurantMenuContainer, mealFragment1);
-        ft.add(R.id.restaurantMenuContainer, mealFragment2);
-        ft.add(R.id.restaurantMenuContainer, mealFragment3);
-        ft.add(R.id.restaurantMenuContainer, mealFragment4);
-        ft.add(R.id.restaurantMenuContainer, mealFragment5);
+
         ft.commit();
-
     }
-
 
     public void scrollInit() {
         scrollView = (ScrollView) findViewById(R.id.scrollView3);
@@ -196,4 +201,57 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         this.languageContainerId = languageContainerId;
     }
 
+
+    private class MainService extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            Document doc = null;
+            try {
+                doc = Jsoup.connect(params[0]).get();
+                Elements elements = doc.getElementsByClass("item-food");
+
+                if (elements.size() == 0)
+                    return null; //WARNING change (pick out) ui
+
+                for (Element element :elements) {
+
+                    Meal meal = new Meal();
+
+                    meal.setName(element.getElementsByClass("and-name").get(0).html());
+                    meal.setComposition(element.getElementsByClass("and-composition").get(0).html());
+                    meal.setWeight(element.getElementsByClass("pull-right").get(0).html());
+                    meal.setCost(element.getElementsByClass("as").get(0).html());
+                    meal.setImgURL(element.getElementsByClass("item-img").get(0).getElementsByTag("img").attr("src"));
+
+                    URL imgURL = new URL(meal.getImgURL());
+                    meal.setImg(BitmapFactory.decodeStream(imgURL.openConnection().getInputStream()));
+                    MealList.addMeal(meal);
+                }
+
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            slidingMenuConfig = new SlidingMenuConfig(RestaurantActivity.this);
+            slidingMenuConfig.initSlidingMenu();
+            customViewAbove = CustomViewAbove.customViewAbove;
+
+            mealBody = new MealBody(restaurantActivity);
+            mealBody.init();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MealList.getMeals().clear();
+    }
 }

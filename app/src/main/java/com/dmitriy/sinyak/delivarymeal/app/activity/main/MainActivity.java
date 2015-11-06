@@ -1,34 +1,42 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.main;
 
 import android.app.ActionBar;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.IActivity;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.SlidingMenuConfig;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.RestaurantList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Language;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Languages;
-import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.Restaurant;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments.LanguagesTitle;
 import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
+import java.net.URL;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, IActivity {
 
     private SlidingMenuConfig slidingMenuConfig;
     private Language language;
-    private Restaurant restaurant;
+    private RestaurantBody restaurantBody;
     private CustomViewAbove customViewAbove;
     private Fragment languagesFragment1;
     private int languageContainerId;
+
+    private MainActivity mainActivity;
 
     public static final String RESTAURANTS_URL_RU = "http://www.menu24.ee/ru/restaurant/";
     public static final String RESTAURANTS_URL_EE = "http://www.menu24.ee/restaurant/";
@@ -49,12 +57,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         language.init();
         /*END INIT LANGUAGE*/
 
+        mainActivity = this;
 //        slidingMenuConfig = new SlidingMenuConfig(this);
 //        slidingMenuConfig.initSlidingMenu();
 //        customViewAbove = CustomViewAbove.customViewAbove;
 //
-//        restaurant = new Restaurant(this);
-//        restaurant.init();
+//        restaurantBody = new RestaurantBody(this);
+//        restaurantBody.init();
 
         new MainService().execute(RESTAURANTS_URL_RU);
     }
@@ -117,12 +126,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         language.getLanguagesImg().updateLanguage();
     }
-    private class MainService extends AsyncTask<String, String, String>{
+
+
+    private class MainService extends AsyncTask<String, Void, String>{
 
         @Override
         protected String doInBackground(String... params) {
+                Document doc = null;
+                try {
+                    doc = Jsoup.connect(params[0]).get();
+                    Elements elements = doc.getElementsByClass("food-item");
 
+                    if (elements.size() == 0)
+                        return null; //WARNING change (pick out) ui
 
+                    for (Element element :elements) {
+
+                        Restaurant restaurant = new Restaurant();
+
+                        restaurant.setCostMeal(element.getElementsByClass("and-cost-mil").get(0).html());
+                        restaurant.setCostDeliver(element.getElementsByClass("and-cost-deliver").get(0).html());
+                        restaurant.setTimeDeliver(element.getElementsByClass("and-time-deliver").get(0).html());
+                        restaurant.setImgSRC(element.getElementsByTag("img").get(0).attr("src"));
+                        restaurant.setName(element.getElementsByClass("and-name").html());
+                        restaurant.setProfile(element.getElementsByClass("and-profile").html());
+                        restaurant.setStars(element.getElementsByClass("star").get(0).getElementsByTag("span").attr("style"));
+                        restaurant.setMenuLink(element.getElementsByClass("food-img").get(0).getElementsByTag("a").attr("href"));
+
+                        URL imgURL = new URL(restaurant.getImgSRC());
+                        restaurant.setImgBitmap(BitmapFactory.decodeStream(imgURL.openConnection().getInputStream()));
+                        RestaurantList.addRestaurant(restaurant);
+                    }
+
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             return null;
         }
 
@@ -134,8 +173,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             slidingMenuConfig.initSlidingMenu();
             customViewAbove = CustomViewAbove.customViewAbove;
 
-            restaurant = new Restaurant(MainActivity.this);
-            restaurant.init();
+            restaurantBody = new RestaurantBody(mainActivity);
+            restaurantBody.init();
         }
     }
 }
