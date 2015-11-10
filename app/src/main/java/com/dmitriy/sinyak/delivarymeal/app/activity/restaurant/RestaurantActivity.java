@@ -14,8 +14,6 @@ import android.widget.TextView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.IActivity;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.RestaurantBody;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.fragments.RestaurantFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.SlidingMenuConfig;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.RestaurantList;

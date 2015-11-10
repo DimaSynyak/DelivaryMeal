@@ -11,7 +11,7 @@
         android:layout_marginBottom="9dp"
         android:layout_marginTop="18dp">
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:textAppearance="?android:attr/textAppearanceLarge" android:text="Критерии ресторанов"
+                  android:textAppearance="?android:attr/textAppearanceLarge" android:text="@string/criteria"
                   android:id="@+id/categoryText" android:layout_gravity="left|center_vertical" android:clickable="false"
                   android:layout_marginLeft="30dp" android:fontFamily="@string/geometric_706_black"
                   android:textSize="18sp"

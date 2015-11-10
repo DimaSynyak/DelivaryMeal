@@ -1,21 +1,28 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.main;
 
 import android.app.ActionBar;
+import android.content.res.ColorStateList;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
+import android.widget.TextView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.IActivity;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.SlidingMenuConfig;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.RestaurantList;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.thread.Count;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.thread.CountThread;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Language;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Languages;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments.LoadBarFragment;
 import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove;
 
 import org.jsoup.Jsoup;
@@ -25,6 +32,7 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, IActivity {
@@ -35,6 +43,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private CustomViewAbove customViewAbove;
     private Fragment languagesFragment1;
     private int languageContainerId;
+    private LoadBarFragment loadBarFragment;
+    private FragmentTransaction ft;
+    private LoadPage loadPage;
+    private android.support.v7.app.ActionBar actionBar;
+    private TextView staticText;
+    private TextView dynamicTextView;
+    private  boolean bError = false;
 
     private MainActivity mainActivity;
 
@@ -45,10 +60,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        if (RestaurantList.getRestaurants() != null){
+//            RestaurantList.getRestaurants().clear();
+//        }
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         setContentView(R.layout.activity_main);
         getSupportActionBar().setCustomView(R.layout.title);
+
 
         /*INIT LANGUAGE*/
         languageContainerId = R.id.languageContainer;
@@ -57,13 +76,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         language.init();
         /*END INIT LANGUAGE*/
 
+       actionBar = getSupportActionBar();
+        actionBar.hide();
+        loadBarFragment = new LoadBarFragment();
+
         mainActivity = this;
-//        slidingMenuConfig = new SlidingMenuConfig(this);
-//        slidingMenuConfig.initSlidingMenu();
-//        customViewAbove = CustomViewAbove.customViewAbove;
-//
-//        restaurantBody = new RestaurantBody(this);
-//        restaurantBody.init();
 
         new MainService().execute(RESTAURANTS_URL_RU);
     }
@@ -105,14 +122,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         this.customViewAbove = customViewAbove;
     }
 
-//    public LanguagesTitle getLanguagesFragment() {
-//        return languagesFragment;
-//    }
-//
-//    public void setLanguagesFragment(LanguagesTitle languagesFragment) {
-//        this.languagesFragment = languagesFragment;
-//    }
-
     public int getLanguageContainerId() {
         return languageContainerId;
     }
@@ -130,17 +139,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private class MainService extends AsyncTask<String, Void, String>{
 
+        private FragmentTransaction ft;
+        private Thread th;
+        private Fragment fragment;
+        private Count count;
+        private Thread countThread;
+        private CountThread countThreadR;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            count = new Count(5);
+            loadPage = new LoadPage(count);
+            loadPage.start();
+
+        }
+
         @Override
         protected String doInBackground(String... params) {
+
+           while (!count.isStateLoadFragment()){
+               try {
+                   TimeUnit.MILLISECONDS.sleep(100);
+               } catch (InterruptedException e) {
+                   e.printStackTrace();
+               }
+           }
+            dynamicTextView = (TextView) loadBarFragment.getView().findViewById(R.id.dynamicText);
+
+            countThreadR = new CountThread(mainActivity, count, dynamicTextView);
+            countThread = new Thread(countThreadR);
+            countThread.start();
+
+            while (true) {
                 Document doc = null;
                 try {
+                    count.complete();
                     doc = Jsoup.connect(params[0]).get();
+                    count.complete();
+                    bError = false;
                     Elements elements = doc.getElementsByClass("food-item");
 
                     if (elements.size() == 0)
                         return null; //WARNING change (pick out) ui
+                    count.complete();
 
-                    for (Element element :elements) {
+                    for (Element element : elements) {
 
                         Restaurant restaurant = new Restaurant();
 
@@ -157,17 +201,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         restaurant.setImgBitmap(BitmapFactory.decodeStream(imgURL.openConnection().getInputStream()));
                         RestaurantList.addRestaurant(restaurant);
                     }
-
+                    count.complete();
+                    count.complete();
+                    synchronized (count) {
+                        while (!count.isStateData()) {
+                            count.wait(100);
+                        }
+                    }
+                    return null;
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
+                    bError = true;
+
+                    try {
+                        TimeUnit.MILLISECONDS.sleep(2000);
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            return null;
+            }
+
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+
+            ft = mainActivity.getSupportFragmentManager().beginTransaction();
+            ft.remove(loadBarFragment);
+            ft.commit();
+            actionBar.show();
 
             slidingMenuConfig = new SlidingMenuConfig(MainActivity.this);
             slidingMenuConfig.initSlidingMenu();
@@ -177,4 +241,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             restaurantBody.init();
         }
     }
+
+    private class LoadPage {
+        private Thread th;
+        private Count count;
+
+
+        public LoadPage(final Count count) {
+            this.count = count;
+
+            this.th = new Thread(new Runnable() {
+                @Override
+                public void run() {             /*load first ui to activity*/
+                    try {
+                        TimeUnit.MILLISECONDS.sleep(500);
+                        ft = getSupportFragmentManager().beginTransaction();
+                        ft.add(R.id.languageContainer, loadBarFragment);
+                        ft.commit();
+
+                        while (!loadBarFragment.isAdded()){
+                            TimeUnit.MILLISECONDS.sleep(100);
+                        }
+                        synchronized (count) {
+                            count.setStateLoadFragment(true);
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+
+        public void start(){
+            th.start();
+        }
+    }
+
+    public LoadBarFragment getLoadBarFragment() {
+        return loadBarFragment;
+    }
+
+    public TextView getDynamicTextView() {
+        return dynamicTextView;
+    }
+
+
 }

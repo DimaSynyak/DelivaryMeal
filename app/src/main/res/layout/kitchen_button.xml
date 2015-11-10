@@ -10,7 +10,7 @@
         android:layout_marginBottom="9dp"
         android:layout_marginTop="18dp">
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:textAppearance="?android:attr/textAppearanceLarge" android:text="Кухня"
+                  android:textAppearance="?android:attr/textAppearanceLarge" android:text="@string/kitchen"
                   android:id="@+id/kitchenText" android:layout_gravity="left|center_vertical"
                   android:clickable="false" android:layout_marginLeft="30dp" android:textSize="18sp"
                   android:fontFamily="@string/geometric_706_black"

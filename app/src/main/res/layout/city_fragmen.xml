@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Тарту"
+        android:text="@string/country_tartu"
         android:id="@+id/textView2"
         android:textIsSelectable="false"
         android:textSize="16sp"
@@ -20,7 +20,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Вилджанди"
+        android:text="@string/country_viljandi"
         android:id="@+id/textView3"
         android:textIsSelectable="false"
         android:textSize="16sp"
@@ -31,7 +31,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Рапла"
+        android:text="@string/country_rapla"
         android:id="@+id/textView4"
         android:textIsSelectable="false"
         android:textSize="16sp"

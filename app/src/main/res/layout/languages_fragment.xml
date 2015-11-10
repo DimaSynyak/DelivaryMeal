@@ -16,8 +16,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Русский"
-            android:id="@+id/russianText"
+            android:text="@string/en"
+            android:id="@+id/englishText"
             android:layout_gravity="center"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -29,7 +29,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Эстонский"
+            android:text="@string/ee"
             android:id="@+id/estoniaText"
             android:layout_gravity="center"
             android:textSize="24sp"
@@ -42,8 +42,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Английский"
-            android:id="@+id/englishText"
+            android:text="@string/ru"
+            android:id="@+id/russianText"
             android:layout_gravity="center"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -51,6 +51,7 @@
             android:layout_margin="7dp"
             android:clickable="true"
             android:onClick="onClick" />
+
     </LinearLayout>
 
 </FrameLayout>

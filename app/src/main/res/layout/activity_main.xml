@@ -3,13 +3,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:context=".MainActivity"
-    android:background="#f1f1f1"
     android:id="@+id/languageContainer">
+
 
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/scrollView2" >
+        android:id="@+id/scrollView2"
+        android:layout_gravity="top">
 
         <LinearLayout
             android:orientation="vertical"
@@ -20,4 +21,5 @@
 
         </LinearLayout>
     </ScrollView>
+
 </FrameLayout>

@@ -19,4 +19,37 @@
     <string name="Finland">Финляндия</string>
     <string name="Latvia">Латвия</string>
 
+    <string name="criteria">Критерии ресторанов</string>
+    <string name="criteria_hight_rating">С высоким рейтингом</string>
+    <string name="criteria_new">Новые</string>
+    <string name="criteria_free_deliver">С бесплатной доставкой</string>
+    <string name="criteria_shares">С акциями</string>
+
+    <string name="kitchen">Кухня</string>
+    <string name="kitchen_sushi">Суши</string>
+    <string name="kitchen_pizza">Пицца</string>
+    <string name="kitchen_european_food">Европейская еда</string>
+    <string name="kitchen_asian_food">Азиатская еда</string>
+    <string name="kitchen_caucasian_food">Кавказская еда</string>
+
+    <string name="ru">Русский</string>
+    <string name="ee">Estonian</string>
+    <string name="en">English</string>
+
+    <string name="order">ЗАКАЗАТЬ</string>
+    <string name="count">шт</string>
+
+    <string name="min_cost_order">мин. сумма заказа</string>
+    <string name="cost_deliver">стоимость доставки</string>
+    <string name="time_deliver">среднее время доставки</string>
+
+    <string name="country_talin">Талин</string>
+    <string name="country_tartu">Тарту</string>
+    <string name="country_viljandi">Вилджанди</string>
+    <string name="country_rapla">Рапла</string>
+
+
+    <string name="load_data_from_internet">Loading</string>
+    <string name="no_internet">Please! Connect your mobile to internet</string>
+
 </resources>

@@ -113,19 +113,6 @@ public class LanguagesImg extends Fragment {
             ft.setCustomAnimations(R.anim.abc_slide_in_top, R.anim.abc_slide_in_bottom);
             ft.add(((IActivity) activity).getLanguageContainerId(), languagesTitle);
             ft.commit();
-            
-//            Thread th = new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    try {
-//                        TimeUnit.MILLISECONDS.sleep(100);
-//                        languagesTitle.init();
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            });
-//            th.start();
 
             flag = true;
         }
