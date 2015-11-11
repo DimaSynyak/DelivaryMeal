@@ -39,6 +39,7 @@ public class RestaurantFragment extends Fragment {
     public RestaurantFragment(AppCompatActivity activity, Restaurant restaurant) {
         this.activity = activity;
         this.restaurant = restaurant;
+        restaurant.setFragment(this);
     }
 
     @Nullable

@@ -1,5 +1,6 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity;
 
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Languages;
 import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove;
 
 /**
@@ -9,7 +10,11 @@ public interface IActivity {
     void setCustomViewAbove(CustomViewAbove customViewAbove);
     CustomViewAbove getCustomViewAbove();
 
-    public int getLanguageContainerId();
+    int getLanguageContainerId();
 
-    public void setLanguageContainerId(int languageContainerId);
+    void setLanguageContainerId(int languageContainerId);
+
+    void changeLanguage(Languages languages);
+
+
 }

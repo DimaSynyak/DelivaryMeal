@@ -79,4 +79,12 @@ public class RestaurantHeadFragment extends Fragment {
         timeDeliverText.setTypeface(arimo);
         return view;
     }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
 }

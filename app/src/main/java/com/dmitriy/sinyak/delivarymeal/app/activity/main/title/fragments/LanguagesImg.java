@@ -12,9 +12,11 @@ import android.widget.ImageView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.IActivity;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.MainActivity;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Language;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Languages;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -77,29 +79,46 @@ public class LanguagesImg extends Fragment {
         });
     }
 
-    protected void changeLanguage(Languages languages){
-        if (language.getLanguages() == languages){
-            return;
-        }
-
-        switch (languages){
-            case RU:{
-                ((ImageView) iconFragment.getView().findViewById(R.id.languagesClick)).setImageResource(R.drawable.language_ru);
-                break;
-            }
-            case EE:{
-                ((ImageView) iconFragment.getView().findViewById(R.id.languagesClick)).setImageResource(R.drawable.language_ee);
-                break;
-            }
-            case EN:{
-                ((ImageView) iconFragment.getView().findViewById(R.id.languagesClick)).setImageResource(R.drawable.language_en);
-                break;
-            }
-            default: return;
-        }
-
-        language.setLanguages(languages);
-    }
+//    protected void changeLanguage(Languages languages){
+//        if (language.getLanguages() == languages) {
+//            return;
+//        }
+//
+//        MainActivity.ChangeLocale changeLocale = null;
+//        Locale myLocale = null;
+//
+//        switch (languages){
+//            case RU:{
+//                ((ImageView) iconFragment.getView().findViewById(R.id.languagesClick)).setImageResource(R.drawable.language_ru);
+//                myLocale = new Locale("ru");
+//                changeLocale = ((MainActivity) activity).getChangeLocale();
+//                changeLocale.execute(Language.RESTAURANTS_URL_RU);
+//                break;
+//            }
+//            case EE:{
+//                ((ImageView) iconFragment.getView().findViewById(R.id.languagesClick)).setImageResource(R.drawable.language_ee);
+//                myLocale = new Locale("et");
+//                changeLocale = ((MainActivity) activity).getChangeLocale();
+//                changeLocale.execute(Language.RESTAURANTS_URL_EE);
+//                break;
+//            }
+//            case EN:{
+//                ((ImageView) iconFragment.getView().findViewById(R.id.languagesClick)).setImageResource(R.drawable.language_en);
+//                myLocale = new Locale("en");
+//                changeLocale = ((MainActivity) activity).getChangeLocale();
+//                changeLocale.execute(Language.RESTAURANTS_URL_EN);
+//                break;
+//            }
+//            default: return;
+//        }
+//
+//        Locale.setDefault(myLocale);
+//        android.content.res.Configuration config = new android.content.res.Configuration();
+//        config.locale = myLocale;
+//        activity.getBaseContext().getResources().updateConfiguration(config, activity.getBaseContext().getResources().getDisplayMetrics());
+//
+//        language.setLanguages(languages);
+//    }
 
     protected void dropDownUpLanguageList(){
         if (((IActivity)activity).getCustomViewAbove().getCurrentItem() == 0){
@@ -136,20 +155,37 @@ public class LanguagesImg extends Fragment {
     }
 
     public void updateLanguage(){
+
+        MainActivity.ChangeLocale changeLocale = null;
+        Locale myLocale = null;
+
         switch (language.getLanguages()){
             case RU:{
                 ((ImageView) iconFragment.getView().findViewById(R.id.languagesClick)).setImageResource(R.drawable.language_ru);
+                myLocale = new Locale("ru");
+                changeLocale = ((MainActivity) activity).getChangeLocale();
+                changeLocale.execute(Language.RESTAURANTS_URL_RU);
                 break;
             }
             case EE:{
                 ((ImageView) iconFragment.getView().findViewById(R.id.languagesClick)).setImageResource(R.drawable.language_ee);
+                myLocale = new Locale("et");
+                changeLocale = ((MainActivity) activity).getChangeLocale();
+                changeLocale.execute(Language.RESTAURANTS_URL_EE);
                 break;
             }
             case EN:{
                 ((ImageView) iconFragment.getView().findViewById(R.id.languagesClick)).setImageResource(R.drawable.language_en);
+                myLocale = new Locale("en");
+                changeLocale = ((MainActivity) activity).getChangeLocale();
+                changeLocale.execute(Language.RESTAURANTS_URL_EN);
                 break;
             }
             default: return;
         }
+        Locale.setDefault(myLocale);
+        android.content.res.Configuration config = new android.content.res.Configuration();
+        config.locale = myLocale;
+        activity.getBaseContext().getResources().updateConfiguration(config, activity.getBaseContext().getResources().getDisplayMetrics());
     }
 }

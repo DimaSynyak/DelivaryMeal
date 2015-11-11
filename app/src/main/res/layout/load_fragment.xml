@@ -11,8 +11,7 @@
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginTop="15dp">
+            android:layout_gravity="center_horizontal|bottom">
 
             <TextView
                 android:layout_width="fill_parent"
@@ -37,8 +36,8 @@
     </FrameLayout>
 
     <FrameLayout
-        android:layout_width="375dp"
-        android:layout_height="383dp"
+        android:layout_width="187dp"
+        android:layout_height="191dp"
         android:background="@drawable/main_logo"
         android:layout_gravity="center"></FrameLayout>
 </FrameLayout>

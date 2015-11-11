@@ -18,5 +18,8 @@
     <string name="Estonia">Эстония</string>
     <string name="Finland">Финляндия</string>
     <string name="Latvia">Латвия</string>
+    <string name="min_cost_order">minimum order</string>
+    <string name="cost_deliver">delivery cost</string>
+    <string name="time_deliver">delivery time</string>
 
 </resources>

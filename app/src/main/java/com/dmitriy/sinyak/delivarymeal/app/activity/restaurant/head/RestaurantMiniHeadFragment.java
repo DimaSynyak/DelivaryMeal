@@ -65,4 +65,12 @@ public class RestaurantMiniHeadFragment extends Fragment {
     public void setRestaurantHeadFragment(RestaurantHeadFragment restaurantHeadFragment) {
         this.restaurantHeadFragment = restaurantHeadFragment;
     }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
 }

@@ -15,14 +15,14 @@ import java.util.concurrent.TimeUnit;
  */
 public class CountThread implements Runnable{
 
-    private MainActivity mainActivity;
+    private AppCompatActivity mainActivity;
     private Count count;
     private TextView dynamicTextView;
     private Object object;
     private int data;
     private int etalon;
 
-    public CountThread(MainActivity mainActivity, Count count, TextView textView) {
+    public CountThread(AppCompatActivity mainActivity, Count count, TextView textView) {
         this.mainActivity = mainActivity;
         this.count = count;
         dynamicTextView = textView;

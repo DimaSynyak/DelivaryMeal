@@ -1,6 +1,7 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.main.service;
 
 import android.graphics.Bitmap;
+import android.support.v4.app.Fragment;
 
 import java.math.BigDecimal;
 
@@ -14,9 +15,15 @@ public class Restaurant {
     private String costMeal;
     private String costDeliver;
     private String timeDeliver;
+
+    private String costMealStatic;
+    private String costDeliverStatic;
+    private String timeDeliverStatic;
+
     private String imgSRC;
     private Bitmap imgBitmap;
     private String menuLink;
+    private Fragment fragment;
 
     public String getName() {
         return name;
@@ -105,5 +112,37 @@ public class Restaurant {
 
     public void setMenuLink(String menuLink) {
         this.menuLink = menuLink;
+    }
+
+    public String getCostMealStatic() {
+        return costMealStatic;
+    }
+
+    public void setCostMealStatic(String costMealStatic) {
+        this.costMealStatic = costMealStatic;
+    }
+
+    public String getCostDeliverStatic() {
+        return costDeliverStatic;
+    }
+
+    public void setCostDeliverStatic(String costDeliverStatic) {
+        this.costDeliverStatic = costDeliverStatic;
+    }
+
+    public String getTimeDeliverStatic() {
+        return timeDeliverStatic;
+    }
+
+    public void setTimeDeliverStatic(String timeDeliverStatic) {
+        this.timeDeliverStatic = timeDeliverStatic;
+    }
+
+    public Fragment getFragment() {
+        return fragment;
+    }
+
+    public void setFragment(Fragment fragment) {
+        this.fragment = fragment;
     }
 }

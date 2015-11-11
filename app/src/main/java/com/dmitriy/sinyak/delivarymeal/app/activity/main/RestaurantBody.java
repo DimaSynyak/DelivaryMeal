@@ -17,9 +17,11 @@ public class RestaurantBody {
 
     private AppCompatActivity activity;
     private FragmentTransaction ft;
+    public static RestaurantBody restaurantBody;
 
     public RestaurantBody(AppCompatActivity activity) {
         this.activity = activity;
+        restaurantBody = this;
     }
 
     public void init(){
@@ -28,5 +30,13 @@ public class RestaurantBody {
             ft.add(R.id.restaurants_list, new RestaurantFragment(activity, restaurant));
         }
         ft.commit();
+    }
+
+    public static RestaurantBody getInstance(AppCompatActivity activity){
+        if (restaurantBody == null){
+            restaurantBody = new RestaurantBody(activity);
+        }
+
+        return restaurantBody;
     }
 }

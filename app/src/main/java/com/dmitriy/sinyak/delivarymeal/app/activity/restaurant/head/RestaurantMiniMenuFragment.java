@@ -31,4 +31,12 @@ public class RestaurantMiniMenuFragment extends Fragment {
 //        restaurantTitle.setTypeface(typeface);
         return view;
     }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
 }

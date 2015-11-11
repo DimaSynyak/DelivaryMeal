@@ -1,6 +1,7 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service;
 
 import android.graphics.Bitmap;
+import android.support.v4.app.Fragment;
 
 /**
  * Created by 1 on 06.11.2015.
@@ -12,7 +13,15 @@ public class Meal {
     private String composition;
     private Bitmap img;
     private String imgURL;
+    private Fragment fragment;
 
+    public Fragment getFragment() {
+        return fragment;
+    }
+
+    public void setFragment(Fragment fragment) {
+        this.fragment = fragment;
+    }
 
     public String getName() {
         return name;

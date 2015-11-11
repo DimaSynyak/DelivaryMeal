@@ -1,9 +1,8 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.main;
 
 import android.app.ActionBar;
-import android.content.res.ColorStateList;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
@@ -20,9 +20,11 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.RestaurantList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.thread.Count;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.thread.CountThread;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.thread.MainAsyncTask;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Language;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Languages;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments.LoadBarFragment;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments.LoadPageFragment;
 import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove;
 
 import org.jsoup.Jsoup;
@@ -32,37 +34,45 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, IActivity {
 
-    private SlidingMenuConfig slidingMenuConfig;
     private Language language;
     private RestaurantBody restaurantBody;
     private CustomViewAbove customViewAbove;
-    private Fragment languagesFragment1;
     private int languageContainerId;
+
     private LoadBarFragment loadBarFragment;
+    private LoadPageFragment loadPageFragment;
+    private LoadPercent loadPercent;
+
+    private static ChangeLocale changeLocale;
+
     private FragmentTransaction ft;
-    private LoadPage loadPage;
     private android.support.v7.app.ActionBar actionBar;
     private TextView staticText;
     private TextView dynamicTextView;
     private  boolean bError = false;
 
     private MainActivity mainActivity;
+    private boolean stateBundle;
+    private Bundle bundle;
+    private SlidingMenuConfig slidingMenuConfig;
 
-    public static final String RESTAURANTS_URL_RU = "http://www.menu24.ee/ru/restaurant/";
-    public static final String RESTAURANTS_URL_EE = "http://www.menu24.ee/restaurant/";
-    public static final String RESTAURANTS_URL_EN = "http://www.menu24.ee/en/restaurant/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        bundle = savedInstanceState;
         super.onCreate(savedInstanceState);
 //        if (RestaurantList.getRestaurants() != null){
 //            RestaurantList.getRestaurants().clear();
 //        }
+
+        String local = Locale.getDefault().getLanguage();
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         setContentView(R.layout.activity_main);
@@ -72,17 +82,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         /*INIT LANGUAGE*/
         languageContainerId = R.id.languageContainer;
         language = new Language(this);
-        language.setLanguages(Languages.EN);
+        language.setLanguageString(local);
         language.init();
         /*END INIT LANGUAGE*/
 
-       actionBar = getSupportActionBar();
+        actionBar = getSupportActionBar();
         actionBar.hide();
+
         loadBarFragment = new LoadBarFragment();
+        loadPageFragment = new LoadPageFragment();
 
         mainActivity = this;
 
-        new MainService().execute(RESTAURANTS_URL_RU);
+        new MainAsyncTask(this).execute(language.getURL());
+        customViewAbove = CustomViewAbove.customViewAbove;
     }
 
     @Override
@@ -94,7 +107,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        slidingMenuConfig.onClickDp(v.getId());
+
+        if (slidingMenuConfig != null)
+            slidingMenuConfig.onClickDp(v.getId());
+
         switch (v.getId()){
             case R.id.menuClick:{
                 if (customViewAbove.getCurrentItem() == 1){
@@ -131,13 +147,61 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        language.getLanguagesImg().updateLanguage();
+    public void changeLanguage(Languages languages) {
+        if (language.getLanguages() == languages) {
+            return;
+        }
+
+        Fragment iconFragment = (Fragment) getSupportFragmentManager().findFragmentById(R.id.languagesFrame);
+        MainActivity.ChangeLocale changeLocale = null;
+        Locale myLocale = null;
+
+        switch (languages){
+            case RU:{
+                ((ImageView) iconFragment.getView().findViewById(R.id.languagesClick)).setImageResource(R.drawable.language_ru);
+                myLocale = new Locale("ru");
+                changeLocale = getChangeLocale();
+                changeLocale.execute(Language.RESTAURANTS_URL_RU);
+                break;
+            }
+            case EE:{
+                ((ImageView) iconFragment.getView().findViewById(R.id.languagesClick)).setImageResource(R.drawable.language_ee);
+                myLocale = new Locale("et");
+                changeLocale = getChangeLocale();
+                changeLocale.execute(Language.RESTAURANTS_URL_EE);
+                break;
+            }
+            case EN:{
+                ((ImageView) iconFragment.getView().findViewById(R.id.languagesClick)).setImageResource(R.drawable.language_en);
+                myLocale = new Locale("en");
+                changeLocale = getChangeLocale();
+                changeLocale.execute(Language.RESTAURANTS_URL_EN);
+                break;
+            }
+            default: return;
+        }
+
+        Locale.setDefault(myLocale);
+        android.content.res.Configuration config = new android.content.res.Configuration();
+        config.locale = myLocale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
+        language.setLanguages(languages);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (bundle != null) {
+            language.getLanguagesImg().updateLanguage();
+        }
+    }
 
-    private class MainService extends AsyncTask<String, Void, String>{
+/*
+* AsyncTask for change locale
+* */
+
+    public class ChangeLocale extends AsyncTask<String, Void, String>{
 
         private FragmentTransaction ft;
         private Thread th;
@@ -149,23 +213,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            count = new Count(5);
-            loadPage = new LoadPage(count);
-            loadPage.start();
+            List<Restaurant> restaurants = RestaurantList.getRestaurants();
+            if (restaurants != null && restaurants.size() > 0) {
+                ft = MainActivity.this.getSupportFragmentManager().beginTransaction();
+                for (Restaurant restaurant : RestaurantList.getRestaurants()) {
+                    ft.remove(restaurant.getFragment());
+                }
+                ft.commit();
 
+                restaurants.clear();
+            }
+
+
+            count = new Count(5);
+            loadPercent = new LoadPercent(count);
+            loadPercent.start();
         }
 
         @Override
         protected String doInBackground(String... params) {
 
-           while (!count.isStateLoadFragment()){
-               try {
-                   TimeUnit.MILLISECONDS.sleep(100);
-               } catch (InterruptedException e) {
-                   e.printStackTrace();
-               }
-           }
-            dynamicTextView = (TextView) loadBarFragment.getView().findViewById(R.id.dynamicText);
+            synchronized (count){
+                while (!count.isStateLoadFragment()){
+                    try {
+                       count.wait(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            dynamicTextView = (TextView) loadPageFragment.getView().findViewById(R.id.dynamicText);
 
             countThreadR = new CountThread(mainActivity, count, dynamicTextView);
             countThread = new Thread(countThreadR);
@@ -191,6 +269,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         restaurant.setCostMeal(element.getElementsByClass("and-cost-mil").get(0).html());
                         restaurant.setCostDeliver(element.getElementsByClass("and-cost-deliver").get(0).html());
                         restaurant.setTimeDeliver(element.getElementsByClass("and-time-deliver").get(0).html());
+
+                        restaurant.setCostMealStatic(getResources().getString(R.string.min_cost_order));
+                        restaurant.setCostDeliverStatic(getResources().getString(R.string.cost_deliver));
+                        restaurant.setTimeDeliverStatic(getResources().getString(R.string.time_deliver));
+
                         restaurant.setImgSRC(element.getElementsByTag("img").get(0).attr("src"));
                         restaurant.setName(element.getElementsByClass("and-name").html());
                         restaurant.setProfile(element.getElementsByClass("and-profile").html());
@@ -229,25 +312,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             super.onPostExecute(s);
 
             ft = mainActivity.getSupportFragmentManager().beginTransaction();
-            ft.remove(loadBarFragment);
+            ft.remove(loadPageFragment);
             ft.commit();
-            actionBar.show();
 
-            slidingMenuConfig = new SlidingMenuConfig(MainActivity.this);
-            slidingMenuConfig.initSlidingMenu();
-            customViewAbove = CustomViewAbove.customViewAbove;
-
-            restaurantBody = new RestaurantBody(mainActivity);
+            restaurantBody = RestaurantBody.getInstance(MainActivity.this);
             restaurantBody.init();
         }
     }
 
-    private class LoadPage {
+    /*
+    * LOAD PERCENT CLASS
+    * */
+
+    private class LoadPercent {
         private Thread th;
         private Count count;
 
 
-        public LoadPage(final Count count) {
+        public LoadPercent(final Count count) {
             this.count = count;
 
             this.th = new Thread(new Runnable() {
@@ -256,10 +338,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     try {
                         TimeUnit.MILLISECONDS.sleep(500);
                         ft = getSupportFragmentManager().beginTransaction();
-                        ft.add(R.id.languageContainer, loadBarFragment);
+                        ft.add(R.id.languageContainer, loadPageFragment);
                         ft.commit();
 
-                        while (!loadBarFragment.isAdded()){
+                        while (!loadPageFragment.isAdded()){
                             TimeUnit.MILLISECONDS.sleep(100);
                         }
                         synchronized (count) {
@@ -285,5 +367,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return dynamicTextView;
     }
 
+    public ChangeLocale getChangeLocale(){
+        changeLocale = new ChangeLocale();
+        return changeLocale;
+    }
 
+    public android.support.v7.app.ActionBar getActionBarActivity() {
+        return actionBar;
+    }
+
+    public RestaurantBody getRestaurantBody() {
+        return restaurantBody;
+    }
+
+    public SlidingMenuConfig getSlidingMenuConfig() {
+        return slidingMenuConfig;
+    }
+
+    public void setSlidingMenuConfig(SlidingMenuConfig slidingMenuConfig) {
+        this.slidingMenuConfig = slidingMenuConfig;
+    }
 }

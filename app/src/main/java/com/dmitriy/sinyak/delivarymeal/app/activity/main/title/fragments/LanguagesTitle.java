@@ -19,9 +19,14 @@ import java.util.concurrent.TimeUnit;
 public class LanguagesTitle extends Fragment {
 
     private LanguagesImg languagesImg;
+    private IActivity activity;
 
     public LanguagesTitle() {
         super();
+    }
+
+    public LanguagesTitle(IActivity activity) {
+        this.activity = activity;
     }
 
     @Override
@@ -31,21 +36,21 @@ public class LanguagesTitle extends Fragment {
         viewHierarchy.findViewById(R.id.russianText).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                languagesImg.changeLanguage(Languages.RU);
+                activity.changeLanguage(Languages.RU);
                 languagesImg.dropDownUpLanguageList();
             }
         });
         viewHierarchy.findViewById(R.id.estoniaText).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                languagesImg.changeLanguage(Languages.EE);
+                activity.changeLanguage(Languages.EE);
                 languagesImg.dropDownUpLanguageList();
             }
         });
         viewHierarchy.findViewById(R.id.englishText).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                languagesImg.changeLanguage(Languages.EN);
+                activity.changeLanguage(Languages.EN);
                 languagesImg.dropDownUpLanguageList();
             }
         });

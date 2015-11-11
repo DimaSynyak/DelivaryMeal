@@ -26,6 +26,7 @@ public class RestaurantMealFragment extends Fragment {
 
     public RestaurantMealFragment(Meal meal) {
         this.meal = meal;
+        meal.setFragment(this);
     }
 
     @Override
