@@ -32,10 +32,24 @@ import java.net.URL;
 public class RestaurantFragment extends Fragment {
     private AppCompatActivity activity;
     private Restaurant restaurant;
+    private boolean firstFlag;
+
+    private TextView name;
+    private TextView level;
+    private TextView costMeal;
+    private TextView costDeliver;
+    private TextView timeDeliver;
+    private ImageView avatar;
+    private RatingBar stars;
+    private TextView restaurantProfile;
+    private TextView costMealText;
+    private TextView costDeliverText;
+    private TextView timeDeliverText;
 
     public RestaurantFragment(){
         super();
     }
+
     public RestaurantFragment(AppCompatActivity activity, Restaurant restaurant) {
         this.activity = activity;
         this.restaurant = restaurant;
@@ -50,30 +64,30 @@ public class RestaurantFragment extends Fragment {
         Typeface geometric = Typeface.createFromAsset(getActivity().getAssets(), "fonts/geometric/geometric_706_black.ttf");
         Typeface arimo = Typeface.createFromAsset(getActivity().getAssets(), "fonts/arimo/Arimo_Regular.ttf");
 
-        TextView name = (TextView) view.findViewById(R.id.restaurantName);
+        name = (TextView) view.findViewById(R.id.restaurantName);
         name.setTypeface(geometric);
         name.setText(restaurant.getName());
 
-        TextView level = (TextView) view.findViewById(R.id.restaurantLevel);
+        level = (TextView) view.findViewById(R.id.restaurantLevel);
         level.setTypeface(geometric);
         level.setText(restaurant.getStars().toString());
 
-        TextView costMeal = (TextView) view.findViewById(R.id.costMeal);
+        costMeal = (TextView) view.findViewById(R.id.costMeal);
         costMeal.setTypeface(geometric);
         costMeal.setText(restaurant.getCostMeal());
 
-        TextView costDeliver = (TextView) view.findViewById(R.id.costDeliver);
+        costDeliver = (TextView) view.findViewById(R.id.costDeliver);
         costDeliver.setTypeface(geometric);
         costDeliver.setText(restaurant.getCostDeliver());
 
-        TextView timeDeliver = (TextView) view.findViewById(R.id.timeDeliver);
+        timeDeliver = (TextView) view.findViewById(R.id.timeDeliver);
         timeDeliver.setTypeface(geometric);
         timeDeliver.setText(restaurant.getTimeDeliver());
 
-        ImageView avatar = (ImageView) view.findViewById(R.id.restaurantAvatar);
+        avatar = (ImageView) view.findViewById(R.id.restaurantAvatar);
         avatar.setImageBitmap(restaurant.getImgBitmap());
 
-        RatingBar stars = (RatingBar) view.findViewById(R.id.ratingBar);
+        stars = (RatingBar) view.findViewById(R.id.ratingBar);
         stars.setRating(restaurant.getStars());
         stars.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
@@ -81,10 +95,17 @@ public class RestaurantFragment extends Fragment {
             }
         });
 
-        ((TextView) view.findViewById(R.id.restaurantProfile)).setTypeface(arimo);
-        ((TextView) view.findViewById(R.id.costMealText)).setTypeface(arimo);
-        ((TextView) view.findViewById(R.id.costDeliverText)).setTypeface(arimo);
-        ((TextView) view.findViewById(R.id.timeDeliverText)).setTypeface(arimo);
+        restaurantProfile = (TextView) view.findViewById(R.id.restaurantProfile);
+        restaurantProfile.setTypeface(arimo);
+
+        costMealText = (TextView) view.findViewById(R.id.costMealText);
+        costMealText.setTypeface(arimo);
+
+        costDeliverText = (TextView) view.findViewById(R.id.costDeliverText);
+        costDeliverText.setTypeface(arimo);
+
+        timeDeliverText = (TextView) view.findViewById(R.id.timeDeliverText);
+        timeDeliverText.setTypeface(arimo);
 
         view.findViewById(R.id.restaurantFragment).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,5 +117,26 @@ public class RestaurantFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (firstFlag){
+            name.setText(restaurant.getName());
+            level.setText(restaurant.getStars().toString());
+            costMeal.setText(restaurant.getCostMeal());
+            costDeliver.setText(restaurant.getCostDeliver());
+            timeDeliver.setText(restaurant.getTimeDeliver());
+            avatar.setImageBitmap(restaurant.getImgBitmap());
+            stars.setRating(restaurant.getStars());
+
+            restaurantProfile.setText(restaurant.getProfile());
+            costMealText.setText(R.string.min_cost_order);
+            costDeliverText.setText(R.string.cost_deliver);
+            timeDeliverText.setText(R.string.time_deliver);
+        }
+
+        firstFlag = true;
     }
 }

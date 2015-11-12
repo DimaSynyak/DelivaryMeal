@@ -19,6 +19,21 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
  */
 public class RestaurantHeadFragment extends Fragment {
     private Restaurant restaurant;
+    private boolean firstFlag;
+
+    private TextView name;
+    private TextView level;
+    private TextView costMeal;
+    private TextView costDeliver;
+    private TextView timeDeliver;
+    private TextView menu;
+
+    private TextView profile;
+    private TextView costDeliverText;
+    private TextView costMealText;
+    private TextView timeDeliverText;
+    private RatingBar stars;
+    private ImageView img;
 
     public RestaurantHeadFragment(Restaurant restaurant) {
         this.restaurant = restaurant;
@@ -28,16 +43,16 @@ public class RestaurantHeadFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.restaurant_head_fragment, container, false);
 
-        TextView name = (TextView) view.findViewById(R.id.restaurantName);
+        name = (TextView) view.findViewById(R.id.restaurantName);
         name.setText(restaurant.getName());
 
-        TextView profile = (TextView) view.findViewById(R.id.restaurantProfile);
+        profile = (TextView) view.findViewById(R.id.restaurantProfile);
         profile.setText(restaurant.getProfile());
 
-        TextView level = (TextView) view.findViewById(R.id.restaurantLevel);
+        level = (TextView) view.findViewById(R.id.restaurantLevel);
         level.setText(restaurant.getStars().toString());
 
-        RatingBar stars = (RatingBar) view.findViewById(R.id.ratingBar);
+        stars = (RatingBar) view.findViewById(R.id.ratingBar);
         stars.setRating(restaurant.getStars());
         stars.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
@@ -45,22 +60,23 @@ public class RestaurantHeadFragment extends Fragment {
             }
         });
 
-        TextView costMeal = (TextView) view.findViewById(R.id.costMeal);
+        costMeal = (TextView) view.findViewById(R.id.costMeal);
         costMeal.setText(restaurant.getCostMeal());
 
-        TextView costDeliver = (TextView) view.findViewById(R.id.costDeliver);
+        costDeliver = (TextView) view.findViewById(R.id.costDeliver);
         costDeliver.setText(restaurant.getCostDeliver());
 
-        TextView timeDeliver = (TextView) view.findViewById(R.id.timeDeliver);
+        timeDeliver = (TextView) view.findViewById(R.id.timeDeliver);
         timeDeliver.setText(restaurant.getTimeDeliver());
 
-        ImageView img = (ImageView) view.findViewById(R.id.restaurantHeadAvatar);
+        img = (ImageView) view.findViewById(R.id.restaurantHeadAvatar);
         img.setImageBitmap(restaurant.getImgBitmap());
 
-        TextView costMealText = (TextView) view.findViewById(R.id.costMealText);
-        TextView costDeliverText = (TextView) view.findViewById(R.id.costDeliverText);
-        TextView timeDeliverText = (TextView) view.findViewById(R.id.timeDeliverText);
-        TextView menu = (TextView) view.findViewById(R.id.textView7);
+        costMealText = (TextView) view.findViewById(R.id.costMealText);
+        costDeliverText = (TextView) view.findViewById(R.id.costDeliverText);
+        timeDeliverText = (TextView) view.findViewById(R.id.timeDeliverText);
+        menu = (TextView) view.findViewById(R.id.textView7);
+        menu.setText(R.string.menu);
 
         Typeface geometric = Typeface.createFromAsset(getActivity().getAssets(), "fonts/geometric/geometric_706_black.ttf");
 
@@ -86,5 +102,24 @@ public class RestaurantHeadFragment extends Fragment {
 
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (firstFlag){
+            name.setText(restaurant.getName());
+            level.setText(String.valueOf(restaurant.getStars()));
+            costMeal.setText(restaurant.getCostMeal());
+            costDeliver.setText(restaurant.getCostDeliver());
+            timeDeliver.setText(restaurant.getTimeDeliver());
+            menu.setText(R.string.menu);
+
+            profile.setText(restaurant.getProfile());
+            costDeliverText.setText(R.string.cost_deliver);
+            costMealText.setText(R.string.min_cost_order);
+            timeDeliverText.setText(R.string.time_deliver);
+        }
+        firstFlag = true;
     }
 }

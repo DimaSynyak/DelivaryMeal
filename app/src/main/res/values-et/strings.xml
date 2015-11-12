@@ -22,5 +22,8 @@
     <string name="no_internet"></string>
     <string name="cost_deliver">kulleri tasu</string>
     <string name="time_deliver">keskmine toimetamise aeg</string>
+    <string name="order">TELLIDA</string>
+    <string name="count">tk</string>
+    <string name="menu">MENÜÜ</string>
 
 </resources>

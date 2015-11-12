@@ -21,5 +21,8 @@
     <string name="min_cost_order">minimum order</string>
     <string name="cost_deliver">delivery cost</string>
     <string name="time_deliver">delivery time</string>
+    <string name="order">ORDER</string>
+    <string name="count">pc</string>
+    <string name="menu">MENU</string>
 
 </resources>

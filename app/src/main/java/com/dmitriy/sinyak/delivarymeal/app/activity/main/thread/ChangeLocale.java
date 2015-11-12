@@ -8,14 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
-import com.dmitriy.sinyak.delivarymeal.app.activity.IActivity;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.MainActivity;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.RestaurantBody;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.SlidingMenuConfig;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.RestaurantList;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments.LoadBarFragment;
-import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments.LoadPageFragment;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -24,40 +21,53 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by 1 on 11.11.2015.
+ * Created by 1 on 12.11.2015.
  */
-public class MainAsyncTask extends AsyncTask<String, Void, String> {
-
+public class ChangeLocale extends AsyncTask<String, Void, String> {
     private FragmentTransaction ft;
     private Count count;
-    private IActivity activity;
-    private LoadBarFragment loadBarFragment;
-    private SlidingMenuConfig slidingMenuConfig;
+
+    private AppCompatActivity activity;
+    private LoadPageFragment loadPageFragment;
     private RestaurantBody restaurantBody;
 
+    private boolean isCancled;
 
-    public MainAsyncTask(IActivity activity) {
+    public ChangeLocale(AppCompatActivity activity) {
         this.activity = activity;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        count = new Count(5);
-        loadBarFragment = new LoadBarFragment(count);
-        ft = ((MainActivity)activity).getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.languageContainer, loadBarFragment);
-        ft.commit();
+        List<Restaurant> restaurants = RestaurantList.getRestaurants();
+        if (restaurants != null && restaurants.size() > 0) {
+            ft = activity.getSupportFragmentManager().beginTransaction();
+            for (Restaurant restaurant : RestaurantList.getRestaurants()) {
+                ft.remove(restaurant.getFragment());
+            }
+            ft.commit();
 
+            restaurants.clear();
+        }
+
+
+        count = new Count(5);
+        loadPageFragment = new LoadPageFragment(count);
+        ft = activity.getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.languageContainer, loadPageFragment);
+        ft.commit();
     }
 
     @Override
     protected String doInBackground(String... params) {
-        synchronized (count) {
-            while (!count.isStateLoadFragment()) {
+
+        synchronized (count){
+            while (!count.isStateLoadFragment()){
                 try {
                     count.wait();
                 } catch (InterruptedException e) {
@@ -71,7 +81,6 @@ public class MainAsyncTask extends AsyncTask<String, Void, String> {
             try {
                 doc = Jsoup.connect(params[0]).get();
                 count.complete();
-//                bError = false;
                 Elements elements = doc.getElementsByClass("food-item");
 
                 if (elements.size() == 0)
@@ -86,9 +95,9 @@ public class MainAsyncTask extends AsyncTask<String, Void, String> {
                     restaurant.setCostDeliver(element.getElementsByClass("and-cost-deliver").get(0).html());
                     restaurant.setTimeDeliver(element.getElementsByClass("and-time-deliver").get(0).html());
 
-                    restaurant.setCostMealStatic(((MainActivity) activity).getResources().getString(R.string.min_cost_order));
-                    restaurant.setCostDeliverStatic(((MainActivity )activity).getResources().getString(R.string.cost_deliver));
-                    restaurant.setTimeDeliverStatic(((MainActivity )activity).getResources().getString(R.string.time_deliver));
+                    restaurant.setCostMealStatic(activity.getResources().getString(R.string.min_cost_order));
+                    restaurant.setCostDeliverStatic(activity.getResources().getString(R.string.cost_deliver));
+                    restaurant.setTimeDeliverStatic(activity.getResources().getString(R.string.time_deliver));
 
                     restaurant.setImgSRC(element.getElementsByTag("img").get(0).attr("src"));
                     restaurant.setName(element.getElementsByClass("and-name").html());
@@ -125,17 +134,30 @@ public class MainAsyncTask extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
 
-        ft = ((MainActivity )activity).getSupportFragmentManager().beginTransaction();
-        ft.remove(loadBarFragment);
-        ft.commit();
-        ((MainActivity )activity).getActionBarActivity().show();
+            ft = activity.getSupportFragmentManager().beginTransaction();
+            ft.remove(loadPageFragment);
+            ft.commit();
 
-        slidingMenuConfig = new SlidingMenuConfig(((MainActivity )activity));
-        slidingMenuConfig.initSlidingMenu();
-        ((MainActivity )activity).setSlidingMenuConfig(slidingMenuConfig);
-        ((MainActivity )activity).setCustomViewAbove(CustomViewAbove.customViewAbove);
+            restaurantBody = RestaurantBody.getInstance(activity);
+            restaurantBody.init();
 
-        restaurantBody = new RestaurantBody(((MainActivity )activity));
-        restaurantBody.init();
+            isCancled = true;
+     cancel(true);
+    }
+
+    public boolean isCancled() {
+        return isCancled;
+    }
+
+    public void setIsCancled(boolean isCancled) {
+        this.isCancled = isCancled;
+    }
+
+    public LoadPageFragment getLoadPageFragment() {
+        return loadPageFragment;
+    }
+
+    public void setLoadPageFragment(LoadPageFragment loadPageFragment) {
+        this.loadPageFragment = loadPageFragment;
     }
 }

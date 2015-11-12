@@ -15,10 +15,17 @@
         android:id="@+id/restaurantHeadContainer"
         android:layout_gravity="bottom" />
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/restaurantPercentContainer"
+        android:layout_gravity="bottom"
+        android:layout_weight="1" />
+
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/scrollView3" >
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView3">
 
         <LinearLayout
             android:orientation="vertical"

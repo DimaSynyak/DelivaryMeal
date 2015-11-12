@@ -9,6 +9,7 @@ import java.util.List;
 public class RestaurantList {
 
     private static List<Restaurant> restaurants;
+    private static int positionRestaurant;
 
     public static List<Restaurant> getRestaurants() {
         if (restaurants == null){
@@ -28,5 +29,13 @@ public class RestaurantList {
 
     public static void removeRestaurant(Restaurant restaurant){
         getRestaurants().remove(restaurant);
+    }
+
+    public static int getPositionRestaurant() {
+        return positionRestaurant;
+    }
+
+    public static void setPositionRestaurant(int positionRestaurant) {
+        RestaurantList.positionRestaurant = positionRestaurant;
     }
 }

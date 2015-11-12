@@ -21,5 +21,8 @@
     <string name="time_deliver">среднее время доставки</string>
     <string name="cost_deliver">стоимость доставки</string>
     <string name="min_cost_order">мин. сумма заказа</string>
+    <string name="order">ЗАКАЗАТЬ</string>
+    <string name="count">шт</string>
+    <string name="menu">МЕНЮ</string>
 
 </resources>

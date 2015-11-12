@@ -47,6 +47,7 @@
     <string name="country_tartu">Тарту</string>
     <string name="country_viljandi">Вилджанди</string>
     <string name="country_rapla">Рапла</string>
+    <string name="menu">МЕНЮ</string>
 
 
     <string name="load_data_from_internet">Loading</string>

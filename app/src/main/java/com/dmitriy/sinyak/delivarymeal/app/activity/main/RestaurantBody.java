@@ -32,6 +32,14 @@ public class RestaurantBody {
         ft.commit();
     }
 
+    public void replace(){
+        ft = activity.getSupportFragmentManager().beginTransaction();
+        for (Restaurant restaurant: RestaurantList.getRestaurants()) {
+            ft.replace(R.id.restaurants_list, restaurant.getFragment());
+        }
+        ft.commit();
+    }
+
     public static RestaurantBody getInstance(AppCompatActivity activity){
         if (restaurantBody == null){
             restaurantBody = new RestaurantBody(activity);

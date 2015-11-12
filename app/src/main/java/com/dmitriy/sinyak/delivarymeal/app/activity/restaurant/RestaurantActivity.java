@@ -1,8 +1,6 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant;
 
 import android.app.ActionBar;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -12,37 +10,23 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ScrollView;
-import android.widget.TextView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.IActivity;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.MainActivity;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.SlidingMenuConfig;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.RestaurantList;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.thread.ChangeLanguageAsyncTask;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.thread.Count;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.thread.CountThread;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.thread.LoadPercent;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Language;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Languages;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments.LoadPageFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantHeadFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantMiniHeadFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantMiniMenuFragment;
-import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.ChangeLanguageAsyncTask;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.RestaurantAsyncTask;
 import com.dmitriy.sinyak.delivarymeal.app.activity.tools.Tools;
 import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -61,15 +45,12 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
     private static int MIN_SCROLLY = -100;
     private static int MAX_SCROLLY = 300;
     private RestaurantActivity restaurantActivity;
-    private MealBody mealBody;
     private Restaurant restaurant;
+    private RestaurantAsyncTask restaurantAsyncTask;
+    private Languages oldLanguage;
 
-    private LoadPageFragment loadPageFragment;
-    private LoadPercent loadPercent;
-    private TextView dynamicTextView;
-
-    private TextView restaurantTitle;
     private int positionRestaurant;
+    private ChangeLanguageAsyncTask changeLocale;
 
 
     private boolean firstFlag = true;
@@ -91,7 +72,6 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         /*END INIT LANGUAGE*/
 
         restaurantActivity = this;
-        loadPageFragment = new LoadPageFragment();
 
         restaurantHeadContainer = (FrameLayout) findViewById(R.id.restaurantHeadContainer);
 
@@ -99,16 +79,18 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         restaurant = RestaurantList.getRestaurants().get((Integer) getIntent().getSerializableExtra("restaurant"));
         positionRestaurant = RestaurantList.getRestaurants().indexOf(restaurant);
 
-        new MainService().execute(restaurant.getMenuLink());
+        restaurantAsyncTask = null;
+        restaurantAsyncTask = new RestaurantAsyncTask(this);
+        restaurantAsyncTask.execute(restaurant.getMenuLink());
 
         initFragment(restaurant);
         scrollInit();
     }
 
-
     @Override
     public void onClick(View v) {
-        slidingMenuConfig.onClickDp(v.getId());
+        if (slidingMenuConfig != null)
+            slidingMenuConfig.onClickDp(v.getId());
         switch (v.getId()){
             case R.id.menuClick:{
                 if (customViewAbove.getCurrentItem() == 1){
@@ -120,6 +102,17 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
                 break;
             }
             case R.id.imageView3:{
+                if (changeLocale != null){
+                   if (!changeLocale.isCancelled())
+                       return;
+                }
+
+                if (restaurantAsyncTask != null){
+                    restaurantAsyncTask.getLoadPageFragment().getThread().interrupt();
+                    restaurantAsyncTask.cancel(true);
+                    restaurantAsyncTask = null;
+                }
+
                 finish();
                 break;
             }
@@ -137,20 +130,24 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-
-    private void initFragment(Restaurant restaurant){
+    public void initFragment(Restaurant restaurant){
         restaurantHeadFragment = new RestaurantHeadFragment(restaurant);
         restaurantMiniHeadFragment = new RestaurantMiniHeadFragment(restaurant);
         restaurantMiniMenuFragment = new RestaurantMiniMenuFragment(restaurant);
         restaurantMiniHeadFragment.setRestaurantHeadFragment(restaurantHeadFragment);
 
         ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.restaurantHeadContainer, restaurantHeadFragment);
+        if (firstFlag) {
+            ft.add(R.id.restaurantHeadContainer, restaurantHeadFragment);
+        }
+        else {
+            ft.add(R.id.restaurantHeadContainer, restaurantMiniHeadFragment);
+        }
 
         ft.commit();
     }
 
-    public void changeFragment(Restaurant restaurant){
+    public void removeFragment(){
         restaurantHeadFragment.setRestaurant(restaurant);
         restaurantMiniHeadFragment.setRestaurant(restaurant);
         restaurantMiniMenuFragment.setRestaurant(restaurant);
@@ -158,10 +155,10 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         ft = getSupportFragmentManager().beginTransaction();
 
         if (restaurantHeadFragment.isAdded()){
-            ft.replace(R.id.restaurantHeadContainer, restaurantHeadFragment);
+            ft.remove(restaurantHeadFragment);
         }
         else if (restaurantMiniHeadFragment.isAdded()){
-            ft.replace(R.id.restaurantHeadContainer, restaurantMiniHeadFragment);
+            ft.remove(restaurantMiniHeadFragment);
         }
 
         ft.commit();
@@ -173,7 +170,6 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                int scrollY = v.getScrollY();
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_SCROLL:
                     case MotionEvent.ACTION_MOVE:
@@ -230,215 +226,11 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         this.languageContainerId = languageContainerId;
     }
 
-    /*
-    * MAIN SERVICE ASYNC TASK
-    * */
-
-    private class MainService extends AsyncTask<String, Void, String> {
-        private FragmentTransaction ft;
-        private Thread th;
-        private Fragment fragment;
-        private Count count;
-        private Thread countThread;
-        private CountThread countThreadR;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            count = new Count(5);
-            loadPercent = new LoadPercent(count, restaurantActivity);
-            loadPercent.start();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-                synchronized (count){
-                    while (!count.isStateLoadFragment()){
-                        count.wait(100);
-                    }
-                }
-
-                dynamicTextView = (TextView) loadPageFragment.getView().findViewById(R.id.dynamicText);
-
-                countThreadR = new CountThread(restaurantActivity, count, dynamicTextView);
-                countThread = new Thread(countThreadR);
-                countThread.start();
-
-                Document doc = null;
-
-                count.complete();
-                doc = Jsoup.connect(params[0]).get();
-                count.complete();
-                Elements elements = doc.getElementsByClass("item-food");
-
-                if (elements.size() == 0)
-                    return null; //WARNING change (pick out) ui
-                count.complete();
-                for (Element element :elements) {
-
-                    Meal meal = new Meal();
-
-                    meal.setName(element.getElementsByClass("and-name").get(0).html());
-                    meal.setComposition(element.getElementsByClass("and-composition").get(0).html());
-                    meal.setWeight(element.getElementsByClass("pull-right").get(0).html());
-                    meal.setCost(element.getElementsByClass("as").get(0).html());
-                    meal.setImgURL(element.getElementsByClass("item-img").get(0).getElementsByTag("img").attr("src"));
-
-                    URL imgURL = new URL(meal.getImgURL());
-                    meal.setImg(BitmapFactory.decodeStream(imgURL.openConnection().getInputStream()));
-                    MealList.addMeal(meal);
-                }
-                count.complete();
-                count.complete();
-                synchronized (count) {
-                    while (!count.isStateData()) {
-                        count.wait(100);
-                    }
-                }
-                return null;
-
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-
-            ft = restaurantActivity.getSupportFragmentManager().beginTransaction();
-            ft.remove(loadPageFragment);
-            ft.commit();
-
-            slidingMenuConfig = new SlidingMenuConfig(RestaurantActivity.this);
-            slidingMenuConfig.initSlidingMenu();
-            customViewAbove = CustomViewAbove.customViewAbove;
-
-            mealBody = new MealBody(restaurantActivity);
-            mealBody.init();
-        }
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         MealList.getMeals().clear();
     }
-
-
-    /*
-* AsyncTask for change locale
-* */
-
-//    public class ChangeLocale extends AsyncTask<String, Void, String>{
-//
-//        private FragmentTransaction ft;
-//        private Thread th;
-//        private Fragment fragment;
-//        private Count count;
-//        private Thread countThread;
-//        private CountThread countThreadR;
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//
-//            List<Meal> meals = MealList.getMeals();
-//            if (meals != null && meals.size() > 0) {
-//                ft = RestaurantActivity.this.getSupportFragmentManager().beginTransaction();
-//                for (Meal meal : MealList.getMeals()) {
-//                    ft.remove(meal.getFragment());
-//                }
-//                ft.commit();
-//
-//                meals.clear();
-//            }
-//
-//            count = new Count(5);
-//            loadPercent = new LoadPercent(count, restaurantActivity);
-//            loadPercent.start();
-//        }
-//
-//        @Override
-//        protected String doInBackground(String... params) {
-//            try {
-//                synchronized (count){
-//                    while (!count.isStateLoadFragment()){
-//                        count.wait(100);
-//                    }
-//                }
-//
-//                dynamicTextView = (TextView) loadPageFragment.getView().findViewById(R.id.dynamicText);
-//
-//                countThreadR = new CountThread(restaurantActivity, count, dynamicTextView);
-//                countThread = new Thread(countThreadR);
-//                countThread.start();
-//
-//                Document doc = null;
-//
-//                count.complete();
-//                doc = Jsoup.connect(params[0]).get();
-//                count.complete();
-//                Elements elements = doc.getElementsByClass("item-food");
-//
-//                if (elements.size() == 0)
-//                    return null; //WARNING change (pick out) ui
-//                count.complete();
-//                for (Element element :elements) {
-//
-//                    Meal meal = new Meal();
-//
-//                    meal.setName(element.getElementsByClass("and-name").get(0).html());
-//                    meal.setComposition(element.getElementsByClass("and-composition").get(0).html());
-//                    meal.setWeight(element.getElementsByClass("pull-right").get(0).html());
-//                    meal.setCost(element.getElementsByClass("as").get(0).html());
-//                    meal.setImgURL(element.getElementsByClass("item-img").get(0).getElementsByTag("img").attr("src"));
-//
-//                    URL imgURL = new URL(meal.getImgURL());
-//                    meal.setImg(BitmapFactory.decodeStream(imgURL.openConnection().getInputStream()));
-//                    MealList.addMeal(meal);
-//                }
-//                count.complete();
-//                count.complete();
-//                synchronized (count) {
-//                    while (!count.isStateData()) {
-//                        count.wait(100);
-//                    }
-//                }
-//                return null;
-//
-//            } catch (IOException e) {
-//                // TODO Auto-generated catch block
-//                e.printStackTrace();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String s) {
-//            super.onPostExecute(s);
-//
-//            ft = restaurantActivity.getSupportFragmentManager().beginTransaction();
-//            ft.remove(loadPageFragment);
-//            ft.commit();
-//
-//            mealBody = new MealBody(restaurantActivity);
-//            mealBody.init();
-//        }
-//    }
-
-
-//    public ChangeLocale getChangeLocale(){
-//        changeLocale = new ChangeLocale();
-//        return changeLocale;
-//    }
 
     @Override
     public void changeLanguage(Languages languages) {
@@ -446,10 +238,24 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
             return;
         }
 
+        if (changeLocale != null){
+            if (!changeLocale.isCancelled())
+                return;
+        }
+
+        if (restaurantAsyncTask != null){
+            if (!restaurantAsyncTask.isCancelled()){
+                return;
+            }
+        }
+
         Fragment iconFragment = (Fragment) getSupportFragmentManager().findFragmentById(R.id.languagesFrame);
-        ChangeLanguageAsyncTask changeLocale = new ChangeLanguageAsyncTask(this);
+        changeLocale = new ChangeLanguageAsyncTask(this);
         Locale myLocale = null;
         Tools tools = Tools.getInstance();
+
+        oldLanguage = language.getLanguages();
+        language.setLanguages(languages);
 
         switch (languages){
             case RU:{
@@ -477,23 +283,13 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         android.content.res.Configuration config = new android.content.res.Configuration();
         config.locale = myLocale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-
-        language.setLanguages(languages);
     }
 
-    public int getPositionRestaurant() {
-        return positionRestaurant;
+    public SlidingMenuConfig getSlidingMenuConfig() {
+        return slidingMenuConfig;
     }
 
-    public void setPositionRestaurant(int positionRestaurant) {
-        this.positionRestaurant = positionRestaurant;
-    }
-
-    public LoadPageFragment getLoadPageFragment() {
-        return loadPageFragment;
-    }
-
-    public void setLoadPageFragment(LoadPageFragment loadPageFragment) {
-        this.loadPageFragment = loadPageFragment;
+    public void setSlidingMenuConfig(SlidingMenuConfig slidingMenuConfig) {
+        this.slidingMenuConfig = slidingMenuConfig;
     }
 }

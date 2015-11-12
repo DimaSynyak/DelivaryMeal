@@ -115,7 +115,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="мин. сумма заказа"
+                    android:text="@string/min_cost_order"
                     android:id="@+id/costMealText"
                     android:textSize="10sp"
                     android:textColor="#a1a1a1" />
@@ -138,7 +138,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="стоимость доставки"
+                    android:text="@string/cost_deliver"
                     android:id="@+id/costDeliverText"
                     android:textSize="10sp"
                     android:textColor="#a1a1a1" />
@@ -161,7 +161,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="среднее время доставки"
+                    android:text="@string/time_deliver"
                     android:id="@+id/timeDeliverText"
                     android:textSize="10sp"
                     android:textColor="#a1a1a1" />
@@ -194,7 +194,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="МЕНЮ"
+                android:text="@string/menu"
                 android:id="@+id/textView7"
                 android:layout_gravity="center"
                 android:textSize="19sp"
