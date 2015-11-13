@@ -1,99 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="#f1f1f1"
-              android:id="@+id/menu">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f1f1f1"
+    android:id="@+id/menu">
 
     <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
             <ScrollView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/scrollView" android:fillViewport="false"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/scrollView" android:fillViewport="false"
                 android:layout_weight="12">
                 <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" android:id="@+id/base_frame"
-                        >
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/base_frame"
+                    >
                     <LinearLayout
-                            android:orientation="vertical"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content" android:id="@+id/baseLayout">
+                        android:orientation="vertical"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content" android:id="@+id/baseLayout">
                         <fragment
-                                android:name="com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.SearchFragment"
-                                android:layout_width="match_parent"
-                                android:layout_height="0dp"
-                                android:id="@+id/searchFrame"
-                                android:layout_gravity="top"
-                                tools:layout="@layout/search_fragment" android:layout_weight="1"/>
+                            android:name="com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.SearchFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:id="@+id/searchFrame"
+                            android:layout_gravity="top"
+                            tools:layout="@layout/search_fragment" android:layout_weight="1"/>
                         <FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                                     android:id="@+id/countryFrame" android:layout_gravity="bottom"
-                                />
+                            android:id="@+id/countryFrame" android:layout_gravity="bottom"
+                            />
 
                         <fragment
-                                android:name="com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.CountryButtonFragment"
-                                  android:layout_width="match_parent"
-                                  android:layout_height="wrap_content"
-                                  android:id="@+id/countryLayout"
-                                  android:layout_gravity="top"
-                                tools:layout="@layout/country_button"/>
+                            android:name="com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.CountryButtonFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/countryLayout"
+                            android:layout_gravity="top"
+                            tools:layout="@layout/country_button"/>
 
                         <FrameLayout android:layout_width="fill_parent"
-                                     android:layout_height="fill_parent"
-                                     android:id="@+id/cityFrame"
-                                     android:layout_gravity="bottom"/>
+                            android:layout_height="fill_parent"
+                            android:id="@+id/cityFrame"
+                            android:layout_gravity="bottom"/>
 
 
                         <fragment android:name="com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.CityButtonFragment"
-                                  android:layout_width="match_parent"
-                                  android:layout_height="wrap_content"
-                                  android:id="@+id/cityLayout"
-                                  android:layout_gravity="bottom"
-                                  tools:layout="@layout/city_button"/>
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/cityLayout"
+                            android:layout_gravity="bottom"
+                            tools:layout="@layout/city_button"/>
 
 
                         <FrameLayout android:layout_width="fill_parent"
-                                     android:layout_height="fill_parent"
-                                     android:id="@+id/kitchenFrame"
-                                     android:layout_gravity="bottom"/>
+                            android:layout_height="fill_parent"
+                            android:id="@+id/kitchenFrame"
+                            android:layout_gravity="bottom"/>
 
 
                         <fragment android:name="com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.KitchenButtonFragment"
-                                  android:layout_width="match_parent"
-                                  android:layout_height="wrap_content"
-                                  android:id="@+id/kitchenLayout"
-                                  android:layout_gravity="bottom"
-                                tools:layout="@layout/kitchen_button"/>
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/kitchenLayout"
+                            android:layout_gravity="bottom"
+                            tools:layout="@layout/kitchen_button"/>
 
 
                         <FrameLayout android:layout_width="fill_parent"
-                                     android:layout_height="fill_parent"
-                                     android:id="@+id/categoryFrame"
-                                     android:layout_gravity="bottom"/>
+                            android:layout_height="fill_parent"
+                            android:id="@+id/categoryFrame"
+                            android:layout_gravity="bottom"/>
 
 
                         <fragment android:name="com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.CategoryButtonFragment"
-                                  android:layout_width="match_parent"
-                                  android:layout_height="wrap_content"
-                                  android:id="@+id/categoryLayout"
-                                  android:layout_gravity="bottom"
-                                tools:layout="@layout/category_button"/>
-                        <fragment tools:layout="@layout/menu_signature"
-                                  android:name="com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.SignatureFragment"
-                                  android:layout_width="fill_parent" android:layout_height="wrap_content"
-                                  android:id="@+id/fragment" android:layout_gravity="bottom"/>
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/categoryLayout"
+                            android:layout_gravity="bottom"
+                            tools:layout="@layout/category_button"/>
 
 
                     </LinearLayout>
                 </FrameLayout>
             </ScrollView>
+
+            <fragment tools:layout="@layout/menu_signature"
+                android:name="com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.SignatureFragment"
+                android:layout_width="fill_parent" android:layout_height="wrap_content"
+                android:id="@+id/fragment" android:layout_gravity="bottom"/>
 
             <FrameLayout
                 android:layout_width="fill_parent"
