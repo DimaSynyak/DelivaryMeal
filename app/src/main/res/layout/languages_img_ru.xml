@@ -5,12 +5,19 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:clickable="false">
+
     <ImageView
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/language_ru"
         android:id="@+id/languagesClick"
-        android:clickable="true">
+        android:clickable="true"
+        android:layout_gravity="center">
     </ImageView>
+
+    <FrameLayout
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:id="@+id/languageOpacity"></FrameLayout>
 </FrameLayout>

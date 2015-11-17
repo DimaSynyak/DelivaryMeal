@@ -3,10 +3,16 @@ package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service;
 import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 
+import com.dmitriy.sinyak.delivarymeal.app.activity.payment.Garbage;
+
+import java.util.Comparator;
+
 /**
  * Created by 1 on 06.11.2015.
  */
 public class Meal {
+
+    private int id;
     private String name;
     private String cost;
     private String weight;
@@ -14,6 +20,12 @@ public class Meal {
     private Bitmap img;
     private String imgURL;
     private Fragment fragment;
+    private int countMeal;
+    private Garbage garbage;
+
+    public Meal() {
+        this.garbage = Garbage.getInstance();
+    }
 
     public Fragment getFragment() {
         return fragment;
@@ -69,5 +81,54 @@ public class Meal {
 
     public void setImgURL(String imgURL) {
         this.imgURL = imgURL;
+    }
+
+    public int getCountMeal() {
+        return countMeal;
+    }
+
+    public void setCountMeal(int countMeal) {
+        this.countMeal = countMeal;
+    }
+
+    public void add(){
+        this.countMeal++;
+        garbage.add(this);
+    }
+
+    public void remove(){
+        if (countMeal > 0){
+            countMeal--;
+            garbage.remove(this);
+        }
+    }
+
+    public void removeAll(){
+        countMeal = 0;
+        garbage.removeAll();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        Integer id = 0;
+        if(o instanceof Integer) {
+            id = (Integer) o;
+        }
+        else {
+            return false;
+        }
+
+        if (this.id == id)
+            return true;
+        else
+            return false;
     }
 }

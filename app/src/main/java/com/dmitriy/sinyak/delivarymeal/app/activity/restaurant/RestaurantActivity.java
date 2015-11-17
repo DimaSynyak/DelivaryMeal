@@ -1,15 +1,20 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant;
 
 import android.app.ActionBar;
+import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.IActivity;
@@ -18,6 +23,8 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.RestaurantList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Language;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Languages;
+import com.dmitriy.sinyak.delivarymeal.app.activity.payment.Garbage;
+import com.dmitriy.sinyak.delivarymeal.app.activity.payment.PaymentActivity;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantHeadFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantMiniHeadFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantMiniMenuFragment;
@@ -51,6 +58,9 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
 
     private int positionRestaurant;
     private ChangeLanguageAsyncTask changeLocale;
+    private DisplayMetrics metrics;
+    private ImageView garbageButton;
+    private TextView garbageNum;
 
 
     private boolean firstFlag = true;
@@ -65,6 +75,9 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_restaurant);
         getSupportActionBar().setCustomView(R.layout.title);
 
+        Typeface geometric = Typeface.createFromAsset(getAssets(), "fonts/geometric/geometric_706_black.ttf");
+        Typeface arimo = Typeface.createFromAsset(getAssets(), "fonts/arimo/Arimo_Regular.ttf");
+
          /*INIT LANGUAGE*/
         languageContainerId = R.id.restaurantLanguageContainer;
         language = new Language(this);
@@ -72,8 +85,12 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         /*END INIT LANGUAGE*/
 
         restaurantActivity = this;
+        Garbage.getInstance().setActivity(this);
 
         restaurantHeadContainer = (FrameLayout) findViewById(R.id.restaurantHeadContainer);
+
+        garbageButton = (ImageView) findViewById(R.id.garbageButton);
+        garbageNum = (TextView) findViewById(R.id.garbageNum);
 
         scrollView = (ScrollView) findViewById(R.id.scrollView3);
         restaurant = RestaurantList.getRestaurants().get((Integer) getIntent().getSerializableExtra("restaurant"));
@@ -85,6 +102,12 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
 
         initFragment(restaurant);
         scrollInit();
+
+        metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        garbageNum = (TextView) findViewById(R.id.garbageNum);
+        garbageNum.setTypeface(geometric);
     }
 
     @Override
@@ -125,6 +148,13 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
                 ft.add(R.id.restaurantHeadContainer, restaurantHeadFragment);
                 ft.commit();
                 firstFlag = true;
+                break;
+            }
+            case R.id.garbageButton:{
+                Intent intent = new Intent(this, PaymentActivity.class);
+//                intent.putExtra("language", String.valueOf(this));
+//                intent.putExtra("restaurant", RestaurantList.getRestaurants().indexOf(restaurant));
+                startActivity(intent);
                 break;
             }
         }
@@ -182,6 +212,9 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
                             ft.setCustomAnimations(R.anim.abc_slide_in_top, R.anim.abc_slide_out_bottom);
                             ft.add(R.id.restaurantHeadContainer, restaurantHeadFragment);
                             ft.commit();
+
+                            ((MarginLayoutParams)scrollView.getLayoutParams()).setMargins(0, (int) (180*metrics.density),0,0);
+
                         } else if (scrollView.getScrollY() > MAX_SCROLLY && firstFlag) {
                             firstFlag = false;
                             ft = getSupportFragmentManager().beginTransaction();
@@ -192,6 +225,7 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
                             ft.setCustomAnimations(R.anim.abc_slide_in_top, R.anim.abc_slide_out_bottom);
                             ft.add(R.id.restaurantHeadContainer, restaurantMiniHeadFragment);
                             ft.commit();
+                            ((MarginLayoutParams)scrollView.getLayoutParams()).setMargins(0, (int) (50*metrics.density), 0, 0);
                         }
                     case MotionEvent.ACTION_DOWN:
 

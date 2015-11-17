@@ -93,4 +93,8 @@ public class Language {
     public void init(){
         languagesImg.init(languages);
     }
+
+    public void init(int opacity){
+        languagesImg.init(languages, opacity);
+    }
 }

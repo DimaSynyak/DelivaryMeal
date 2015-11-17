@@ -19,7 +19,7 @@
     <string name="Finland">Финляндия</string>
     <string name="Latvia">Латвия</string>
 
-    <string name="criteria">Критерии ресторанов</string>
+    <string name="criteria">Критерии</string>
     <string name="criteria_hight_rating">С высоким рейтингом</string>
     <string name="criteria_new">Новые</string>
     <string name="criteria_free_deliver">С бесплатной доставкой</string>
@@ -52,5 +52,6 @@
 
     <string name="load_data_from_internet">Loading</string>
     <string name="no_internet">Please! Connect your mobile to internet</string>
+    <string name="title_activity_payment">PaymentActivity</string>
 
 </resources>

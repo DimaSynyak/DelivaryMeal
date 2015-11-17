@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
@@ -80,6 +81,32 @@ public class LanguagesImg extends Fragment {
         });
     }
 
+    public void init(Languages languages, int opacity){
+        int fullColor = 255 * opacity / 100;
+        fullColor *= 16843009;
+        ImageView imageView = (ImageView) iconFragment.getView().findViewById(R.id.languagesClick);
+        FrameLayout frameLayout = (FrameLayout) iconFragment.getView().findViewById(R.id.languageOpacity);
+
+        if (!(languages == null)){
+
+            switch (languages) {
+                case RU: {
+                    imageView.setImageResource(R.drawable.language_ru);
+                    break;
+                }
+                case EE: {
+                    imageView.setImageResource(R.drawable.language_ee);
+                    break;
+                }
+                case EN: {
+                    imageView.setImageResource(R.drawable.language_en);
+                }
+            }
+        }
+
+        frameLayout.setBackgroundColor(fullColor);
+        imageView.setClickable(false);
+    }
 
     protected void dropDownUpLanguageList(){
         if (((IActivity)activity).getCustomViewAbove() != null) {
