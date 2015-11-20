@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:foregroundGravity="center_horizontal">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="С ДОСТАВКОЙ"
+                android:id="@+id/textView13"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_weight="1"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                android:layout_gravity="center_vertical" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@null"
+                android:id="@+id/radioButton"
+                android:checked="true"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:clickable="false" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="САМОВЫВОЗ"
+                android:id="@+id/textView14"
+                android:layout_weight="1"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                android:layout_gravity="center_vertical" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@null"
+                android:id="@+id/radioButton2"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/enter_name"
+            android:id="@+id/textView15"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:paddingLeft="20dp"
+            android:gravity="center_vertical|left" />
+
+        <EditText
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText2"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Dmitriy" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/choose_city"
+            android:id="@+id/textView16"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:paddingLeft="20dp"
+            android:gravity="center_vertical|left" />
+
+        <EditText
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText3"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Talin" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/address"
+            android:id="@+id/textView17"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:paddingLeft="20dp"
+            android:gravity="center_vertical|left" />
+
+        <EditText
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText4"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Beketova" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/num_house"
+            android:id="@+id/textView18"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:paddingLeft="20dp"
+            android:gravity="center_vertical|left" />
+
+        <EditText
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText5"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="11" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/num_flat"
+            android:id="@+id/textView19"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:paddingLeft="20dp"
+            android:gravity="center_vertical|left" />
+
+        <EditText
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText6"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="22" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/your_email"
+            android:id="@+id/textView21"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:paddingLeft="20dp"
+            android:gravity="center_vertical|left" />
+
+        <EditText
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText8"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="ds@mail.ru" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/your_phone"
+            android:id="@+id/textView22"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:paddingLeft="20dp"
+            android:gravity="center_vertical|left" />
+
+        <EditText
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText9"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="777" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView20"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:text="@string/time_delivery"
+            android:paddingLeft="20dp"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp" />
+
+    </LinearLayout>
+
+    <DatePicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/datePicker"
+        android:padding="0dp"
+        android:layout_margin="0dp"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"
+        android:calendarViewShown="false" />
+
+    <TimePicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/timePicker"
+        android:timePickerMode="spinner"
+        android:layout_gravity="center_horizontal" />
+</LinearLayout>

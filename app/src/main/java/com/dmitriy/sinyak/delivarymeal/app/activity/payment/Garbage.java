@@ -14,10 +14,10 @@ import java.util.Set;
  */
 public class Garbage {
     private static Garbage garbage;
-    private static AppCompatActivity activity;
-    private static int total;
-    private static TextView garbageNum;
-    private static Set<Integer> listID;
+    private AppCompatActivity activity;
+    private int total;
+    private TextView garbageNum;
+    private Set<Integer> listID;
 
     public Garbage() {
         listID = new HashSet<>();
@@ -30,7 +30,7 @@ public class Garbage {
         return garbage;
     }
 
-    public static void update(){
+    public void update(){
         garbageNum = (TextView) activity.findViewById(R.id.garbageNum);
         activity.runOnUiThread(new Runnable() {
             @Override
@@ -42,24 +42,24 @@ public class Garbage {
 
 
 
-    public static AppCompatActivity getActivity() {
+    public AppCompatActivity getActivity() {
         return activity;
     }
 
-    public static void setActivity(AppCompatActivity _activity) {
+    public void setActivity(AppCompatActivity _activity) {
         activity = _activity;
     }
 
-    public static int getTotal() {
+    public int getTotal() {
         return total;
     }
 
-    public static void add(Meal meal) {
+    public void add(Meal meal) {
         listID.add(meal.getId());
         total++;
     }
 
-    public static void remove(Meal meal){
+    public void remove(Meal meal){
         if (total > 0) {
             total--;
         }
@@ -69,8 +69,12 @@ public class Garbage {
         }
     }
 
-    public static void removeAll(){
+    public void removeAll(){
         total = 0;
         listID.clear();
+    }
+
+    public static void clear(){
+        garbage = null;
     }
 }

@@ -12,12 +12,14 @@ import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.IActivity;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Language;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Languages;
+import com.dmitriy.sinyak.delivarymeal.app.activity.payment.menu.SldMenuCfgPaymentAct;
 import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove;
 
 public class PaymentActivity extends AppCompatActivity implements View.OnClickListener, IActivity {
     private Language language;
     private int paymentLanguageContainer;
     public static final int TWENTY_PERCENT = 20;
+    private SldMenuCfgPaymentAct sldMenuCfgPaymentAct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,9 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
         language = new Language(this);
         language.init(TWENTY_PERCENT);
         /*END INIT LANGUAGE*/
+
+        sldMenuCfgPaymentAct = new SldMenuCfgPaymentAct(this);
+        sldMenuCfgPaymentAct.initSlidingMenu();
     }
 
     @Override
@@ -61,6 +66,9 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
+        if (sldMenuCfgPaymentAct != null)
+            sldMenuCfgPaymentAct.onClickSL(v.getId());
+
         switch (v.getId()){
             case R.id.imageView3:{
 //                if (changeLocale != null){

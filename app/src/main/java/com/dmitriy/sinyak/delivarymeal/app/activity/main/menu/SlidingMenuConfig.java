@@ -171,10 +171,6 @@ public class SlidingMenuConfig {
         ft.commit();
     }
 
-    public void onClickListenerForFragments(){
-
-    }
-
     public void onClickDp(int viewId){
         switch (viewId){
             case R.id.countryLayout:{

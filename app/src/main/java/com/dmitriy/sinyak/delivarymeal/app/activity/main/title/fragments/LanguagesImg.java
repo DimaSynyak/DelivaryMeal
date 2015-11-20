@@ -76,14 +76,12 @@ public class LanguagesImg extends Fragment {
             @Override
             public void onClick(View v) {
                 dropDownUpLanguageList();
-
             }
         });
     }
 
     public void init(Languages languages, int opacity){
-        int fullColor = 255 * opacity / 100;
-        fullColor *= 16843009;
+        int fullColor = 0x7ffda94d;
         ImageView imageView = (ImageView) iconFragment.getView().findViewById(R.id.languagesClick);
         FrameLayout frameLayout = (FrameLayout) iconFragment.getView().findViewById(R.id.languageOpacity);
 

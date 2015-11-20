@@ -61,6 +61,7 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
     private DisplayMetrics metrics;
     private ImageView garbageButton;
     private TextView garbageNum;
+    private Garbage garbage;
 
 
     private boolean firstFlag = true;
@@ -85,7 +86,8 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         /*END INIT LANGUAGE*/
 
         restaurantActivity = this;
-        Garbage.getInstance().setActivity(this);
+        garbage = Garbage.getInstance();
+        garbage.setActivity(this);
 
         restaurantHeadContainer = (FrameLayout) findViewById(R.id.restaurantHeadContainer);
 
@@ -264,6 +266,7 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
     protected void onDestroy() {
         super.onDestroy();
         MealList.getMeals().clear();
+        garbage.clear();
     }
 
     @Override

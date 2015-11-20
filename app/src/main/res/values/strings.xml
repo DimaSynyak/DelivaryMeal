@@ -54,4 +54,19 @@
     <string name="no_internet">Please! Connect your mobile to internet</string>
     <string name="title_activity_payment">PaymentActivity</string>
 
+    <string name="your_data">Ваши данные</string>
+    <string name="your_order">Ваш заказ</string>
+
+    <string name="enter_name">Введите имя</string>
+    <string name="choose_city">Выберите город</string>
+    <string name="address">Улица</string>
+    <string name="num_house">Дом</string>
+    <string name="num_flat">Квартира/офис</string>
+
+    <string name="time_delivery">Доставка на</string>
+    <string name="time_delivery_">Заберу в</string>
+
+    <string name="your_email">Email</string>
+    <string name="your_phone">Телефон</string>
+
 </resources>
