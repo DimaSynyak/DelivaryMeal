@@ -38,4 +38,13 @@ public class RestaurantList {
     public static void setPositionRestaurant(int positionRestaurant) {
         RestaurantList.positionRestaurant = positionRestaurant;
     }
+
+    public static Restaurant getRestaurant(){
+        for (Restaurant restaurant:restaurants ){
+            if (restaurant.getId() == positionRestaurant)
+                return restaurant;
+        }
+
+        return null;
+    }
 }

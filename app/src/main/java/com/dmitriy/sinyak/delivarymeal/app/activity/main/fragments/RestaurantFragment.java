@@ -110,6 +110,7 @@ public class RestaurantFragment extends Fragment {
         view.findViewById(R.id.restaurantFragment).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                RestaurantList.setPositionRestaurant(restaurant.getId());
                 Intent intent = new Intent(activity, RestaurantActivity.class);
                 intent.putExtra("language", String.valueOf(this));
                 intent.putExtra("restaurant", RestaurantList.getRestaurants().indexOf(restaurant));

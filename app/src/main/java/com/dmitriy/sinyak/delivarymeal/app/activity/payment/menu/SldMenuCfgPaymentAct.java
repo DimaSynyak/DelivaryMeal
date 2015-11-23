@@ -61,7 +61,7 @@ public class SldMenuCfgPaymentAct {
     }
 
     private void initFragment(){
-        formDataFragment = new FormDataFragment();
+        formDataFragment = FormDataFragment.getInstance();
     }
 
     public void onClickSL(int id){

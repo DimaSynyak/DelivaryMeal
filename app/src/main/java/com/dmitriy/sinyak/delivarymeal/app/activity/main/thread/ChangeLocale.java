@@ -14,6 +14,7 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.RestaurantList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments.LoadPageFragment;
 
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -37,6 +38,9 @@ public class ChangeLocale extends AsyncTask<String, Void, String> {
 
     private boolean isCancled;
 
+    private Connection connection;
+    private Connection.Response response;
+
     public ChangeLocale(AppCompatActivity activity) {
         this.activity = activity;
     }
@@ -44,6 +48,9 @@ public class ChangeLocale extends AsyncTask<String, Void, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+
+        connection = Restaurant.getConnection();
+
         List<Restaurant> restaurants = RestaurantList.getRestaurants();
         if (restaurants != null && restaurants.size() > 0) {
             ft = activity.getSupportFragmentManager().beginTransaction();
@@ -79,7 +86,11 @@ public class ChangeLocale extends AsyncTask<String, Void, String> {
         while (true) {
             Document doc = null;
             try {
-                doc = Jsoup.connect(params[0]).get();
+                connection.url(params[0]);
+                response = connection.execute();
+                connection.cookies(response.cookies());
+
+                doc = response.parse();
                 count.complete();
                 Elements elements = doc.getElementsByClass("food-item");
 
@@ -91,6 +102,7 @@ public class ChangeLocale extends AsyncTask<String, Void, String> {
 
                     Restaurant restaurant = new Restaurant();
 
+                    restaurant.setId(Integer.parseInt(element.attr("data-id")));
                     restaurant.setCostMeal(element.getElementsByClass("and-cost-mil").get(0).html());
                     restaurant.setCostDeliver(element.getElementsByClass("and-cost-deliver").get(0).html());
                     restaurant.setTimeDeliver(element.getElementsByClass("and-time-deliver").get(0).html());

@@ -3,7 +3,10 @@ package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service;
 import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 import com.dmitriy.sinyak.delivarymeal.app.activity.payment.Garbage;
+
+import org.jsoup.Connection;
 
 import java.util.Comparator;
 
@@ -12,7 +15,7 @@ import java.util.Comparator;
  */
 public class Meal {
 
-    private int id;
+    private String id;
     private String name;
     private String cost;
     private String weight;
@@ -22,6 +25,9 @@ public class Meal {
     private Fragment fragment;
     private int countMeal;
     private Garbage garbage;
+
+
+    private int remove_id;
 
     public Meal() {
         this.garbage = Garbage.getInstance();
@@ -108,27 +114,28 @@ public class Meal {
         garbage.removeAll();
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
     @Override
     public boolean equals(Object o) {
-        Integer id = 0;
-        if(o instanceof Integer) {
-            id = (Integer) o;
+        String id = null;
+        if(o instanceof String) {
+            id = (String) o;
         }
         else {
             return false;
         }
 
-        if (this.id == id)
+        if (this.id.equals(id))
             return true;
         else
             return false;
     }
+
 }

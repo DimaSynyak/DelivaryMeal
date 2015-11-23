@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.IActivity;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.SlidingMenuConfig;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.thread.ChangeLocale;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.thread.MainAsyncTask;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Language;
@@ -54,7 +55,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         actionBar.hide();
         mainActivity = this;
 
-        new MainAsyncTask(this).execute(language.getURL());
+        Restaurant.setConnection(language.getURL());
+        new MainAsyncTask(this).execute();
     }
 
     @Override

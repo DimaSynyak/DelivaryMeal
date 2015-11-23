@@ -19,13 +19,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activity.restaurant.RestaurantActivity"
             android:screenOrientation="portrait" >
         </activity>
+
         <activity
             android:name=".activity.payment.PaymentActivity"
-            android:label="@string/title_activity_payment" >
+            android:label="@string/title_activity_payment"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

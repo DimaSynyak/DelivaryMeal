@@ -21,7 +21,7 @@
         <ImageView
             android:layout_width="60dp"
             android:layout_height="100dp"
-            android:id="@+id/imageView6"
+            android:id="@+id/seb_btn"
             android:layout_weight="1"
             android:src="@drawable/seb"
             android:layout_marginRight="5dp"
@@ -35,7 +35,7 @@
         <ImageView
             android:layout_width="60dp"
             android:layout_height="100dp"
-            android:id="@+id/imageView7"
+            android:id="@+id/swed_btn"
             android:layout_weight="1"
             android:src="@drawable/swedbank"
             android:background="#ffffff"
@@ -58,7 +58,7 @@
         <ImageView
             android:layout_width="60dp"
             android:layout_height="100dp"
-            android:id="@+id/imageView8"
+            android:id="@+id/lhv_btn"
             android:layout_weight="1"
             android:src="@drawable/lhv"
             android:layout_marginRight="5dp"
@@ -72,7 +72,7 @@
         <ImageView
             android:layout_width="60dp"
             android:layout_height="100dp"
-            android:id="@+id/imageView9"
+            android:id="@+id/nordea_btn"
             android:layout_weight="1"
             android:src="@drawable/nordea"
             android:background="#ffffff"
@@ -95,7 +95,7 @@
         <ImageView
             android:layout_width="60dp"
             android:layout_height="100dp"
-            android:id="@+id/imageView10"
+            android:id="@+id/danske_btn"
             android:layout_weight="1"
             android:src="@drawable/danske"
             android:layout_marginRight="5dp"
@@ -109,7 +109,7 @@
         <ImageView
             android:layout_width="60dp"
             android:layout_height="100dp"
-            android:id="@+id/imageView11"
+            android:id="@+id/kredit_btn"
             android:layout_weight="1"
             android:src="@drawable/krediidipank"
             android:background="#ffffff"

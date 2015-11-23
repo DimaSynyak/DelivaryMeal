@@ -28,6 +28,7 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.payment.PaymentActivity;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantHeadFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantMiniHeadFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantMiniMenuFragment;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.ChangeLanguageAsyncTask;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.RestaurantAsyncTask;
@@ -102,6 +103,7 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         restaurantAsyncTask = new RestaurantAsyncTask(this);
         restaurantAsyncTask.execute(restaurant.getMenuLink());
 
+
         initFragment(restaurant);
         scrollInit();
 
@@ -153,9 +155,11 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
                 break;
             }
             case R.id.garbageButton:{
+
+                if (garbage.getTotal() == 0)
+                    return;
+
                 Intent intent = new Intent(this, PaymentActivity.class);
-//                intent.putExtra("language", String.valueOf(this));
-//                intent.putExtra("restaurant", RestaurantList.getRestaurants().indexOf(restaurant));
                 startActivity(intent);
                 break;
             }

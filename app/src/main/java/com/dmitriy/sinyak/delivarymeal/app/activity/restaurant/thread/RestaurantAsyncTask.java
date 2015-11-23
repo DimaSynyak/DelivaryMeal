@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.SlidingMenuConfig;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.thread.Count;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments.LoadPageFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.MealBody;
@@ -16,6 +17,7 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
 import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove;
 
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -39,6 +41,9 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
     private SlidingMenuConfig slidingMenuConfig;
     private MealBody mealBody;
 
+    private Connection connection;
+    private Connection.Response response;
+
     public RestaurantAsyncTask() {
         super();
     }
@@ -50,6 +55,9 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+
+        connection  = Restaurant.getConnection();
+
         count = new Count(5);
 
         loadPageFragment = new LoadPageFragment(count);
@@ -74,8 +82,14 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
         count.complete();
         while (true) {
             try {
+
+                connection.url(params[0]);
+                response = connection.execute();
+                connection.cookies(response.cookies());
+
                 Document doc = null;
-                doc = Jsoup.connect(params[0]).get();
+                doc = response.parse();
+
                 count.complete();
                 Elements elements = doc.getElementsByClass("item-food");
 
@@ -86,6 +100,7 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
 
                     Meal meal = new Meal();
 
+                    meal.setId(element.getElementsByClass("add_to_cart_button").attr("data-product_id"));
                     meal.setName(element.getElementsByClass("and-name").get(0).html());
                     meal.setComposition(element.getElementsByClass("and-composition").get(0).html());
                     meal.setWeight(element.getElementsByClass("pull-right").get(0).html());

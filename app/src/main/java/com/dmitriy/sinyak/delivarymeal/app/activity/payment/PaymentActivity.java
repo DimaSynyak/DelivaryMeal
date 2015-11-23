@@ -10,9 +10,14 @@ import android.widget.FrameLayout;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.IActivity;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.RestaurantList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Language;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Languages;
 import com.dmitriy.sinyak.delivarymeal.app.activity.payment.menu.SldMenuCfgPaymentAct;
+import com.dmitriy.sinyak.delivarymeal.app.activity.payment.menu.fragments.FormDataFragment;
+import com.dmitriy.sinyak.delivarymeal.app.activity.payment.thread.DelivaryData;
+import com.dmitriy.sinyak.delivarymeal.app.activity.payment.thread.MainAsyncTask;
 import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove;
 
 public class PaymentActivity extends AppCompatActivity implements View.OnClickListener, IActivity {
@@ -20,6 +25,11 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
     private int paymentLanguageContainer;
     public static final int TWENTY_PERCENT = 20;
     private SldMenuCfgPaymentAct sldMenuCfgPaymentAct;
+    private DelivaryData delivaryData;
+    private Restaurant restaurant;
+    private FormDataFragment formDataFragment;
+
+    private CustomViewAbove customViewAbove;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,16 +47,19 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
 
         sldMenuCfgPaymentAct = new SldMenuCfgPaymentAct(this);
         sldMenuCfgPaymentAct.initSlidingMenu();
+
+        delivaryData = DelivaryData.getInstance();
+        restaurant = RestaurantList.getRestaurant();
     }
 
     @Override
     public void setCustomViewAbove(CustomViewAbove customViewAbove) {
-
+        this.customViewAbove = customViewAbove;
     }
 
     @Override
     public CustomViewAbove getCustomViewAbove() {
-        return null;
+        return customViewAbove;
     }
 
     @Override
@@ -71,20 +84,87 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
 
         switch (v.getId()){
             case R.id.imageView3:{
-//                if (changeLocale != null){
-//                    if (!changeLocale.isCancelled())
-//                        return;
-//                }
-//
-//                if (restaurantAsyncTask != null){
-//                    restaurantAsyncTask.getLoadPageFragment().getThread().interrupt();
-//                    restaurantAsyncTask.cancel(true);
-//                    restaurantAsyncTask = null;
-//                }
-
                 finish();
                 break;
             }
+            case R.id.seb_btn:{
+                updateDelivaryData();
+                if (delivaryData.checkData()){
+                    delivaryData.setNameBank("seb");
+                    new MainAsyncTask(this).execute(restaurant.getMenuLink());
+                }
+                else {
+                    customViewAbove.setCurrentItem(1);
+                }
+                break;
+            }
+            case R.id.danske_btn:{
+                if (delivaryData.checkData()){
+                    delivaryData.setNameBank("danske");
+                    new MainAsyncTask(this).execute(restaurant.getMenuLink());
+                }
+                else {
+                    customViewAbove.setCurrentItem(1);
+                }
+                break;
+            }
+            case R.id.kredit_btn:{
+                if (delivaryData.checkData()){
+                    delivaryData.setNameBank("kredit");
+                    new MainAsyncTask(this).execute(restaurant.getMenuLink());
+                }
+                else {
+                    customViewAbove.setCurrentItem(1);
+                }
+                break;
+            }
+            case R.id.lhv_btn:{
+                if (delivaryData.checkData()){
+                    delivaryData.setNameBank("lhv");
+                    new MainAsyncTask(this).execute(restaurant.getMenuLink());
+                }
+                else {
+                    customViewAbove.setCurrentItem(1);
+                }
+                break;
+            }
+            case R.id.nordea_btn:{
+                if (delivaryData.checkData()){
+                    delivaryData.setNameBank("nordea");
+                    new MainAsyncTask(this).execute(restaurant.getMenuLink());
+                }
+                else {
+                    customViewAbove.setCurrentItem(1);
+                }
+                break;
+            }
+            case R.id.swed_btn:{
+                if (delivaryData.checkData()){
+                    delivaryData.setNameBank("swed");
+                    new MainAsyncTask(this).execute(restaurant.getMenuLink());
+                }
+                else {
+                    customViewAbove.setCurrentItem(1);
+                }
+                break;
+            }
         }
+    }
+
+    private void updateDelivaryData(){
+        formDataFragment = FormDataFragment.getInstance();
+
+        if (!formDataFragment.isAdded())
+            return;
+
+        delivaryData.setYourName(String.valueOf(formDataFragment.getYourName()));
+        delivaryData.setDelivaryCity(String.valueOf(formDataFragment.getYourCity()));
+        delivaryData.setNumStreet(String.valueOf(formDataFragment.getStreet()));
+        delivaryData.setNumHouse(String.valueOf(formDataFragment.getNumHouse()));
+        delivaryData.setNumFlat(String.valueOf(formDataFragment.getNumFlat()));
+        delivaryData.setEmail(String.valueOf(formDataFragment.getYourEmail()));
+        delivaryData.setNumPhone(String.valueOf(formDataFragment.getYourPhone()));
+
+        delivaryData.setDelivaryData(formDataFragment.updateDate());
     }
 }

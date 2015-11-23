@@ -19,12 +19,14 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.RestaurantActivit
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
 
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -43,6 +45,9 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
 
     private boolean isCancled;
 
+    private Connection connection;
+    private Connection.Response response;
+
 
     public ChangeLanguageAsyncTask(AppCompatActivity activity) {
         this.activity = activity;
@@ -51,6 +56,8 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+
+        connection = Restaurant.getConnection();
 
         List<Meal> meals = MealList.getMeals();
         if (meals != null && meals.size() > 0) {
@@ -75,6 +82,8 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... params) {
+        Document doc = null;
+        Elements elements = null;
 
             synchronized (count){
                 while (!count.isStateLoadFragment()){
@@ -88,12 +97,16 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
 
         count.complete();
         while (true) {
-            Document doc = null;
+
             try {
 
-                doc = Jsoup.connect(params[0]).get();
+                connection.url(params[0]);
+                response = connection.execute();
+                connection.cookies(response.cookies());
+
+                doc = response.parse();
                 count.complete();
-                Elements elements = doc.getElementsByClass("food-item");
+                elements = doc.getElementsByClass("food-item");
 
                 if (elements.size() == 0)
                     return null; //WARNING change (pick out) ui
@@ -108,6 +121,7 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
 
                     Restaurant restaurant = restaurants.get(iter);
 
+                    restaurant.setId(Integer.parseInt(element.attr("data-id")));
                     restaurant.setCostMeal(element.getElementsByClass("and-cost-mil").get(0).html());
                     restaurant.setCostDeliver(element.getElementsByClass("and-cost-deliver").get(0).html());
                     restaurant.setTimeDeliver(element.getElementsByClass("and-time-deliver").get(0).html());
@@ -129,14 +143,18 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
                     sizeRestaurants--;
                 }
 
-                int position = RestaurantList.getPositionRestaurant();
-                if (position > restaurants.size())
+                restaurant = RestaurantList.getRestaurant();
+                if (restaurant == null)
                     return null;
 
-                restaurant = restaurants.get(position);
                 count.complete();
 
-                doc = Jsoup.connect(restaurant.getMenuLink()).get();
+                connection.url(restaurant.getMenuLink());
+
+                response = connection.execute();
+                connection.cookies(response.cookies());
+
+                doc = response.parse();
                 count.complete();
                 elements = doc.getElementsByClass("item-food");
 
@@ -148,6 +166,7 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
 
                     Meal meal = new Meal();
 
+                    meal.setId(element1.getElementsByClass("add_to_cart_button").attr("data-product_id"));
                     meal.setName(element1.getElementsByClass("and-name").get(0).html());
                     meal.setComposition(element1.getElementsByClass("and-composition").get(0).html());
                     meal.setWeight(element1.getElementsByClass("pull-right").get(0).html());
@@ -166,14 +185,17 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
                     }
                 }
                 return null;
+            } catch (MalformedURLException e) {
+                return null;
             } catch (IOException e) {
                 try {
                     TimeUnit.MILLISECONDS.sleep(2000);
                 } catch (InterruptedException e1) {
                     e1.printStackTrace();
+                    return null;
                 }
             } catch (InterruptedException e) {
-                return null;
+                e.printStackTrace();
             }
         }
     }

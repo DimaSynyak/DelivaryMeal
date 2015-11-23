@@ -5,8 +5,10 @@ import android.widget.TextView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -17,7 +19,7 @@ public class Garbage {
     private AppCompatActivity activity;
     private int total;
     private TextView garbageNum;
-    private Set<Integer> listID;
+    private Set<String> listID;
 
     public Garbage() {
         listID = new HashSet<>();
@@ -39,8 +41,6 @@ public class Garbage {
             }
         });
     }
-
-
 
     public AppCompatActivity getActivity() {
         return activity;
@@ -76,5 +76,13 @@ public class Garbage {
 
     public static void clear(){
         garbage = null;
+    }
+
+    public Set<String> getListID() {
+        return listID;
+    }
+
+    public void setListID(Set<String> listID) {
+        this.listID = listID;
     }
 }

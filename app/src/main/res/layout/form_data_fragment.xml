@@ -16,7 +16,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:clickable="true">
+            android:clickable="true"
+            android:id="@+id/delivery_btn">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -32,8 +33,8 @@
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@null"
-                android:id="@+id/radioButton"
+                android:text=""
+                android:id="@+id/delivery"
                 android:checked="true"
                 android:gravity="center_vertical"
                 android:layout_weight="1"
@@ -47,13 +48,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:clickable="true">
+            android:clickable="true"
+            android:id="@+id/non_delivery_btn">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="САМОВЫВОЗ"
-                android:id="@+id/textView14"
                 android:layout_weight="1"
                 android:textColor="#000000"
                 android:textSize="14sp"
@@ -62,10 +63,12 @@
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@null"
-                android:id="@+id/radioButton2"
+                android:text=""
+                android:id="@+id/non_delivery"
                 android:layout_weight="1"
-                android:layout_gravity="center_vertical" />
+                android:layout_gravity="center_vertical"
+                android:checked="false"
+                android:clickable="false" />
 
         </LinearLayout>
 
@@ -93,7 +96,7 @@
         <EditText
             android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:id="@+id/editText2"
+            android:id="@+id/yourName"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="Dmitriy" />
@@ -120,7 +123,7 @@
         <EditText
             android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:id="@+id/editText3"
+            android:id="@+id/yourCity"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="Talin" />
@@ -130,7 +133,8 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingRight="20dp">
+        android:paddingRight="20dp"
+        android:id="@+id/street">
 
         <TextView
             android:layout_width="wrap_content"
@@ -147,7 +151,7 @@
         <EditText
             android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:id="@+id/editText4"
+            android:id="@+id/yourStreet"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="Beketova" />
@@ -157,7 +161,8 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingRight="20dp">
+        android:paddingRight="20dp"
+        android:id="@+id/num_house">
 
         <TextView
             android:layout_width="wrap_content"
@@ -174,7 +179,7 @@
         <EditText
             android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:id="@+id/editText5"
+            android:id="@+id/yourHouseNum"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="11" />
@@ -184,7 +189,8 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingRight="20dp">
+        android:paddingRight="20dp"
+        android:id="@+id/num_flat">
 
         <TextView
             android:layout_width="wrap_content"
@@ -201,7 +207,7 @@
         <EditText
             android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:id="@+id/editText6"
+            android:id="@+id/yourFlatNum"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="22" />
@@ -228,7 +234,7 @@
         <EditText
             android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:id="@+id/editText8"
+            android:id="@+id/yourEmail"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="ds@mail.ru" />
@@ -255,7 +261,7 @@
         <EditText
             android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:id="@+id/editText9"
+            android:id="@+id/yourPhone"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="777" />
@@ -267,36 +273,34 @@
         android:layout_height="wrap_content"
         android:paddingRight="20dp">
 
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView20"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            android:textColor="#000000"
-            android:textSize="16sp"
-            android:text="@string/time_delivery"
-            android:paddingLeft="20dp"
-            android:gravity="center"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp" />
-
     </LinearLayout>
 
-    <DatePicker
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/datePicker"
-        android:padding="0dp"
-        android:layout_margin="0dp"
-        android:layout_gravity="center_horizontal"
-        android:visibility="gone"
-        android:calendarViewShown="false" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_marginTop="-20dp">
 
-    <TimePicker
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/timePicker"
-        android:timePickerMode="spinner"
-        android:layout_gravity="center_horizontal" />
+        <DatePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/datePicker"
+            android:layout_weight="1"
+            android:calendarViewShown="false"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:padding="-20dp"/>
+
+        <TimePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/timePicker"
+            android:layout_weight="1"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:padding="-20dp"/>
+    </LinearLayout>
+
+
 </LinearLayout>

@@ -15,7 +15,6 @@ public class MealBody {
 
     private AppCompatActivity activity;
     private FragmentTransaction ft;
-    private int countID = 1;
 
     public MealBody(AppCompatActivity activity) {
         this.activity = activity;
@@ -24,7 +23,6 @@ public class MealBody {
     public void init(){
         ft = activity.getSupportFragmentManager().beginTransaction();
         for (Meal meal: MealList.getMeals()) {
-            meal.setId(countID++);
             ft.add(R.id.restaurantMenuContainer,  new RestaurantMealFragment(meal));
         }
         ft.commit();

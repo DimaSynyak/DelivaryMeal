@@ -3,12 +3,16 @@ package com.dmitriy.sinyak.delivarymeal.app.activity.main.service;
 import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+
 import java.math.BigDecimal;
 
 /**
  * Created by 1 on 05.11.2015.
  */
 public class Restaurant {
+    private  int id;
     private String name;
     private String profile; //sostav edi
     private String stars;
@@ -24,6 +28,29 @@ public class Restaurant {
     private Bitmap imgBitmap;
     private String menuLink;
     private Fragment fragment;
+
+    private static Connection connection;
+    private static String _wpnonce;
+
+    public static Connection getConnection() {
+        return connection;
+    }
+
+    public static void setConnection(Connection connection) {
+        Restaurant.connection = connection;
+    }
+
+    public static void setConnection(String url) {
+        Restaurant.connection = Jsoup.connect(url);
+    }
+
+    public static String get_wpnonce() {
+        return _wpnonce;
+    }
+
+    public static void set_wpnonce(String _wpnonce) {
+        Restaurant._wpnonce = _wpnonce;
+    }
 
     public String getName() {
         return name;
@@ -144,5 +171,13 @@ public class Restaurant {
 
     public void setFragment(Fragment fragment) {
         this.fragment = fragment;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

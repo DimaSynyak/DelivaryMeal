@@ -17,6 +17,16 @@ public class MealList {
         return meals;
     }
 
+    public static Meal getMeal(String id){
+        for (Meal meal:meals){
+            if (meal.getId().equals(id)){
+                return meal;
+            }
+        }
+
+        return null;
+    }
+
     public static void setMeals(List<Meal> _restaurants) {
         meals = _restaurants;
     }
