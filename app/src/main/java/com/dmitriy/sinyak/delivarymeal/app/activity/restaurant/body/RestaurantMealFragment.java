@@ -32,6 +32,8 @@ public class RestaurantMealFragment extends Fragment {
     private TextView countMeal;
     private static DisplayMetrics metrics;
 
+    private boolean firstFlag;
+
     static {
         metrics = new DisplayMetrics();
     }
@@ -96,5 +98,15 @@ public class RestaurantMealFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!firstFlag){
+            firstFlag = true;
+            return;
+        }
+        countMeal.setText(String.valueOf(meal.getCountMeal()));
     }
 }

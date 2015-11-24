@@ -94,57 +94,62 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
                     new MainAsyncTask(this).execute(restaurant.getMenuLink());
                 }
                 else {
-                    customViewAbove.setCurrentItem(1);
+                    customViewAbove.setCurrentItem(0);
                 }
                 break;
             }
             case R.id.danske_btn:{
+                updateDelivaryData();
                 if (delivaryData.checkData()){
                     delivaryData.setNameBank("danske");
                     new MainAsyncTask(this).execute(restaurant.getMenuLink());
                 }
                 else {
-                    customViewAbove.setCurrentItem(1);
+                    customViewAbove.setCurrentItem(0);
                 }
                 break;
             }
             case R.id.kredit_btn:{
+                updateDelivaryData();
                 if (delivaryData.checkData()){
-                    delivaryData.setNameBank("kredit");
+                    delivaryData.setNameBank("krediidipank");
                     new MainAsyncTask(this).execute(restaurant.getMenuLink());
                 }
                 else {
-                    customViewAbove.setCurrentItem(1);
+                    customViewAbove.setCurrentItem(0);
                 }
                 break;
             }
             case R.id.lhv_btn:{
+                updateDelivaryData();
                 if (delivaryData.checkData()){
                     delivaryData.setNameBank("lhv");
                     new MainAsyncTask(this).execute(restaurant.getMenuLink());
                 }
                 else {
-                    customViewAbove.setCurrentItem(1);
+                    customViewAbove.setCurrentItem(0);
                 }
                 break;
             }
             case R.id.nordea_btn:{
+                updateDelivaryData();
                 if (delivaryData.checkData()){
                     delivaryData.setNameBank("nordea");
                     new MainAsyncTask(this).execute(restaurant.getMenuLink());
                 }
                 else {
-                    customViewAbove.setCurrentItem(1);
+                    customViewAbove.setCurrentItem(0);
                 }
                 break;
             }
             case R.id.swed_btn:{
+                updateDelivaryData();
                 if (delivaryData.checkData()){
-                    delivaryData.setNameBank("swed");
+                    delivaryData.setNameBank("swedbank");
                     new MainAsyncTask(this).execute(restaurant.getMenuLink());
                 }
                 else {
-                    customViewAbove.setCurrentItem(1);
+                    customViewAbove.setCurrentItem(0);
                 }
                 break;
             }
@@ -157,13 +162,13 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
         if (!formDataFragment.isAdded())
             return;
 
-        delivaryData.setYourName(String.valueOf(formDataFragment.getYourName()));
-        delivaryData.setDelivaryCity(String.valueOf(formDataFragment.getYourCity()));
-        delivaryData.setNumStreet(String.valueOf(formDataFragment.getStreet()));
-        delivaryData.setNumHouse(String.valueOf(formDataFragment.getNumHouse()));
-        delivaryData.setNumFlat(String.valueOf(formDataFragment.getNumFlat()));
-        delivaryData.setEmail(String.valueOf(formDataFragment.getYourEmail()));
-        delivaryData.setNumPhone(String.valueOf(formDataFragment.getYourPhone()));
+        delivaryData.setYourName(String.valueOf(formDataFragment.getYourName().getText()));
+        delivaryData.setDelivaryCity(String.valueOf(formDataFragment.getYourCity().getText()));
+        delivaryData.setNumStreet(String.valueOf(formDataFragment.getYourStreet().getText()));
+        delivaryData.setNumHouse(String.valueOf(formDataFragment.getYourHouse().getText()));
+        delivaryData.setNumFlat(String.valueOf(formDataFragment.getYourFlat().getText()));
+        delivaryData.setEmail(String.valueOf(formDataFragment.getYourEmail().getText()));
+        delivaryData.setNumPhone(String.valueOf(formDataFragment.getYourPhone().getText()));
 
         delivaryData.setDelivaryData(formDataFragment.updateDate());
     }

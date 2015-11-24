@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -25,6 +26,10 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Language;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Languages;
 import com.dmitriy.sinyak.delivarymeal.app.activity.payment.Garbage;
 import com.dmitriy.sinyak.delivarymeal.app.activity.payment.PaymentActivity;
+import com.dmitriy.sinyak.delivarymeal.app.activity.payment.menu.SldMenuCfgPaymentAct;
+import com.dmitriy.sinyak.delivarymeal.app.activity.payment.menu.fragments.FormDataFragment;
+import com.dmitriy.sinyak.delivarymeal.app.activity.payment.thread.DelivaryData;
+import com.dmitriy.sinyak.delivarymeal.app.activity.payment.thread.MainAsyncTask;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantHeadFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantMiniHeadFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantMiniMenuFragment;
@@ -36,6 +41,7 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.tools.Tools;
 import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove;
 
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by 1 on 02.11.2015.
@@ -63,9 +69,19 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
     private ImageView garbageButton;
     private TextView garbageNum;
     private Garbage garbage;
+    private boolean garbageFlag;
+
+    private LinearLayout baseLayout;
+    private LinearLayout garbageLayout;
+
+    private int paymentLanguageContainer;
+    public static final int TWENTY_PERCENT = 20;
+    private DelivaryData delivaryData;
+    private FormDataFragment formDataFragment;
 
 
     private boolean firstFlag = true;
+    private boolean onResumeFlag;
 
     private FragmentTransaction ft;
 
@@ -112,6 +128,15 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
 
         garbageNum = (TextView) findViewById(R.id.garbageNum);
         garbageNum.setTypeface(geometric);
+
+
+        delivaryData = DelivaryData.getInstance();
+        restaurant = RestaurantList.getRestaurant();
+
+        baseLayout = (LinearLayout) findViewById(R.id.baseLayout);
+//        baseLayout.setVisibility(LinearLayout.VISIBLE);
+        garbageLayout = (LinearLayout) findViewById(R.id.garbageLayout);
+//        garbageLayout.setVisibility(LinearLayout.GONE);
     }
 
     @Override
@@ -159,8 +184,93 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
                 if (garbage.getTotal() == 0)
                     return;
 
-                Intent intent = new Intent(this, PaymentActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(this, PaymentActivity.class);
+//                startActivity(intent);
+
+                garbageFlag = true;
+                customViewAbove.setCurrentItem(0);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            TimeUnit.MILLISECONDS.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        baseLayout.setVisibility(LinearLayout.INVISIBLE);
+                        garbageLayout.setVisibility(LinearLayout.VISIBLE);
+                    }
+                });
+
+
+
+                break;
+            }
+            case R.id.seb_btn:{
+                updateDelivaryData();
+                if (delivaryData.checkData()){
+                    delivaryData.setNameBank("seb");
+                    new MainAsyncTask(this).execute(restaurant.getMenuLink());
+                }
+                else {
+                    customViewAbove.setCurrentItem(0);
+                }
+                break;
+            }
+            case R.id.danske_btn:{
+                updateDelivaryData();
+                if (delivaryData.checkData()){
+                    delivaryData.setNameBank("danske");
+                    new MainAsyncTask(this).execute(restaurant.getMenuLink());
+                }
+                else {
+                    customViewAbove.setCurrentItem(0);
+                }
+                break;
+            }
+            case R.id.kredit_btn:{
+                updateDelivaryData();
+                if (delivaryData.checkData()){
+                    delivaryData.setNameBank("krediidipank");
+                    new MainAsyncTask(this).execute(restaurant.getMenuLink());
+                }
+                else {
+                    customViewAbove.setCurrentItem(0);
+                }
+                break;
+            }
+            case R.id.lhv_btn:{
+                updateDelivaryData();
+                if (delivaryData.checkData()){
+                    delivaryData.setNameBank("lhv");
+                    new MainAsyncTask(this).execute(restaurant.getMenuLink());
+                }
+                else {
+                    customViewAbove.setCurrentItem(0);
+                }
+                break;
+            }
+            case R.id.nordea_btn:{
+                updateDelivaryData();
+                if (delivaryData.checkData()){
+                    delivaryData.setNameBank("nordea");
+                    new MainAsyncTask(this).execute(restaurant.getMenuLink());
+                }
+                else {
+                    customViewAbove.setCurrentItem(0);
+                }
+                break;
+            }
+            case R.id.swed_btn:{
+                updateDelivaryData();
+                if (delivaryData.checkData()){
+                    delivaryData.setNameBank("swedbank");
+                    new MainAsyncTask(this).execute(restaurant.getMenuLink());
+                }
+                else {
+                    customViewAbove.setCurrentItem(0);
+                }
                 break;
             }
         }
@@ -219,7 +329,7 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
                             ft.add(R.id.restaurantHeadContainer, restaurantHeadFragment);
                             ft.commit();
 
-                            ((MarginLayoutParams)scrollView.getLayoutParams()).setMargins(0, (int) (180*metrics.density),0,0);
+                            ((MarginLayoutParams) scrollView.getLayoutParams()).setMargins(0, (int) (180 * metrics.density), 0, 0);
 
                         } else if (scrollView.getScrollY() > MAX_SCROLLY && firstFlag) {
                             firstFlag = false;
@@ -231,7 +341,7 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
                             ft.setCustomAnimations(R.anim.abc_slide_in_top, R.anim.abc_slide_out_bottom);
                             ft.add(R.id.restaurantHeadContainer, restaurantMiniHeadFragment);
                             ft.commit();
-                            ((MarginLayoutParams)scrollView.getLayoutParams()).setMargins(0, (int) (50*metrics.density), 0, 0);
+                            ((MarginLayoutParams) scrollView.getLayoutParams()).setMargins(0, (int) (50 * metrics.density), 0, 0);
                         }
                     case MotionEvent.ACTION_DOWN:
 
@@ -332,5 +442,34 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
 
     public void setSlidingMenuConfig(SlidingMenuConfig slidingMenuConfig) {
         this.slidingMenuConfig = slidingMenuConfig;
+    }
+
+
+    private void updateDelivaryData(){
+        formDataFragment = FormDataFragment.getInstance();
+
+        if (!formDataFragment.isAdded())
+            return;
+
+        delivaryData.setYourName(String.valueOf(formDataFragment.getYourName().getText()));
+        delivaryData.setDelivaryCity(String.valueOf(formDataFragment.getYourCity().getText()));
+        delivaryData.setNumStreet(String.valueOf(formDataFragment.getYourStreet().getText()));
+        delivaryData.setNumHouse(String.valueOf(formDataFragment.getYourHouse().getText()));
+        delivaryData.setNumFlat(String.valueOf(formDataFragment.getYourFlat().getText()));
+        delivaryData.setEmail(String.valueOf(formDataFragment.getYourEmail().getText()));
+        delivaryData.setNumPhone(String.valueOf(formDataFragment.getYourPhone().getText()));
+
+        delivaryData.setDelivaryData(formDataFragment.updateDate());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (!onResumeFlag){
+            onResumeFlag = true;
+            return;
+        }
+        garbageNum.setText(String.valueOf(garbage.getTotal()));
     }
 }

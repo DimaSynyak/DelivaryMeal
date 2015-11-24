@@ -11,6 +11,7 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
 
 import org.jsoup.Connection;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -102,57 +103,42 @@ public class MainAsyncTask extends AsyncTask<String, String, String>{
             connection.url("http://menu24.ee/checkout/");
 
 
-            for (int i = 0; i < 2; i++) {
-                connection.data("billing_delivery", delivaryData.getDelivaryType());
-                connection.data("billing_first_name", delivaryData.getYourName());
-                connection.data("billing_country", "EE");
 
-                connection.data("billing_city", delivaryData.getDelivaryCity());
+            connection.data("billing_delivery", delivaryData.getDelivaryType());
+            connection.data("billing_first_name", delivaryData.getYourName());
+            connection.data("billing_country", "EE");
 
-                if (delivaryData.isDelivaryType()) {
-                    connection.data("billing_address_1", delivaryData.getNumStreet());
-                    connection.data("billing_address_2", delivaryData.getNumHouse());
-                    connection.data("billing_address_3", delivaryData.getNumFlat());
-                }
+            connection.data("billing_city", delivaryData.getDelivaryCity());
 
-                connection.data("billing_time", delivaryData.getDelivaryData());
-                connection.data("billing_email", delivaryData.getEmail());
-                connection.data("billing_phone", delivaryData.getNumPhone());
-                connection.data("_wpnonce", _wpnonce);
-                connection.data("_wp_http_referer", _wp_http_referer);
-                connection.data("payment_method", "banklinkmaksekeskus");
-                connection.data("PRESELECTED_METHOD_banklinkmaksekeskus", delivaryData.getNameBank());
-                connection.data("woocommerce_checkout_place_order", "Maksma");
-
-                connection.method(Connection.Method.POST);
-
-                response = connection.execute();
-                connection.cookies(response.cookies());
-                connection.url(connection.response().url());
+            if (delivaryData.isDelivaryType()) {
+                connection.data("billing_address_1", delivaryData.getNumStreet());
+                connection.data("billing_address_2", delivaryData.getNumHouse());
+                connection.data("billing_address_3", delivaryData.getNumFlat());
             }
+
+            connection.data("billing_time", delivaryData.getDelivaryData());
+            connection.data("billing_email", delivaryData.getEmail());
+            connection.data("billing_phone", delivaryData.getNumPhone());
+            connection.data("_wpnonce", _wpnonce);
+            connection.data("_wp_http_referer", _wp_http_referer);
+            connection.data("payment_method", "banklinkmaksekeskus");
+            connection.data("PRESELECTED_METHOD_banklinkmaksekeskus", delivaryData.getNameBank());
+            connection.data("woocommerce_checkout_place_order", "Maksma");
+
+            connection.method(Connection.Method.POST);
+
+            response = connection.execute();
+            connection.cookies(response.cookies());
+
+            connection = Jsoup.connect(String.valueOf(connection.response().url()));
+
+
+//            connection.url(connection.response().url());
+
+            response = connection.execute();
 
             Elements forms = null;
 
-//            connection.data("billing_delivery", "с доставкой");
-//            connection.data("billing_first_name", "frighten");
-//            connection.data("billing_country", "EE");
-//            connection.data("billing_city", "Таллин");
-//            connection.data("billing_address_1", "address");
-//            connection.data("billing_address_2", "111");
-//            connection.data("billing_address_3", "222");
-//            connection.data("billing_time", "25.12.2015 09:30");
-//            connection.data("billing_email", "fff@mail.ru");
-//            connection.data("billing_phone", "0663200266");
-//            connection.data("_wpnonce", _wpnonce);
-//            connection.data("_wp_http_referer", _wp_http_referer);
-//            connection.data("payment_method", "banklinkmaksekeskus");
-//            connection.data("PRESELECTED_METHOD_banklinkmaksekeskus", "seb"); //change
-//            connection.data("woocommerce_checkout_place_order", "Maksma");
-//
-//            connection.method(Connection.Method.POST);
-//
-//            response = connection.execute();
-//            connection.cookies(response.cookies());
 
             doc = response.parse();
 
@@ -174,5 +160,7 @@ public class MainAsyncTask extends AsyncTask<String, String, String>{
         super.onPostExecute(s);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         activity.startActivity(intent);
+        Restaurant.setConnection("http://menu24.ee/");
+        activity.finish();
     }
 }

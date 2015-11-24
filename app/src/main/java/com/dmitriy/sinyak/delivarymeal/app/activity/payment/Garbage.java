@@ -6,6 +6,7 @@ import android.widget.TextView;
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
+import com.dmitriy.sinyak.delivarymeal.app.activity.tools.Tools;
 
 import java.util.HashSet;
 import java.util.List;
@@ -20,6 +21,7 @@ public class Garbage {
     private int total;
     private TextView garbageNum;
     private Set<String> listID;
+    private int totalCost;
 
     public Garbage() {
         listID = new HashSet<>();
@@ -57,11 +59,13 @@ public class Garbage {
     public void add(Meal meal) {
         listID.add(meal.getId());
         total++;
+        totalCost += Tools.getNum(meal.getCost());
     }
 
     public void remove(Meal meal){
         if (total > 0) {
             total--;
+            totalCost -= Tools.getNum(meal.getCost());
         }
 
         if (meal.getCountMeal() == 0){
@@ -84,5 +88,21 @@ public class Garbage {
 
     public void setListID(Set<String> listID) {
         this.listID = listID;
+    }
+
+    public int getTotalCost() {
+        return totalCost;
+    }
+
+    public String getTotalCostStr(){
+        StringBuilder str = new StringBuilder();
+        str.append(totalCost);
+        str.append(" ˆ");
+
+        return str.toString();
+    }
+
+    public void setTotalCost(int totalCost) {
+        this.totalCost = totalCost;
     }
 }

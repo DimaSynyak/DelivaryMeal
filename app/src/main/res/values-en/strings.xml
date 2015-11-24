@@ -24,5 +24,7 @@
     <string name="order">ORDER</string>
     <string name="count">pc</string>
     <string name="menu">MENU</string>
+    <string name="total">Total</string>
+    <string name="pay">PAY</string>
 
 </resources>

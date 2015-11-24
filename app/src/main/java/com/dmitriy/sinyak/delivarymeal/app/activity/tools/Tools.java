@@ -17,6 +17,20 @@ public class Tools {
     }
 
 
+    public static Integer getNum(String str){
+        StringBuilder tmp = new StringBuilder();
+
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) >= '0' && str.charAt(i) <= '9'){
+                tmp.append(str.charAt(i));
+            }
+        }
+
+
+        return Integer.parseInt(tmp.toString());
+    }
+
+
     public String getStrUrl(String url,Languages languages){ /*change url for languages*/
         StringBuilder temp = new StringBuilder();
         int start = 0;

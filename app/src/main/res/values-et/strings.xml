@@ -25,5 +25,7 @@
     <string name="order">TELLIDA</string>
     <string name="count">tk</string>
     <string name="menu">MENÜÜ</string>
+    <string name="total">Summaarne</string>
+    <string name="pay">MAKSMA</string>
 
 </resources>

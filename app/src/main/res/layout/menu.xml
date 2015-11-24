@@ -22,10 +22,357 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" android:id="@+id/base_frame"
                     >
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#f1f1f1"
+                        android:id="@+id/garbageLayout">
+
+                        <!-- *************************-->
+                        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                            xmlns:tools="http://schemas.android.com/tools"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="#f1f1f1"
+                            android:id="@+id/menu1">
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent">
+                                <LinearLayout
+                                    android:orientation="vertical"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent">
+                                    <ScrollView
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:id="@+id/scrollView1" android:fillViewport="false"
+                                        android:layout_weight="12">
+                                        <FrameLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content" android:id="@+id/base_frame1">
+                                            <LinearLayout
+                                                android:orientation="vertical"
+                                                android:layout_width="fill_parent"
+                                                android:layout_height="wrap_content" android:id="@+id/baseLayout1">
+
+
+                                                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                    android:orientation="vertical"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="match_parent"
+                                                    android:clickable="true"
+                                                    android:id="@+id/formDataClick"
+                                                    android:onClick="onClick">
+
+                                                    <FrameLayout
+                                                        android:focusable="false"
+                                                        android:focusableInTouchMode="false"
+                                                        android:layout_width="fill_parent"
+                                                        android:layout_height="wrap_content" android:id="@+id/deliverLayout" android:clickable="false"
+                                                        android:layout_marginBottom="9dp"
+                                                        android:layout_marginTop="18dp">
+                                                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                                            android:textAppearance="?android:attr/textAppearanceLarge" android:text="@string/your_data"
+                                                            android:id="@+id/deliverText" android:layout_gravity="left|center_vertical" android:clickable="false"
+                                                            android:layout_marginLeft="30dp" android:fontFamily="@string/geometric_706_black"
+                                                            android:textSize="18sp"
+                                                            android:textColor="#000000" />
+                                                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:id="@+id/arrowImg1"
+                                                            android:src="@drawable/arrow" android:layout_gravity="center_vertical|right"
+                                                            android:layout_marginRight="35dp"/>
+                                                    </FrameLayout>
+
+                                                </LinearLayout>
+
+                                                <FrameLayout android:layout_width="fill_parent"
+                                                    android:layout_height="fill_parent"
+                                                    android:id="@+id/formDataContainer"
+                                                    android:layout_gravity="bottom"/>
+
+                                                <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                                                    android:id="@+id/lineView1" android:background="@drawable/line"/>
+
+                                                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                    android:orientation="vertical"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="match_parent"
+                                                    android:clickable="true"
+                                                    android:id="@+id/orderClick"
+                                                    android:onClick="onClick">
+
+                                                    <FrameLayout
+                                                        android:layout_width="fill_parent"
+                                                        android:layout_height="wrap_content" android:id="@+id/meals" android:clickable="false"
+                                                        android:layout_marginBottom="9dp"
+                                                        android:layout_marginTop="18dp"
+                                                        android:focusable="false"
+                                                        android:focusableInTouchMode="false">
+                                                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                                            android:textAppearance="?android:attr/textAppearanceLarge" android:text="@string/your_order"
+                                                            android:id="@+id/mealText" android:layout_gravity="left|center_vertical" android:clickable="false"
+                                                            android:layout_marginLeft="30dp" android:fontFamily="@string/geometric_706_black"
+                                                            android:textSize="18sp"
+                                                            android:textColor="#000000" />
+                                                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:id="@+id/arrowImg4"
+                                                            android:src="@drawable/arrow" android:layout_gravity="center_vertical|right"
+                                                            android:layout_marginRight="35dp"/>
+                                                    </FrameLayout>
+
+                                                </LinearLayout>
+
+
+                                                <LinearLayout
+                                                    android:orientation="vertical"
+                                                    android:layout_width="fill_parent"
+                                                    android:layout_height="fill_parent"
+                                                    android:id="@+id/orderDataContainer"
+                                                    android:layout_gravity="bottom"/>
+
+                                                <LinearLayout
+                                                    android:orientation="horizontal"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="wrap_content"
+                                                    android:visibility="visible"
+                                                    android:id="@+id/total">
+                                                    <TextView
+                                                        android:layout_width="wrap_content"
+                                                        android:layout_height="wrap_content"
+                                                        android:textColor="#000000"
+                                                        android:textSize="18sp"
+                                                        android:text="@string/total"
+                                                        android:id="@+id/total_text1"
+                                                        android:paddingTop="10dp"
+                                                        android:paddingBottom="10dp"
+                                                        android:paddingLeft="10dp" />
+                                                    <TextView
+                                                        android:layout_width="wrap_content"
+                                                        android:layout_height="wrap_content"
+                                                        android:text=":"
+                                                        android:textColor="#000000"
+                                                        android:textSize="18sp"
+                                                        android:paddingTop="10dp"
+                                                        android:paddingBottom="10dp" />
+                                                    <TextView
+                                                        android:layout_width="wrap_content"
+                                                        android:layout_height="wrap_content"
+                                                        android:textColor="#000000"
+                                                        android:textSize="16sp"
+                                                        android:text="1250"
+                                                        android:id="@+id/total_text2"
+                                                        android:padding="10dp" />
+
+                                                </LinearLayout>
+
+                                                <LinearLayout
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="match_parent"
+                                                    android:orientation="vertical">
+
+                                                    <LinearLayout
+                                                        android:orientation="horizontal"
+                                                        android:layout_width="match_parent"
+                                                        android:layout_height="wrap_content">
+
+                                                        <ImageView
+                                                            android:layout_width="wrap_content"
+                                                            android:layout_height="50dp"
+                                                            android:id="@+id/seb_btn"
+                                                            android:src="@drawable/seb"
+                                                            android:background="@drawable/border"
+                                                            android:onClick="onClick"
+                                                            android:clickable="true"
+                                                            android:layout_gravity="center"
+                                                            android:layout_weight="1"
+                                                            android:padding="10dp"
+                                                            android:layout_margin="5dp" />
+
+                                                        <ImageView
+                                                            android:layout_width="wrap_content"
+                                                            android:layout_height="50dp"
+                                                            android:id="@+id/swed_btn"
+                                                            android:src="@drawable/swedbank"
+                                                            android:background="@drawable/border"
+                                                            android:onClick="onClick"
+                                                            android:clickable="true"
+                                                            android:layout_gravity="center"
+                                                            android:layout_weight="1"
+                                                            android:padding="10dp"
+                                                            android:layout_margin="5dp" />
+                                                        <ImageView
+                                                            android:layout_width="wrap_content"
+                                                            android:layout_height="50dp"
+                                                            android:id="@+id/lhv_btn"
+                                                            android:src="@drawable/lhv"
+                                                            android:background="@drawable/border"
+                                                            android:onClick="onClick"
+                                                            android:clickable="true"
+                                                            android:layout_gravity="center"
+                                                            android:layout_weight="1"
+                                                            android:padding="10dp"
+                                                            android:layout_margin="5dp" />
+                                                    </LinearLayout>
+
+                                                    <LinearLayout
+                                                        android:orientation="horizontal"
+                                                        android:layout_width="match_parent"
+                                                        android:layout_height="wrap_content"
+                                                        android:gravity="center"
+                                                        android:layout_marginBottom="10dp">
+
+                                                        <ImageView
+                                                            android:layout_width="wrap_content"
+                                                            android:layout_height="50dp"
+                                                            android:id="@+id/nordea_btn"
+
+                                                            android:src="@drawable/nordea"
+                                                            android:background="@drawable/border"
+                                                            android:onClick="onClick"
+                                                            android:clickable="true"
+                                                            android:layout_gravity="center"
+                                                            android:layout_weight="1"
+                                                            android:padding="10dp"
+                                                            android:layout_margin="5dp" />
+
+                                                        <ImageView
+                                                            android:layout_width="wrap_content"
+                                                            android:layout_height="50dp"
+                                                            android:id="@+id/danske_btn"
+
+                                                            android:src="@drawable/danske"
+                                                            android:background="@drawable/border"
+                                                            android:onClick="onClick"
+                                                            android:clickable="true"
+                                                            android:layout_gravity="center"
+                                                            android:layout_weight="1"
+                                                            android:padding="10dp"
+                                                            android:layout_margin="5dp" />
+
+                                                        <ImageView
+                                                            android:layout_width="wrap_content"
+                                                            android:layout_height="50dp"
+                                                            android:id="@+id/kredit_btn"
+
+                                                            android:src="@drawable/krediidipank"
+                                                            android:background="@drawable/border"
+                                                            android:onClick="onClick"
+                                                            android:clickable="true"
+                                                            android:layout_gravity="center"
+                                                            android:layout_weight="1"
+                                                            android:padding="10dp"
+                                                            android:layout_margin="5dp" />
+                                                    </LinearLayout>
+
+
+                                                </LinearLayout>
+
+                                                <TextView
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:text="@string/pay"
+                                                    android:id="@+id/textView25"
+                                                    android:layout_gravity="center_horizontal"
+                                                    android:textColor="#000000"
+                                                    android:textSize="18sp"
+                                                    android:padding="10dp"
+                                                    android:background="@drawable/border" />
+
+                                                <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                                                    android:id="@+id/lineView2" android:background="@drawable/line"/>
+
+                                                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                    android:orientation="vertical"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="match_parent"
+                                                    android:clickable="true"
+                                                    android:id="@+id/linearLayout2"
+                                                    android:onClick="onClick" >
+
+                                                    <FrameLayout
+                                                        android:layout_width="fill_parent"
+                                                        android:layout_height="wrap_content"
+                                                        android:id="@+id/frameLayout"
+                                                        android:clickable="false"
+                                                        android:layout_marginBottom="9dp"
+                                                        android:layout_marginTop="18dp"
+                                                        android:focusable="false"
+                                                        android:focusableInTouchMode="false" >
+
+                                                        <TextView
+                                                            android:layout_width="wrap_content"
+                                                            android:layout_height="wrap_content"
+                                                            android:textAppearance="?android:attr/textAppearanceLarge"
+                                                            android:text="@string/personal_cabinet"
+                                                            android:id="@+id/textView23"
+                                                            android:layout_gravity="left|center_vertical"
+                                                            android:clickable="false"
+                                                            android:layout_marginLeft="30dp"
+                                                            android:fontFamily="@string/geometric_706_black"
+                                                            android:textSize="18sp"
+                                                            android:textColor="#000000" />
+
+                                                        <ImageView
+                                                            android:layout_width="20dp"
+                                                            android:layout_height="20dp"
+                                                            android:id="@+id/imageView5"
+                                                            android:src="@drawable/arrow"
+                                                            android:layout_gravity="center_vertical|right"
+                                                            android:layout_marginRight="35dp" />
+                                                    </FrameLayout>
+                                                </LinearLayout>
+
+                                            </LinearLayout>
+
+                                        </FrameLayout>
+                                    </ScrollView>
+
+                                    <FrameLayout
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:id="@+id/filterFrame1"
+                                        android:paddingTop="5dp"
+                                        android:paddingBottom="5dp">
+
+                                        <LinearLayout
+                                            android:orientation="vertical"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent">
+
+                                            <ImageView
+                                                android:layout_width="fill_parent"
+                                                android:layout_height="wrap_content"
+                                                android:id="@+id/lineVIew61"
+                                                android:layout_gravity="bottom"
+                                                android:background="@drawable/line" />
+
+                                            <HorizontalScrollView
+                                                android:layout_width="fill_parent"
+                                                android:layout_height="wrap_content"
+                                                android:id="@+id/horizontalScrollView1"
+                                                android:fillViewport="true">
+
+                                                <LinearLayout
+                                                    android:orientation="horizontal"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="match_parent"
+                                                    android:id="@+id/filterLayout1" >
+
+                                                </LinearLayout>
+                                            </HorizontalScrollView>
+                                        </LinearLayout>
+                                    </FrameLayout>
+                                </LinearLayout>
+                            </FrameLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
                     <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content" android:id="@+id/baseLayout">
+                        android:layout_height="wrap_content" android:id="@+id/baseLayout"
+                        android:background="#f1f1f1">
                         <fragment
                             android:name="com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.SearchFragment"
                             android:layout_width="match_parent"
@@ -88,6 +435,7 @@
 
 
                     </LinearLayout>
+
                 </FrameLayout>
             </ScrollView>
 

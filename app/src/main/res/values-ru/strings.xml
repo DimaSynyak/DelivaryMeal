@@ -24,5 +24,7 @@
     <string name="order">ЗАКАЗАТЬ</string>
     <string name="count">шт</string>
     <string name="menu">МЕНЮ</string>
+    <string name="total">Всего</string>
+    <string name="pay">ОПЛАТИТЬ</string>
 
 </resources>

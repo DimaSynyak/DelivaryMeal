@@ -69,4 +69,10 @@
     <string name="your_email">Email</string>
     <string name="your_phone">Телефон</string>
 
+    <string name="total">Всего</string>
+    
+    <string name="personal_cabinet">Личный кабинет</string>
+
+    <string name="pay">ОПЛАТИТЬ</string>
+
 </resources>

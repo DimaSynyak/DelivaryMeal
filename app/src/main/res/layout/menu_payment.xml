@@ -37,9 +37,10 @@
                             android:onClick="onClick">
 
                             <FrameLayout
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content" android:id="@+id/deliverLayout" android:clickable="false"
-                                android:onClick="onClick"
                                 android:layout_marginBottom="9dp"
                                 android:layout_marginTop="18dp">
                                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -52,8 +53,7 @@
                                     android:src="@drawable/arrow" android:layout_gravity="center_vertical|right"
                                     android:layout_marginRight="35dp"/>
                             </FrameLayout>
-                            <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
-                                android:id="@+id/lineView1" android:background="@drawable/line"/>
+
                         </LinearLayout>
 
                         <FrameLayout android:layout_width="fill_parent"
@@ -61,6 +61,8 @@
                             android:id="@+id/formDataContainer"
                             android:layout_gravity="bottom"/>
 
+                        <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                            android:id="@+id/lineView1" android:background="@drawable/line"/>
 
                         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                             android:orientation="vertical"
@@ -73,9 +75,10 @@
                             <FrameLayout
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content" android:id="@+id/meals" android:clickable="false"
-                                android:onClick="onClick"
                                 android:layout_marginBottom="9dp"
-                                android:layout_marginTop="18dp">
+                                android:layout_marginTop="18dp"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false">
                                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                                     android:textAppearance="?android:attr/textAppearanceLarge" android:text="@string/your_order"
                                     android:id="@+id/mealText" android:layout_gravity="left|center_vertical" android:clickable="false"
@@ -86,15 +89,94 @@
                                     android:src="@drawable/arrow" android:layout_gravity="center_vertical|right"
                                     android:layout_marginRight="35dp"/>
                             </FrameLayout>
-                            <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
-                                android:id="@+id/lineView2" android:background="@drawable/line"/>
+
                         </LinearLayout>
 
 
-                        <FrameLayout android:layout_width="fill_parent"
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:id="@+id/orderDataContainer"
                             android:layout_gravity="bottom"/>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="visible"
+                            android:id="@+id/total">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#000000"
+                                android:textSize="18sp"
+                                android:text="@string/total"
+                                android:id="@+id/total_text1"
+                                android:paddingTop="10dp"
+                                android:paddingBottom="10dp"
+                                android:paddingLeft="10dp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=":"
+                                android:textColor="#000000"
+                                android:textSize="18sp"
+                                android:paddingTop="10dp"
+                                android:paddingBottom="10dp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#000000"
+                                android:textSize="16sp"
+                                android:text="1250"
+                                android:id="@+id/total_text2"
+                                android:padding="10dp" />
+
+                        </LinearLayout>
+                        <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                            android:id="@+id/lineView2" android:background="@drawable/line"/>
+
+                        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clickable="true"
+                            android:id="@+id/linearLayout2"
+                            android:onClick="onClick" >
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/frameLayout"
+                                android:clickable="false"
+                                android:layout_marginBottom="9dp"
+                                android:layout_marginTop="18dp"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="?android:attr/textAppearanceLarge"
+                                    android:text="@string/personal_cabinet"
+                                    android:id="@+id/textView23"
+                                    android:layout_gravity="left|center_vertical"
+                                    android:clickable="false"
+                                    android:layout_marginLeft="30dp"
+                                    android:fontFamily="@string/geometric_706_black"
+                                    android:textSize="18sp"
+                                    android:textColor="#000000" />
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:id="@+id/imageView5"
+                                    android:src="@drawable/arrow"
+                                    android:layout_gravity="center_vertical|right"
+                                    android:layout_marginRight="35dp" />
+                            </FrameLayout>
+                        </LinearLayout>
 
                     </LinearLayout>
 
