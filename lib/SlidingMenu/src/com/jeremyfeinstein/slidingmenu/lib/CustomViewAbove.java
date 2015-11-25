@@ -20,7 +20,16 @@ import java.util.List;
 
 public class CustomViewAbove extends ViewGroup {
 
-	public static CustomViewAbove customViewAbove;
+	public CustomViewAbove customViewAbove;
+
+	public CustomViewAbove getCustomViewAbove() {
+		return customViewAbove;
+	}
+
+	public void setCustomViewAbove(CustomViewAbove customViewAbove) {
+		this.customViewAbove = customViewAbove;
+	}
+
 
 	private static final String TAG = "CustomViewAbove";
 	private static final boolean DEBUG = false;

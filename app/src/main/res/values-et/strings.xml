@@ -27,5 +27,6 @@
     <string name="menu">MENÜÜ</string>
     <string name="total">Summaarne</string>
     <string name="pay">MAKSMA</string>
+    <string name="back">TAGASI</string>
 
 </resources>

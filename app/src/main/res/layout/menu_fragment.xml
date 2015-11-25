@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:id="@+id/base_frame">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#f1f1f1"
+            android:id="@+id/garbageLayout">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/scrollView1" android:fillViewport="false"
+                android:layout_weight="12">
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/base_frame1">
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content" android:id="@+id/baseLayout1">
+
+
+                        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clickable="true"
+                            android:id="@+id/linearLayout3"
+                            android:onClick="onClick" >
+
+                            <FrameLayout
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/frameLayout3"
+                                android:clickable="false"
+                                android:layout_marginBottom="9dp"
+                                android:layout_marginTop="18dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="?android:attr/textAppearanceLarge"
+                                    android:text="@string/back"
+                                    android:id="@+id/textView26"
+                                    android:layout_gravity="center_horizontal"
+                                    android:clickable="true"
+                                    android:fontFamily="@string/geometric_706_black"
+                                    android:textSize="18sp"
+                                    android:textColor="#000000" />
+
+                            </FrameLayout>
+                        </LinearLayout>
+
+                        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clickable="true"
+                            android:id="@+id/prersonalCabinet">
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/frameLayout"
+                                android:clickable="false"
+                                android:layout_marginBottom="9dp"
+                                android:layout_marginTop="18dp"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="?android:attr/textAppearanceLarge"
+                                    android:text="@string/personal_cabinet"
+                                    android:id="@+id/personal_cabinet_text"
+                                    android:layout_gravity="left|center_vertical"
+                                    android:clickable="false"
+                                    android:layout_marginLeft="30dp"
+                                    android:fontFamily="@string/geometric_706_black"
+                                    android:textSize="18sp"
+                                    android:textColor="#000000" />
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:id="@+id/imageView5"
+                                    android:src="@drawable/arrow"
+                                    android:layout_gravity="center_vertical|right"
+                                    android:layout_marginRight="35dp" />
+                            </FrameLayout>
+
+
+                        </LinearLayout>
+
+                        <FrameLayout android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:id="@+id/personalDataContainer"
+                            android:layout_gravity="bottom"/>
+
+                        <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                            android:id="@+id/lineView1" android:background="@drawable/line"/>
+
+                        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clickable="true"
+                            android:id="@+id/formDataClick">
+                            <FrameLayout
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content" android:id="@+id/deliverLayout" android:clickable="false"
+                                android:layout_marginBottom="9dp"
+                                android:layout_marginTop="18dp">
+                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                    android:textAppearance="?android:attr/textAppearanceLarge" android:text="@string/your_data"
+                                    android:id="@+id/deliverText" android:layout_gravity="left|center_vertical" android:clickable="false"
+                                    android:layout_marginLeft="30dp" android:fontFamily="@string/geometric_706_black"
+                                    android:textSize="18sp"
+                                    android:textColor="#000000" />
+                                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:id="@+id/arrowImg1"
+                                    android:src="@drawable/arrow" android:layout_gravity="center_vertical|right"
+                                    android:layout_marginRight="35dp"/>
+                            </FrameLayout>
+
+
+                        </LinearLayout>
+
+                        <FrameLayout android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:id="@+id/formDataContainer"
+                            android:layout_gravity="bottom"/>
+
+                        <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                            android:id="@+id/lineView21" android:background="@drawable/line"/>
+
+                        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clickable="true"
+                            android:id="@+id/orderClick">
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content" android:id="@+id/meals" android:clickable="false"
+                                android:layout_marginBottom="9dp"
+                                android:layout_marginTop="18dp"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false">
+                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                    android:textAppearance="?android:attr/textAppearanceLarge" android:text="@string/your_order"
+                                    android:id="@+id/mealText" android:layout_gravity="left|center_vertical" android:clickable="false"
+                                    android:layout_marginLeft="30dp" android:fontFamily="@string/geometric_706_black"
+                                    android:textSize="18sp"
+                                    android:textColor="#000000" />
+                                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:id="@+id/arrowImg4"
+                                    android:src="@drawable/arrow" android:layout_gravity="center_vertical|right"
+                                    android:layout_marginRight="35dp"/>
+                            </FrameLayout>
+
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:id="@+id/orderDataContainer"
+                                android:layout_gravity="bottom"/>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:visibility="visible"
+                                android:id="@+id/total">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#000000"
+                                    android:textSize="18sp"
+                                    android:text="@string/total"
+                                    android:id="@+id/total_text1"
+                                    android:paddingTop="10dp"
+                                    android:paddingBottom="10dp"
+                                    android:paddingLeft="10dp" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text=":"
+                                    android:textColor="#000000"
+                                    android:textSize="18sp"
+                                    android:paddingTop="10dp"
+                                    android:paddingBottom="10dp" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#000000"
+                                    android:textSize="16sp"
+                                    android:text="1250"
+                                    android:id="@+id/total_text2"
+                                    android:padding="10dp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:id="@+id/payment_method">
+
+                                <LinearLayout
+                                    android:orientation="horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="50dp"
+                                        android:id="@+id/seb_btn"
+                                        android:src="@drawable/seb"
+                                        android:clickable="true"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1"
+                                        android:padding="10dp"
+                                        android:layout_margin="5dp" />
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="50dp"
+                                        android:id="@+id/swed_btn"
+                                        android:src="@drawable/swedbank"
+                                        android:clickable="true"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1"
+                                        android:padding="10dp"
+                                        android:layout_margin="5dp" />
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="50dp"
+                                        android:id="@+id/lhv_btn"
+                                        android:src="@drawable/lhv"
+                                        android:clickable="true"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1"
+                                        android:padding="10dp"
+                                        android:layout_margin="5dp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:orientation="horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:layout_marginBottom="10dp">
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="50dp"
+                                        android:id="@+id/nordea_btn"
+                                        android:src="@drawable/nordea"
+                                        android:clickable="true"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1"
+                                        android:padding="10dp"
+                                        android:layout_margin="5dp" />
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="50dp"
+                                        android:id="@+id/danske_btn"
+                                        android:src="@drawable/danske"
+                                        android:clickable="true"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1"
+                                        android:padding="10dp"
+                                        android:layout_margin="5dp" />
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="50dp"
+                                        android:id="@+id/kredit_btn"
+                                        android:src="@drawable/krediidipank"
+                                        android:clickable="true"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1"
+                                        android:padding="10dp"
+                                        android:layout_margin="5dp" />
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/pay"
+                                android:id="@+id/textView25"
+                                android:layout_gravity="center_horizontal"
+                                android:textColor="#000000"
+                                android:textSize="18sp"
+                                android:padding="10dp" />
+                            <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                                android:id="@+id/lineView2" android:background="@drawable/line"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </FrameLayout>
+            </ScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:id="@+id/baseLayout"
+            android:background="#f1f1f1"
+            android:visibility="gone">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/scrollView4" >
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <fragment
+                    android:name="com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.SearchFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:id="@+id/searchFrame"
+                    android:layout_gravity="top"
+                    tools:layout="@layout/search_fragment" android:layout_weight="1"/>
+
+                    <FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                        android:id="@+id/countryFrame" android:layout_gravity="bottom"/>
+
+                    <fragment
+                    android:name="com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.CountryButtonFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/countryLayout"
+                    android:layout_gravity="top"
+                    tools:layout="@layout/country_button"/>
+
+                    <FrameLayout android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/cityFrame"
+                        android:layout_gravity="bottom"/>
+
+                    <fragment android:name="com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.CityButtonFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/cityLayout"
+                        android:layout_gravity="bottom"
+                        tools:layout="@layout/city_button"/>
+
+                    <FrameLayout android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/kitchenFrame"
+                        android:layout_gravity="bottom"/>
+
+                    <fragment android:name="com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.KitchenButtonFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/kitchenLayout"
+                        android:layout_gravity="bottom"
+                        tools:layout="@layout/kitchen_button"/>
+
+                    <FrameLayout android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/categoryFrame"
+                        android:layout_gravity="bottom"/>
+
+                    <fragment android:name="com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.CategoryButtonFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/categoryLayout"
+                        android:layout_gravity="bottom"
+                        tools:layout="@layout/category_button"/>
+
+                </LinearLayout>
+            </ScrollView>
+
+            <FrameLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/frameLayout2"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp" >
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/lineVIew61"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/line" />
+
+                    <HorizontalScrollView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/horizontalScrollView1"
+                        android:fillViewport="true" >
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/filterLayout1" />
+                    </HorizontalScrollView>
+                </LinearLayout>
+            </FrameLayout>
+
+
+        </LinearLayout>
+
+    </FrameLayout>
+</LinearLayout>

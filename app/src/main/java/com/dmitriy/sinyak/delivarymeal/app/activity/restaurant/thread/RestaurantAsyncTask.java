@@ -13,6 +13,7 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.main.thread.Count;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments.LoadPageFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.MealBody;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.RestaurantActivity;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.SMCRestaurantActivity;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
 import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove;
@@ -38,7 +39,7 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
     private Count count;
     private AppCompatActivity activity;
     private LoadPageFragment loadPageFragment;
-    private SlidingMenuConfig slidingMenuConfig;
+    private SMCRestaurantActivity slidingMenuConfig;
     private MealBody mealBody;
 
     private Connection connection;
@@ -141,10 +142,9 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
         ft.remove(loadPageFragment);
         ft.commit();
 
-        slidingMenuConfig = new SlidingMenuConfig(activity);
+        slidingMenuConfig = new SMCRestaurantActivity(activity);
         slidingMenuConfig.initSlidingMenu();
         ((RestaurantActivity) activity).setSlidingMenuConfig(slidingMenuConfig);
-        ((RestaurantActivity) activity).setCustomViewAbove(CustomViewAbove.customViewAbove);
 
         mealBody = new MealBody(activity);
         mealBody.init();

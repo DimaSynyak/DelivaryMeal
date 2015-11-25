@@ -1,4 +1,4 @@
-package com.dmitriy.sinyak.delivarymeal.app.activity.payment.thread;
+package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread;
 
 /**
  * Created by 1 on 23.11.2015.

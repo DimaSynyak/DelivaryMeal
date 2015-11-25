@@ -186,6 +186,14 @@ public class SlidingMenu extends RelativeLayout {
 		this(context, attrs, 0);
 	}
 
+	public CustomViewAbove getmViewAbove() {
+		return mViewAbove;
+	}
+
+	public void setmViewAbove(CustomViewAbove mViewAbove) {
+		this.mViewAbove = mViewAbove;
+	}
+
 	/**
 	 * Instantiates a new SlidingMenu.
 	 *
@@ -223,6 +231,8 @@ public class SlidingMenu extends RelativeLayout {
 				}
 			}
 		});
+
+
 
 		// now style everything!
 		TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.SlidingMenu);

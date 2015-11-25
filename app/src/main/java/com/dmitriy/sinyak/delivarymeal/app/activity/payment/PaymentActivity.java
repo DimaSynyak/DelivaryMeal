@@ -3,10 +3,7 @@ package com.dmitriy.sinyak.delivarymeal.app.activity.payment;
 import android.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.IActivity;
@@ -14,17 +11,15 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.RestaurantList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Language;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Languages;
-import com.dmitriy.sinyak.delivarymeal.app.activity.payment.menu.SldMenuCfgPaymentAct;
-import com.dmitriy.sinyak.delivarymeal.app.activity.payment.menu.fragments.FormDataFragment;
-import com.dmitriy.sinyak.delivarymeal.app.activity.payment.thread.DelivaryData;
-import com.dmitriy.sinyak.delivarymeal.app.activity.payment.thread.MainAsyncTask;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.fragments.FormDataFragment;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.DelivaryData;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.MainAsyncTask;
 import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove;
 
 public class PaymentActivity extends AppCompatActivity implements View.OnClickListener, IActivity {
     private Language language;
     private int paymentLanguageContainer;
     public static final int TWENTY_PERCENT = 20;
-    private SldMenuCfgPaymentAct sldMenuCfgPaymentAct;
     private DelivaryData delivaryData;
     private Restaurant restaurant;
     private FormDataFragment formDataFragment;
@@ -45,8 +40,8 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
         language.init(TWENTY_PERCENT);
         /*END INIT LANGUAGE*/
 
-        sldMenuCfgPaymentAct = new SldMenuCfgPaymentAct(this);
-        sldMenuCfgPaymentAct.initSlidingMenu();
+//        sldMenuCfgPaymentAct = new SldMenuCfgPaymentAct(this);
+//        sldMenuCfgPaymentAct.initSlidingMenu();
 
         delivaryData = DelivaryData.getInstance();
         restaurant = RestaurantList.getRestaurant();
@@ -79,8 +74,8 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        if (sldMenuCfgPaymentAct != null)
-            sldMenuCfgPaymentAct.onClickSL(v.getId());
+//        if (sldMenuCfgPaymentAct != null)
+//            sldMenuCfgPaymentAct.onClickSL(v.getId());
 
         switch (v.getId()){
             case R.id.imageView3:{

@@ -1,15 +1,13 @@
-package com.dmitriy.sinyak.delivarymeal.app.activity.payment;
+package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant;
 
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
-import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.tools.Tools;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -22,6 +20,7 @@ public class Garbage {
     private TextView garbageNum;
     private Set<String> listID;
     private int totalCost;
+    private TextView totalCostStr;
 
     public Garbage() {
         listID = new HashSet<>();
@@ -36,10 +35,12 @@ public class Garbage {
 
     public void update(){
         garbageNum = (TextView) activity.findViewById(R.id.garbageNum);
+        totalCostStr = (TextView) activity.findViewById(R.id.total_text2);
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 garbageNum.setText(String.valueOf(total));
+                totalCostStr.setText(getTotalCostStr());
             }
         });
     }

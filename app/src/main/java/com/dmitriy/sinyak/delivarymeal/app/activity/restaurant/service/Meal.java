@@ -3,13 +3,9 @@ package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service;
 import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
-import com.dmitriy.sinyak.delivarymeal.app.activity.payment.Garbage;
-import com.dmitriy.sinyak.delivarymeal.app.activity.payment.menu.fragments.OrderFragment;
-
-import org.jsoup.Connection;
-
-import java.util.Comparator;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.Garbage;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.body.RestaurantMealFragment;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.fragments.OrderFragment;
 
 /**
  * Created by 1 on 06.11.2015.
@@ -23,7 +19,7 @@ public class Meal {
     private String composition;
     private Bitmap img;
     private String imgURL;
-    private Fragment fragment;
+    private RestaurantMealFragment fragment;
     private int countMeal;
     private Garbage garbage;
     private OrderFragment orderFragment;
@@ -43,11 +39,11 @@ public class Meal {
         this.orderFragment = orderFragment;
     }
 
-    public Fragment getFragment() {
+    public RestaurantMealFragment getFragment() {
         return fragment;
     }
 
-    public void setFragment(Fragment fragment) {
+    public void setFragment(RestaurantMealFragment fragment) {
         this.fragment = fragment;
     }
 
@@ -147,5 +143,7 @@ public class Meal {
         else
             return false;
     }
+
+
 
 }

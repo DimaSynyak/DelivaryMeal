@@ -1,4 +1,4 @@
-package com.dmitriy.sinyak.delivarymeal.app.activity.payment.thread;
+package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
-import com.dmitriy.sinyak.delivarymeal.app.activity.payment.Garbage;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.Garbage;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
 
@@ -161,6 +161,6 @@ public class MainAsyncTask extends AsyncTask<String, String, String>{
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         activity.startActivity(intent);
         Restaurant.setConnection("http://menu24.ee/");
-        activity.finish();
+//        activity.finish();
     }
 }

@@ -1,11 +1,10 @@
-package com.dmitriy.sinyak.delivarymeal.app.activity.payment.menu.fragments;
+package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.fragments;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
@@ -15,10 +14,7 @@ import android.widget.RadioButton;
 import android.widget.TimePicker;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
-import com.dmitriy.sinyak.delivarymeal.app.activity.payment.thread.DelivaryData;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.DelivaryData;
 
 /**
  * Created by 1 on 20.11.2015.

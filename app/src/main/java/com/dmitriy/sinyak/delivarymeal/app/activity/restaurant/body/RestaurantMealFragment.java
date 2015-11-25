@@ -2,8 +2,8 @@ package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.body;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
-import com.dmitriy.sinyak.delivarymeal.app.activity.payment.Garbage;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.Garbage;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.fragments.MenuFragment;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.fragments.OrderFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
 
 /**
@@ -31,6 +32,10 @@ public class RestaurantMealFragment extends Fragment {
     private Garbage garbage;
     private TextView countMeal;
     private static DisplayMetrics metrics;
+
+    private MenuFragment menuFragment;
+    private OrderFragment orderFragment;
+    private FragmentTransaction ft;
 
     private boolean firstFlag;
 
@@ -94,6 +99,27 @@ public class RestaurantMealFragment extends Fragment {
                 meal.add();
                 countMeal.setText(String.valueOf(meal.getCountMeal()));
                 garbage.update();
+
+                if (menuFragment == null){
+                    menuFragment = (MenuFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.menu_fragment_id);
+                }
+
+                if (menuFragment != null){
+                    if (menuFragment.isAdded()) {
+                        if (menuFragment.isOrderDataClickFlag()) {
+                            if (meal.getCountMeal() > 1) {
+                                orderFragment = meal.getOrderFragment();
+                                TextView countMeal = (TextView) orderFragment.getView().findViewById(R.id.countMeal);
+                                countMeal.setText(String.valueOf(meal.getCountMeal()));
+                            } else {
+                                ft = getActivity().getSupportFragmentManager().beginTransaction();
+                                ft.add(R.id.orderDataContainer, new OrderFragment(meal));
+                                ft.commit();
+                            }
+                        }
+
+                    }
+                }
             }
         });
 
@@ -107,6 +133,10 @@ public class RestaurantMealFragment extends Fragment {
             firstFlag = true;
             return;
         }
+        countMeal.setText(String.valueOf(meal.getCountMeal()));
+    }
+
+    public void update(){
         countMeal.setText(String.valueOf(meal.getCountMeal()));
     }
 }

@@ -1,4 +1,4 @@
-package com.dmitriy.sinyak.delivarymeal.app.activity.main.menu;
+package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -10,7 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.MainActivity;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.Country;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.CategoryFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.CityFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.CountryFragment;
@@ -21,6 +21,7 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.category
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.category.EuropeanButtonFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.category.PizzaButtonFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.category.SushiButtonFragment;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.RestaurantActivity;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ import java.util.List;
 /**
  * Created by 1 on 30.10.2015.
  */
-public class SlidingMenuConfig {
+public class SMCRestaurantActivity {
 
     private FragmentActivity activity;
 
@@ -60,7 +61,7 @@ public class SlidingMenuConfig {
     private EuropeanButtonFragment europeanButtonFragment;
     private CaucasianButtonFragment caucasianButtonFragment;
 
-    public SlidingMenuConfig(FragmentActivity activity) {
+    public SMCRestaurantActivity(FragmentActivity activity) {
         this.activity = activity;
     }
 
@@ -100,7 +101,7 @@ public class SlidingMenuConfig {
 
 
         SlidingMenu menu = new SlidingMenu(activity);
-        ((MainActivity) activity).setCustomViewAbove(menu.getmViewAbove());
+        ((RestaurantActivity) activity).setCustomViewAbove(menu.getmViewAbove());
         menu.setMode(SlidingMenu.LEFT);
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
         menu.setShadowWidthRes(R.dimen.shadow_width);
@@ -108,9 +109,9 @@ public class SlidingMenuConfig {
         menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
         menu.setFadeDegree(0.35f);
         menu.attachToActivity(activity, SlidingMenu.SLIDING_CONTENT);
-        menu.setMenu(R.layout.menu_main);
+        menu.setMenu(R.layout.menu);
 
-        initFragment();
+//        initFragment();
     }
 
     private void initFragment(){

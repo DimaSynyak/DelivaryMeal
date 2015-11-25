@@ -1,7 +1,6 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant;
 
 import android.app.ActionBar;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,27 +12,23 @@ import android.view.View;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.IActivity;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.SlidingMenuConfig;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.RestaurantList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Language;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Languages;
-import com.dmitriy.sinyak.delivarymeal.app.activity.payment.Garbage;
-import com.dmitriy.sinyak.delivarymeal.app.activity.payment.PaymentActivity;
-import com.dmitriy.sinyak.delivarymeal.app.activity.payment.menu.SldMenuCfgPaymentAct;
-import com.dmitriy.sinyak.delivarymeal.app.activity.payment.menu.fragments.FormDataFragment;
-import com.dmitriy.sinyak.delivarymeal.app.activity.payment.thread.DelivaryData;
-import com.dmitriy.sinyak.delivarymeal.app.activity.payment.thread.MainAsyncTask;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.fragments.FormDataFragment;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.DelivaryData;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.MainAsyncTask;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantHeadFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantMiniHeadFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantMiniMenuFragment;
-import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.fragments.MenuFragment;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.SMCRestaurantActivity;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.ChangeLanguageAsyncTask;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.RestaurantAsyncTask;
@@ -41,13 +36,12 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.tools.Tools;
 import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove;
 
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by 1 on 02.11.2015.
  */
 public class RestaurantActivity extends AppCompatActivity implements View.OnClickListener, IActivity {
-    private SlidingMenuConfig slidingMenuConfig;
+    private SMCRestaurantActivity slidingMenuConfig;
     private Language language;
     private CustomViewAbove customViewAbove;
     private RestaurantHeadFragment restaurantHeadFragment;
@@ -71,9 +65,6 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
     private Garbage garbage;
     private boolean garbageFlag;
 
-    private LinearLayout baseLayout;
-    private LinearLayout garbageLayout;
-
     private int paymentLanguageContainer;
     public static final int TWENTY_PERCENT = 20;
     private DelivaryData delivaryData;
@@ -82,6 +73,9 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
 
     private boolean firstFlag = true;
     private boolean onResumeFlag;
+
+    private MenuFragment menuFragment;
+
 
     private FragmentTransaction ft;
 
@@ -133,10 +127,7 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         delivaryData = DelivaryData.getInstance();
         restaurant = RestaurantList.getRestaurant();
 
-        baseLayout = (LinearLayout) findViewById(R.id.baseLayout);
-//        baseLayout.setVisibility(LinearLayout.VISIBLE);
-        garbageLayout = (LinearLayout) findViewById(R.id.garbageLayout);
-//        garbageLayout.setVisibility(LinearLayout.GONE);
+
     }
 
     @Override
@@ -184,93 +175,16 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
                 if (garbage.getTotal() == 0)
                     return;
 
-//                Intent intent = new Intent(this, PaymentActivity.class);
-//                startActivity(intent);
+
+                if (menuFragment == null){
+                    menuFragment = (MenuFragment) getSupportFragmentManager().findFragmentById(R.id.menu_fragment_id);
+                }
 
                 garbageFlag = true;
                 customViewAbove.setCurrentItem(0);
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            TimeUnit.MILLISECONDS.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        baseLayout.setVisibility(LinearLayout.INVISIBLE);
-                        garbageLayout.setVisibility(LinearLayout.VISIBLE);
-                    }
-                });
+                menuFragment.setGarbageFragment();
 
-
-
-                break;
-            }
-            case R.id.seb_btn:{
-                updateDelivaryData();
-                if (delivaryData.checkData()){
-                    delivaryData.setNameBank("seb");
-                    new MainAsyncTask(this).execute(restaurant.getMenuLink());
-                }
-                else {
-                    customViewAbove.setCurrentItem(0);
-                }
-                break;
-            }
-            case R.id.danske_btn:{
-                updateDelivaryData();
-                if (delivaryData.checkData()){
-                    delivaryData.setNameBank("danske");
-                    new MainAsyncTask(this).execute(restaurant.getMenuLink());
-                }
-                else {
-                    customViewAbove.setCurrentItem(0);
-                }
-                break;
-            }
-            case R.id.kredit_btn:{
-                updateDelivaryData();
-                if (delivaryData.checkData()){
-                    delivaryData.setNameBank("krediidipank");
-                    new MainAsyncTask(this).execute(restaurant.getMenuLink());
-                }
-                else {
-                    customViewAbove.setCurrentItem(0);
-                }
-                break;
-            }
-            case R.id.lhv_btn:{
-                updateDelivaryData();
-                if (delivaryData.checkData()){
-                    delivaryData.setNameBank("lhv");
-                    new MainAsyncTask(this).execute(restaurant.getMenuLink());
-                }
-                else {
-                    customViewAbove.setCurrentItem(0);
-                }
-                break;
-            }
-            case R.id.nordea_btn:{
-                updateDelivaryData();
-                if (delivaryData.checkData()){
-                    delivaryData.setNameBank("nordea");
-                    new MainAsyncTask(this).execute(restaurant.getMenuLink());
-                }
-                else {
-                    customViewAbove.setCurrentItem(0);
-                }
-                break;
-            }
-            case R.id.swed_btn:{
-                updateDelivaryData();
-                if (delivaryData.checkData()){
-                    delivaryData.setNameBank("swedbank");
-                    new MainAsyncTask(this).execute(restaurant.getMenuLink());
-                }
-                else {
-                    customViewAbove.setCurrentItem(0);
-                }
                 break;
             }
         }
@@ -436,31 +350,16 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
     }
 
-    public SlidingMenuConfig getSlidingMenuConfig() {
+    public SMCRestaurantActivity getSlidingMenuConfig() {
         return slidingMenuConfig;
     }
 
-    public void setSlidingMenuConfig(SlidingMenuConfig slidingMenuConfig) {
+    public void setSlidingMenuConfig(SMCRestaurantActivity slidingMenuConfig) {
         this.slidingMenuConfig = slidingMenuConfig;
     }
 
 
-    private void updateDelivaryData(){
-        formDataFragment = FormDataFragment.getInstance();
 
-        if (!formDataFragment.isAdded())
-            return;
-
-        delivaryData.setYourName(String.valueOf(formDataFragment.getYourName().getText()));
-        delivaryData.setDelivaryCity(String.valueOf(formDataFragment.getYourCity().getText()));
-        delivaryData.setNumStreet(String.valueOf(formDataFragment.getYourStreet().getText()));
-        delivaryData.setNumHouse(String.valueOf(formDataFragment.getYourHouse().getText()));
-        delivaryData.setNumFlat(String.valueOf(formDataFragment.getYourFlat().getText()));
-        delivaryData.setEmail(String.valueOf(formDataFragment.getYourEmail().getText()));
-        delivaryData.setNumPhone(String.valueOf(formDataFragment.getYourPhone().getText()));
-
-        delivaryData.setDelivaryData(formDataFragment.updateDate());
-    }
 
     @Override
     protected void onResume() {
@@ -471,5 +370,13 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
             return;
         }
         garbageNum.setText(String.valueOf(garbage.getTotal()));
+    }
+
+    public boolean isGarbageFlag() {
+        return garbageFlag;
+    }
+
+    public void setGarbageFlag(boolean garbageFlag) {
+        this.garbageFlag = garbageFlag;
     }
 }

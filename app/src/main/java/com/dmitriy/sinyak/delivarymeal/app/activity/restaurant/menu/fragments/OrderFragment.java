@@ -1,4 +1,4 @@
-package com.dmitriy.sinyak.delivarymeal.app.activity.payment.menu.fragments;
+package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.fragments;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -8,16 +8,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
-import com.dmitriy.sinyak.delivarymeal.app.activity.payment.Garbage;
-import com.dmitriy.sinyak.delivarymeal.app.activity.payment.thread.DelivaryData;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.Garbage;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.body.RestaurantMealFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
 
 /**
@@ -91,6 +87,8 @@ public class OrderFragment extends Fragment {
                 }
 
                 total.setText(garbage.getTotalCostStr());
+                meal.getFragment().update();//Update count meal on meal_fragment
+                garbage.update();
             }
         });
 
