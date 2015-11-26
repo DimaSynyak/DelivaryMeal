@@ -27,5 +27,19 @@
     <string name="total">Всего</string>
     <string name="pay">ОПЛАТИТЬ</string>
     <string name="back">НАЗАД</string>
+    <string name="with_delivery">С ДОСТАВКОЙ</string>
+    <string name="without_delivery">САМОВЫВОЗ</string>
+    <string name="choose_city">Выберите город</string>
+    <string name="enter_name">Введите имя</string>
+    <string name="address">Улица</string>
+    <string name="num_house">Дом</string>
+    <string name="num_flat">Квартира/офис</string>
+    <string name="your_email">Email</string>
+    <string name="your_phone">Телефон</string>
+    <string name="personal_cabinet">Личный кабинет</string>
+    <string name="your_data">Ваши данные</string>
+    <string name="your_order">Ваш заказ</string>
+    <string name="close">ЗАКРЫТЬ</string>
+    <string name="composition">состав</string>
 
 </resources>

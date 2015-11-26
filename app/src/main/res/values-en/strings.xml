@@ -27,5 +27,19 @@
     <string name="total">Total</string>
     <string name="pay">PAY</string>
     <string name="back">BACK</string>
+    <string name="with_delivery">WITH DELIVERY</string>
+    <string name="without_delivery">WITHOUT DELIVERY</string>
+    <string name="choose_city">Choose city</string>
+    <string name="enter_name">Enter name</string>
+    <string name="address">Street</string>
+    <string name="num_house">Building number</string>
+    <string name="num_flat">Appartment/office</string>
+    <string name="your_email">Email</string>
+    <string name="your_phone">Telephone</string>
+    <string name="personal_cabinet">Personal cabinet</string>
+    <string name="your_data"> Your data</string>
+    <string name="your_order">Your order</string>
+    <string name="close">CLOSE</string>
+    <string name="composition">composition</string>
 
 </resources>

@@ -1,5 +1,6 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.fragments;
 
+import android.app.usage.UsageEvents;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -10,9 +11,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CalendarView;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
@@ -21,6 +27,7 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.Garbage;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.RestaurantActivity;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.ChangeDateListener;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.DelivaryData;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.MainAsyncTask;
 
@@ -36,6 +43,8 @@ public class MenuFragment extends Fragment {
 
     private boolean formDataClickFlag;
     private boolean orderDataClickFlag;
+    private boolean personalCabinetClickFlag;
+
     private FragmentTransaction ft;
     private Garbage garbage;
     private LinearLayout total;
@@ -44,7 +53,6 @@ public class MenuFragment extends Fragment {
     private TextView personal_cabinet_text;
     private TextView deliver_text;
     private TextView meal_text;
-    private FormDataFragment formDataFragment;
 
     private LinearLayout baseLayout;
     private LinearLayout garbageLayout;
@@ -55,6 +63,7 @@ public class MenuFragment extends Fragment {
 
     private TextView pay;
     private TextView back;
+    private TextView dateOrder;
 
     private ImageView seb_btn;
     private ImageView swed_btn;
@@ -63,20 +72,90 @@ public class MenuFragment extends Fragment {
     private ImageView danske_btn;
     private ImageView kredit_btn;
 
+    private LinearLayout formDataFragmentId;
+
+    private TimePicker timePicker;
+    private LinearLayout nonDeliveryBTN;
+    private LinearLayout deliveryBTN;
+
+
+    private RadioButton delivery;
+    private RadioButton nonDelivery;
+
+    private DelivaryData deliveryData;
+    private DatePicker datePicker;
+
+    private LinearLayout street;
+    private LinearLayout numHouse;
+    private LinearLayout numFlat;
+
+    private EditText yourName;
+    private EditText yourCity;
+    private EditText yourStreet;
+    private EditText yourHouse;
+    private EditText yourFlat;
+    private EditText yourEmail;
+    private EditText yourPhone;
+
+    private TextView name;
+    private TextView city;
+    private TextView streetText;
+    private TextView house;
+    private TextView flat;
+    private TextView email;
+    private TextView phone;
+
+    private TextView withDelivery;
+    private TextView withoutDelivery;
+
+    private  int _hour;
+    private int _minute;
+
+    private int year;
+    private int month;
+    private int day;
+
+
     private DelivaryData delivaryData;
 
     public MenuFragment() {
         activity = getActivity();
         restaurantActivity = ((RestaurantActivity) activity);
-        formDataFragment = FormDataFragment.getInstance();
+//        formDataFragment = FormDataFragment.getInstance();
         garbage = Garbage.getInstance();
         delivaryData = DelivaryData.getInstance();
+
+
+    }
+
+    public String updateDate(){
+        int day1 = datePicker.getDayOfMonth();
+        int month1 = datePicker.getMonth();
+        int year1 = datePicker.getYear();
+
+        _hour = timePicker.getCurrentHour();
+        _minute = timePicker.getCurrentMinute();
+
+        return day1 + "." + (month1+1) + "." + year1 + " " + _hour + ":" + _minute;
+    }
+
+    public String updateDate(int year, int month, int dayOfMonth){
+
+        _hour = timePicker.getCurrentHour();
+        _minute = timePicker.getCurrentMinute();
+
+        return dayOfMonth + "." + (month+1) + "." + year + " " + _hour + ":" + _minute;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.menu_fragment, container, false);
+
+
+        formDataFragmentId = (LinearLayout) view.findViewById(R.id.formDataFragmentId);
+        formDataFragmentId.setVisibility(LinearLayout.GONE);
+        formDataFragmentId.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         baseLayout = (LinearLayout) view.findViewById(R.id.baseLayout);
         garbageLayout = (LinearLayout) view.findViewById(R.id.garbageLayout);
@@ -96,6 +175,9 @@ public class MenuFragment extends Fragment {
 
         meal_text = (TextView) view.findViewById(R.id.mealText);
         meal_text.setTypeface(geometric);
+
+        dateOrder = (TextView) view.findViewById(R.id.dateOrder);
+        dateOrder.setTypeface(arimo);
 
         pay = (TextView) view.findViewById(R.id.textView25);
         pay.setTypeface(geometric);
@@ -123,6 +205,114 @@ public class MenuFragment extends Fragment {
         totalText2 = (TextView) view.findViewById(R.id.total_text2);
         totalText2.setTypeface(geometric);
         total.setVisibility(LinearLayout.GONE);
+
+        timePicker = (TimePicker) view.findViewById(R.id.timePicker);
+        timePicker.setIs24HourView(true);
+
+        deliveryBTN = (LinearLayout) view.findViewById(R.id.delivery_btn);
+        nonDeliveryBTN = (LinearLayout) view.findViewById(R.id.non_delivery_btn);
+
+        delivery = (RadioButton) view.findViewById(R.id.delivery);
+        nonDelivery = (RadioButton) view.findViewById(R.id.non_delivery);
+
+        withDelivery = (TextView) view.findViewById(R.id.withDelivery);
+        withDelivery.setTypeface(geometric);
+
+        withoutDelivery = (TextView) view.findViewById(R.id.withoutDelivery);
+        withoutDelivery.setTypeface(geometric);
+
+        street = (LinearLayout) view.findViewById(R.id.street);
+        numHouse = (LinearLayout) view.findViewById(R.id.num_house);
+        numFlat = (LinearLayout) view.findViewById(R.id.num_flat);
+
+        yourName = (EditText) view.findViewById(R.id.yourName);
+        yourName.setTypeface(geometric);
+
+        yourCity = (EditText) view.findViewById(R.id.yourCity);
+        yourCity.setTypeface(geometric);
+
+        yourStreet = (EditText) view.findViewById(R.id.yourStreet);
+        yourStreet.setTypeface(geometric);
+
+        yourHouse = (EditText) view.findViewById(R.id.yourHouseNum);
+        yourHouse.setTypeface(geometric);
+
+        yourFlat = (EditText) view.findViewById(R.id.yourFlatNum);
+        yourFlat.setTypeface(geometric);
+
+        yourEmail = (EditText) view.findViewById(R.id.yourEmail);
+        yourEmail.setTypeface(geometric);
+
+        yourPhone = (EditText) view.findViewById(R.id.yourPhone);
+        yourPhone.setTypeface(geometric);
+
+        datePicker = (DatePicker) view.findViewById(R.id.datePicker);
+        dateOrder.setText(updateDate());
+
+        name = (TextView) view.findViewById(R.id.name);
+        name.setTypeface(arimo);
+
+        city = (TextView) view.findViewById(R.id.city);
+        city.setTypeface(arimo);
+
+        streetText = (TextView) view.findViewById(R.id.streetText);
+        streetText.setTypeface(arimo);
+
+        house = (TextView) view.findViewById(R.id.numHouse);
+        house.setTypeface(arimo);
+
+        flat = (TextView) view.findViewById(R.id.numFlat);
+        flat.setTypeface(arimo);
+
+        email = (TextView) view.findViewById(R.id.email);
+        email.setTypeface(arimo);
+
+        phone = (TextView) view.findViewById(R.id.phone);
+        phone.setTypeface(arimo);
+
+
+        deliveryData = DelivaryData.getInstance();
+
+
+        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+            @Override
+            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+                deliveryData.setDelivaryData(updateDate());
+            }
+        });
+
+        datePicker.getCalendarView().setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+                deliveryData.setDelivaryData(updateDate(year, month, dayOfMonth));
+            }
+        });
+
+        deliveryBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deliveryData.setDelivaryType(true);
+                delivery.setChecked(true);
+                nonDelivery.setChecked(false);
+
+                street.setVisibility(LinearLayout.VISIBLE);
+                numHouse.setVisibility(LinearLayout.VISIBLE);
+                numFlat.setVisibility(LinearLayout.VISIBLE);
+            }
+        });
+
+        nonDeliveryBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deliveryData.setDelivaryType(false);
+                delivery.setChecked(false);
+                nonDelivery.setChecked(true);
+
+                street.setVisibility(LinearLayout.GONE);
+                numHouse.setVisibility(LinearLayout.GONE);
+                numFlat.setVisibility(LinearLayout.GONE);
+            }
+        });
 
         initListeners();
 
@@ -277,6 +467,13 @@ public class MenuFragment extends Fragment {
                 delivaryData.setNameBank("krediidipank");
             }
         });
+
+        delivaryData.setChangeDateListener(new ChangeDateListener() {
+            @Override
+            public void onChange() {
+                dateOrder.setText(delivaryData.getDelivaryData());
+            }
+        });
     }
 
     @Override
@@ -303,19 +500,16 @@ public class MenuFragment extends Fragment {
 
 
     private void addFormDataFragment(){
-        ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.formDataContainer, formDataFragment);
-        ft.commit();
+
+        formDataFragmentId.setVisibility(LinearLayout.VISIBLE);
     }
 
     private void removeFormDataFragment(){
-        ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.remove(formDataFragment);
-        ft.commit();
+
+        formDataFragmentId.setVisibility(LinearLayout.GONE);
     }
 
     private void addOrderFragment(){
-
         ft = getActivity().getSupportFragmentManager().beginTransaction();
 
         for (String id : garbage.getListID()) {
@@ -350,19 +544,110 @@ public class MenuFragment extends Fragment {
 
 
     private void updateDelivaryData(){
-        formDataFragment = FormDataFragment.getInstance();
 
-        if (!formDataFragment.isAdded())
+        if (!this.isAdded())
             return;
 
-        delivaryData.setYourName(String.valueOf(formDataFragment.getYourName().getText()));
-        delivaryData.setDelivaryCity(String.valueOf(formDataFragment.getYourCity().getText()));
-        delivaryData.setNumStreet(String.valueOf(formDataFragment.getYourStreet().getText()));
-        delivaryData.setNumHouse(String.valueOf(formDataFragment.getYourHouse().getText()));
-        delivaryData.setNumFlat(String.valueOf(formDataFragment.getYourFlat().getText()));
-        delivaryData.setEmail(String.valueOf(formDataFragment.getYourEmail().getText()));
-        delivaryData.setNumPhone(String.valueOf(formDataFragment.getYourPhone().getText()));
+        delivaryData.setYourName(String.valueOf(getYourName().getText()));
+        delivaryData.setDelivaryCity(String.valueOf(getYourCity().getText()));
+        delivaryData.setNumStreet(String.valueOf(getYourStreet().getText()));
+        delivaryData.setNumHouse(String.valueOf(getYourHouse().getText()));
+        delivaryData.setNumFlat(String.valueOf(getYourFlat().getText()));
+        delivaryData.setEmail(String.valueOf(getYourEmail().getText()));
+        delivaryData.setNumPhone(String.valueOf(getYourPhone().getText()));
 
-        delivaryData.setDelivaryData(formDataFragment.updateDate());
+        delivaryData.setDelivaryData(updateDate());
+    }
+
+    public boolean isFormDataClickFlag() {
+        return formDataClickFlag;
+    }
+
+    public void setFormDataClickFlag(boolean formDataClickFlag) {
+        this.formDataClickFlag = formDataClickFlag;
+    }
+
+    public boolean isPersonalCabinetClickFlag() {
+        return personalCabinetClickFlag;
+    }
+
+    public void setPersonalCabinetClickFlag(boolean personalCabinetClickFlag) {
+        this.personalCabinetClickFlag = personalCabinetClickFlag;
+    }
+
+    public LinearLayout getOrderClick() {
+        return orderClick;
+    }
+
+    public LinearLayout getFormDataClick() {
+        return formDataClick;
+    }
+
+    public TimePicker getTimePicker() {
+        return timePicker;
+    }
+
+    public LinearLayout getNonDeliveryBTN() {
+        return nonDeliveryBTN;
+    }
+
+    public LinearLayout getDeliveryBTN() {
+        return deliveryBTN;
+    }
+
+    public RadioButton getDelivery() {
+        return delivery;
+    }
+
+    public RadioButton getNonDelivery() {
+        return nonDelivery;
+    }
+
+    public DelivaryData getDeliveryData() {
+        return deliveryData;
+    }
+
+    public LinearLayout getStreet() {
+        return street;
+    }
+
+    public LinearLayout getNumHouse() {
+        return numHouse;
+    }
+
+    public LinearLayout getNumFlat() {
+        return numFlat;
+    }
+
+    public DatePicker getDatePicker() {
+        return datePicker;
+    }
+
+    public EditText getYourName() {
+        return yourName;
+    }
+
+    public EditText getYourCity() {
+        return yourCity;
+    }
+
+    public EditText getYourStreet() {
+        return yourStreet;
+    }
+
+    public EditText getYourHouse() {
+        return yourHouse;
+    }
+
+    public EditText getYourFlat() {
+        return yourFlat;
+    }
+
+    public EditText getYourEmail() {
+        return yourEmail;
+    }
+
+    public EditText getYourPhone() {
+        return yourPhone;
     }
 }

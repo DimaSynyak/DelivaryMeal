@@ -28,5 +28,19 @@
     <string name="total">Summaarne</string>
     <string name="pay">MAKSMA</string>
     <string name="back">TAGASI</string>
+    <string name="with_delivery">KOHALETOIMETAMISEGA</string>
+    <string name="without_delivery">TULEN ISE JÄRGI</string>
+    <string name="choose_city">Sisestage linn</string>
+    <string name="enter_name">Sisestage oma nimi</string>
+    <string name="address">Tänav</string>
+    <string name="num_house">Maja number</string>
+    <string name="num_flat">Korter/Kontor</string>
+    <string name="your_email">Email</string>
+    <string name="your_phone">Telefon</string>
+    <string name="personal_cabinet">Isiklik kabinet</string>
+    <string name="your_data">Sinu andmed</string>
+    <string name="your_order">Tellimus</string>
+    <string name="close">LÄHEDAL</string>
+    <string name="composition">struktuur</string>
 
 </resources>

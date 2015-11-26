@@ -16,6 +16,8 @@ public class DelivaryData {
     private String delivaryData;
     private String nameBank;
 
+    private ChangeDateListener changeDateListener;
+
     private static DelivaryData delivaryDataObj;
 
     public static DelivaryData getInstance(){
@@ -129,6 +131,10 @@ public class DelivaryData {
 
     public void setDelivaryData(String delivaryData) {
         this.delivaryData = delivaryData;
+        if (changeDateListener == null)
+            return;
+
+        changeDateListener.onChange();
     }
 
     public String getNameBank() {
@@ -137,5 +143,9 @@ public class DelivaryData {
 
     public void setNameBank(String nameBank) {
         this.nameBank = nameBank;
+    }
+
+    public void setChangeDateListener(ChangeDateListener changeDateListener){
+        this.changeDateListener = changeDateListener;
     }
 }

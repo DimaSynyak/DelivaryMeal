@@ -13,18 +13,24 @@
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
+
             <ScrollView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/scrollView" android:fillViewport="false"
                 android:layout_weight="12">
 
-                <fragment
-                    android:name="com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.fragments.MenuFragment"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:layout="@layout/menu_fragment"
-                    android:id="@+id/menu_fragment_id"/>
+                    android:layout_height="match_parent">
+
+                    <fragment
+                        android:name="com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.fragments.MenuFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:layout="@layout/menu_fragment"
+                        android:id="@+id/menu_fragment_id"/>
+                </FrameLayout>
             </ScrollView>
 
             <fragment tools:layout="@layout/menu_signature"

@@ -19,7 +19,7 @@ public class Garbage {
     private int total;
     private TextView garbageNum;
     private Set<String> listID;
-    private int totalCost;
+    private float totalCost;
     private TextView totalCostStr;
 
     public Garbage() {
@@ -91,19 +91,19 @@ public class Garbage {
         this.listID = listID;
     }
 
-    public int getTotalCost() {
+    public float getTotalCost() {
         return totalCost;
     }
 
     public String getTotalCostStr(){
         StringBuilder str = new StringBuilder();
-        str.append(totalCost);
-        str.append(" ˆ");
+        str.append(String.format("%.02f", totalCost));
+        str.append(" â‚¬");
 
         return str.toString();
     }
 
-    public void setTotalCost(int totalCost) {
+    public void setTotalCost(float totalCost) {
         this.totalCost = totalCost;
     }
 }

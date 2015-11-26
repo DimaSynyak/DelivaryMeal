@@ -14,8 +14,8 @@
         android:src="@drawable/cross1" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="95dp"
+        android:layout_height="35dp"
         android:text="Название еды"
         android:id="@+id/nameMeal"
         android:textColor="#000000"

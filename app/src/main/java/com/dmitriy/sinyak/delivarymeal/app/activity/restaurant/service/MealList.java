@@ -39,4 +39,9 @@ public class MealList {
         getMeals().remove(meal);
     }
 
+    public static void clear(){
+        if (meals == null)
+            return;
+        meals.clear();
+    }
 }

@@ -112,6 +112,7 @@ public class RestaurantFragment extends Fragment {
             public void onClick(View v) {
                 RestaurantList.setPositionRestaurant(restaurant.getId());
                 Intent intent = new Intent(activity, RestaurantActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 intent.putExtra("language", String.valueOf(this));
                 intent.putExtra("restaurant", RestaurantList.getRestaurants().indexOf(restaurant));
                 startActivity(intent);

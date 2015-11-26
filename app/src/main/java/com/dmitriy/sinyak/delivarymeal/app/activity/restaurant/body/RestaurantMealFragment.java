@@ -1,9 +1,11 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.body;
 
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,7 +76,7 @@ public class RestaurantMealFragment extends Fragment {
 
         composition = (TextView) view.findViewById(R.id.restaurantProfile);
         composition.setTypeface(arimo);
-        composition.setText(meal.getComposition());
+//        composition.setText(meal.getComposition());
 
 
         costMeal = (TextView) view.findViewById(R.id.costMeal);
@@ -123,6 +125,24 @@ public class RestaurantMealFragment extends Fragment {
             }
         });
 
+
+        composition.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(RestaurantMealFragment.this.getActivity());
+                builder.setTitle(meal.getName())
+                        .setMessage(meal.getComposition())
+                        .setCancelable(false)
+                        .setNegativeButton(getActivity().getResources().getString(R.string.close),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+        });
         return view;
     }
 

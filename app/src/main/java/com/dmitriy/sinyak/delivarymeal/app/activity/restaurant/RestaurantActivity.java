@@ -21,9 +21,7 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.RestaurantList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Language;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Languages;
-import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.fragments.FormDataFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.DelivaryData;
-import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.MainAsyncTask;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantHeadFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantMiniHeadFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantMiniMenuFragment;
@@ -68,7 +66,6 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
     private int paymentLanguageContainer;
     public static final int TWENTY_PERCENT = 20;
     private DelivaryData delivaryData;
-    private FormDataFragment formDataFragment;
 
 
     private boolean firstFlag = true;
@@ -314,6 +311,18 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
             }
         }
 
+        if (menuFragment != null && menuFragment.isOrderDataClickFlag()){
+            menuFragment.getOrderClick().callOnClick();
+        }
+        if (menuFragment != null && menuFragment.isFormDataClickFlag()){
+            menuFragment.getFormDataClick().callOnClick();
+        }
+        if (menuFragment != null && menuFragment.isPersonalCabinetClickFlag()){
+            // TODO: 26.11.2015
+        }
+
+
+
         Fragment iconFragment = (Fragment) getSupportFragmentManager().findFragmentById(R.id.languagesFrame);
         changeLocale = new ChangeLanguageAsyncTask(this);
         Locale myLocale = null;
@@ -341,13 +350,40 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
                 changeLocale.execute(language.getURL());
                 break;
             }
-            default: return;
+            default:
+                return;
         }
 
         Locale.setDefault(myLocale);
         android.content.res.Configuration config = new android.content.res.Configuration();
         config.locale = myLocale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
+
+        updateUI();
+    }
+
+    private void updateUI(){
+
+        TextView textView26 = (TextView) findViewById(R.id.textView26);
+        textView26.setText(R.string.back);
+
+        TextView pay = (TextView) findViewById(R.id.textView25);
+        pay.setText(R.string.pay);
+
+        TextView personal_cabinet = (TextView) findViewById(R.id.personal_cabinet_text);
+        personal_cabinet.setText(R.string.personal_cabinet);
+
+        TextView yourData = (TextView) findViewById(R.id.deliverText);
+        yourData.setText(R.string.your_data);
+
+        TextView yourOrder = (TextView) findViewById(R.id.mealText);
+        yourOrder.setText(R.string.your_order);
+
+        TextView total = (TextView) findViewById(R.id.total_text1);
+        total.setText(R.string.total);
+
+
     }
 
     public SMCRestaurantActivity getSlidingMenuConfig() {

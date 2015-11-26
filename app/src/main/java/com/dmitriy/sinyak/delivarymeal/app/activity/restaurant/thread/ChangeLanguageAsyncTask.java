@@ -14,6 +14,7 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.RestaurantList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.thread.Count;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments.LoadPageFragment;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.Garbage;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.MealBody;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.RestaurantActivity;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
@@ -28,6 +29,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -47,6 +49,8 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
 
     private Connection connection;
     private Connection.Response response;
+    private List<Meal> meals_copy;
+    private Garbage garbage;
 
 
     public ChangeLanguageAsyncTask(AppCompatActivity activity) {
@@ -60,12 +64,15 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
         connection = Restaurant.getConnection();
 
         List<Meal> meals = MealList.getMeals();
+        meals_copy = new ArrayList<>(meals);
+
         if (meals != null && meals.size() > 0) {
             ft =  activity.getSupportFragmentManager().beginTransaction();
             for (Meal meal : MealList.getMeals()) {
                 ft.remove(meal.getFragment());
             }
             ft.commit();
+
 
             meals.clear();
         }
@@ -82,6 +89,7 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... params) {
+        garbage = Garbage.getInstance();
         Document doc = null;
         Elements elements = null;
 
@@ -176,6 +184,14 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
                     URL imgURL = new URL(meal.getImgURL());
                     meal.setImg(BitmapFactory.decodeStream(imgURL.openConnection().getInputStream()));
                     MealList.addMeal(meal);
+                }
+
+                for (String id : garbage.getListID()) {
+                    for (Meal meal : meals_copy) {
+                        if (meal.getId().equals(id)) {
+                            MealList.getMeal(id).setCountMeal(meal.getCountMeal());
+                        }
+                    }
                 }
 
                 count.complete();
