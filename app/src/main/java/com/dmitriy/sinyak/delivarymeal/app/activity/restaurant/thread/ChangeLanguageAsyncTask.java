@@ -2,26 +2,21 @@ package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread;
 
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
-import com.dmitriy.sinyak.delivarymeal.app.activity.IActivity;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.MainActivity;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.RestaurantList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.thread.Count;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments.LoadPageFragment;
-import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.Garbage;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Garbage;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.MealBody;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.RestaurantActivity;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
 
 import org.jsoup.Connection;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;

@@ -6,7 +6,8 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
-import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.Garbage;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Garbage;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.DelivaryData;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
 

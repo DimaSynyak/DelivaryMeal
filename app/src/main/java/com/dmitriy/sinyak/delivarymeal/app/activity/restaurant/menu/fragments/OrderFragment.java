@@ -12,8 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
-import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.Garbage;
-import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.body.RestaurantMealFragment;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Garbage;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
 
 /**

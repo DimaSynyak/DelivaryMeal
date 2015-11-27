@@ -41,5 +41,16 @@
     <string name="your_order">Ваш заказ</string>
     <string name="close">ЗАКРЫТЬ</string>
     <string name="composition">состав</string>
+    <string name="enter">ВОЙТИ</string>
+    <string name="index">Индекс</string>
+    <string name="name">Имя</string>
+    <string name="password">Пароль</string>
+    <string name="quit">ВЫЙТИ</string>
+    <string name="register">ЗАРЕГИСТРИРОВАТЬСЯ</string>
+    <string name="country">Страна</string>
+    <string name="confirm_password">Подтвердите пароль</string>
+    <string name="city">Город</string>
+    <string name="registration">РЕГИСТРАЦИЯ</string>
+    <string name="login">ВХОД</string>
 
 </resources>

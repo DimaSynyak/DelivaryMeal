@@ -1,10 +1,9 @@
-package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant;
+package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service;
 
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
-import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
 import com.dmitriy.sinyak.delivarymeal.app.activity.tools.Tools;
 
 import java.util.HashSet;

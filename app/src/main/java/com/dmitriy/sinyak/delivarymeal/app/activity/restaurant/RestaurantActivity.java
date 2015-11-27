@@ -10,8 +10,11 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup.MarginLayoutParams;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -21,13 +24,15 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.RestaurantList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Language;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Languages;
-import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.DelivaryData;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.DelivaryData;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantHeadFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantMiniHeadFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantMiniMenuFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.fragments.MenuFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.SMCRestaurantActivity;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Garbage;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.RegistrationData;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.ChangeLanguageAsyncTask;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.RestaurantAsyncTask;
 import com.dmitriy.sinyak.delivarymeal.app.activity.tools.Tools;
@@ -54,6 +59,7 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
     private Restaurant restaurant;
     private RestaurantAsyncTask restaurantAsyncTask;
     private Languages oldLanguage;
+    private RegistrationData registrationData;
 
     private int positionRestaurant;
     private ChangeLanguageAsyncTask changeLocale;
@@ -318,7 +324,7 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
             menuFragment.getFormDataClick().callOnClick();
         }
         if (menuFragment != null && menuFragment.isPersonalCabinetClickFlag()){
-            // TODO: 26.11.2015
+            menuFragment.getPersonalCabinet().callOnClick();
         }
 
 
@@ -383,7 +389,52 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         TextView total = (TextView) findViewById(R.id.total_text1);
         total.setText(R.string.total);
 
+        TextView nameLabel = (TextView) findViewById(R.id.name_reg_form_label);
+        nameLabel.setText(R.string.name);
 
+        TextView emailLabel = (TextView) findViewById(R.id.email_reg_form_label);
+        emailLabel.setText(R.string.your_email);
+
+        TextView passwordLabel = (TextView) findViewById(R.id.password_reg_form_label);
+        passwordLabel.setText(R.string.password);
+
+        TextView confirmPasswordLabel = (TextView) findViewById(R.id.confirm_pass_reg_form_label);
+        confirmPasswordLabel.setText(R.string.confirm_password);
+
+        TextView phoneLabel = (TextView) findViewById(R.id.phone_reg_form_label);
+        phoneLabel.setText(R.string.your_phone);
+
+        TextView countryLabel = (TextView) findViewById(R.id.country_reg_form_label);
+        countryLabel.setText(R.string.country);
+
+        TextView cityLabel = (TextView) findViewById(R.id.city_reg_form_label);
+        cityLabel.setText(R.string.city);
+
+        TextView indexLabel = (TextView) findViewById(R.id.index_reg_form_label);
+        indexLabel.setText(R.string.index);
+
+        TextView streetLabel = (TextView) findViewById(R.id.street_reg_form_label);
+        streetLabel.setText(R.string.address);
+
+        TextView houseNumLabel = (TextView) findViewById(R.id.num_house_reg_form_label);
+        houseNumLabel.setText(R.string.num_house);
+
+        TextView officeNumLabel = (TextView) findViewById(R.id.num_flat_reg_form_label);
+        officeNumLabel.setText(R.string.num_flat);
+
+        registrationData = RegistrationData.getInstance();
+        TextView okRegFormButton = (TextView) findViewById(R.id.ok_reg_form_btn);
+        if (registrationData.isPersonalCabinetType()) {
+            okRegFormButton.setText(R.string.register);
+        }else{
+            okRegFormButton.setText(R.string.enter);
+        }
+
+        TextView registrationLabel = (TextView) findViewById(R.id.registrationText);
+        registrationLabel.setText(R.string.registration);
+
+        TextView loginLabel = (TextView) findViewById(R.id.login);
+        loginLabel.setText(R.string.login);
     }
 
     public SMCRestaurantActivity getSlidingMenuConfig() {

@@ -48,23 +48,33 @@
     <string name="country_viljandi">Вилджанди</string>
     <string name="country_rapla">Рапла</string>
     <string name="menu">МЕНЮ</string>
+    <string name="title_activity_payment">МЕНЮ</string>
 
 
     <string name="load_data_from_internet">Loading</string>
-    <string name="no_internet">Please! Connect your mobile to internet</string>
-    <string name="title_activity_payment">PaymentActivity</string>
 
     <string name="your_data">Ваши данные</string>
     <string name="your_order">Ваш заказ</string>
 
     <string name="enter_name">Введите имя</string>
+    <string name="name">Имя</string>
     <string name="choose_city">Выберите город</string>
+    <string name="city">Город</string>
     <string name="address">Улица</string>
     <string name="num_house">Дом</string>
     <string name="num_flat">Квартира/офис</string>
-
     <string name="your_email">Email</string>
     <string name="your_phone">Телефон</string>
+    <string name="country">Страна</string>
+    <string name="index">Индекс</string>
+    <string name="password">Пароль</string>
+    <string name="confirm_password">Подтвердите пароль</string>
+    <string name="register">ЗАРЕГИСТРИРОВАТЬСЯ</string>
+    <string name="enter">ВОЙТИ</string>
+    <string name="quit">ВЫЙТИ</string>
+    <string name="login">ВХОД</string>
+    <string name="registration">РЕГИСТРАЦИЯ</string>
+
 
     <string name="total">Всего</string>
     

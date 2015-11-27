@@ -1,13 +1,12 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.fragments;
 
-import android.app.usage.UsageEvents;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,15 +20,16 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.RestaurantList;
-import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.Garbage;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Garbage;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.RestaurantActivity;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
-import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.ChangeDateListener;
-import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.DelivaryData;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.ChangeDateListener;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.DelivaryData;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.RegistrationData;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.MainAsyncTask;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.RegistrationOrLoginAsyncTask;
 
 
 /**
@@ -37,13 +37,15 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.MainAsyncT
  */
 public class MenuFragment extends Fragment {
 
+    private RegistrationData registrationData;
+
     private boolean onResumeFlag;
     private FragmentActivity activity;
     private RestaurantActivity restaurantActivity;
 
     private boolean formDataClickFlag;
     private boolean orderDataClickFlag;
-    private boolean personalCabinetClickFlag;
+    private boolean personalCabinetFlag;
 
     private FragmentTransaction ft;
     private Garbage garbage;
@@ -57,6 +59,7 @@ public class MenuFragment extends Fragment {
     private LinearLayout baseLayout;
     private LinearLayout garbageLayout;
 
+    private LinearLayout personalCabinet;
     private LinearLayout formDataClick;
     private LinearLayout orderClick;
     private LinearLayout paymentMethod;
@@ -89,6 +92,7 @@ public class MenuFragment extends Fragment {
     private LinearLayout numHouse;
     private LinearLayout numFlat;
 
+    /*FormDataFragment*/
     private EditText yourName;
     private EditText yourCity;
     private EditText yourStreet;
@@ -115,17 +119,62 @@ public class MenuFragment extends Fragment {
     private int month;
     private int day;
 
+    /*RegisterData*/
+    private TextView registrationLabel;
+    private TextView loginLabel;
 
+    private TextView nameLabel;
+    private TextView emailLabel;
+    private TextView passwordLabel;
+    private TextView confirmPasswordLabel;
+    private TextView phoneLabel;
+    private TextView countryLabel;
+    private TextView cityLabel;
+    private TextView indexLabel;
+    private TextView streetLabel;
+    private TextView houseNumLabel;
+    private TextView officeNumLabel;
+
+    private TextView okRegFormButton;
+
+    private EditText nameRegData;
+    private EditText emailRegData;
+    private EditText passwordRegData;
+    private EditText confirmPasswordRegData;
+    private EditText phoneRegData;
+    private EditText countryRegData;
+    private EditText cityRegData;
+    private EditText indexRegData;
+    private EditText streetRegData;
+    private EditText houseNumRegData;
+    private EditText officeNumRegData;
+
+    private LinearLayout nameFields;
+    private LinearLayout streetFields;
+    private LinearLayout houseFields;
+    private LinearLayout flatFields;
+    private LinearLayout phoneFields;
+    private LinearLayout countryFields;
+    private LinearLayout indexFields;
+    private LinearLayout confirmPasswordFields;
+    private LinearLayout cityFields;
+
+    private LinearLayout registrationButton;
+    private LinearLayout enterButton;
+
+    private RadioButton registration;
+    private RadioButton enter;
+
+    private LinearLayout personalCabinetForm;
+    /*end RegisterData*/
     private DelivaryData delivaryData;
 
     public MenuFragment() {
         activity = getActivity();
         restaurantActivity = ((RestaurantActivity) activity);
-//        formDataFragment = FormDataFragment.getInstance();
         garbage = Garbage.getInstance();
         delivaryData = DelivaryData.getInstance();
-
-
+        registrationData = RegistrationData.getInstance();
     }
 
     public String updateDate(){
@@ -151,6 +200,104 @@ public class MenuFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.menu_fragment, container, false);
+        Typeface geometric = Typeface.createFromAsset(getActivity().getAssets(), "fonts/geometric/geometric_706_black.ttf");
+        Typeface arimo = Typeface.createFromAsset(getActivity().getAssets(), "fonts/arimo/Arimo_Regular.ttf");
+
+        /*RegistrationData*/
+        nameLabel = (TextView) view.findViewById(R.id.name_reg_form_label);
+        nameLabel.setTypeface(arimo);
+
+        emailLabel = (TextView) view.findViewById(R.id.email_reg_form_label);
+        emailLabel.setTypeface(arimo);
+
+        passwordLabel = (TextView) view.findViewById(R.id.password_reg_form_label);
+        passwordLabel.setTypeface(arimo);
+
+        confirmPasswordLabel = (TextView) view.findViewById(R.id.confirm_pass_reg_form_label);
+        confirmPasswordLabel.setTypeface(arimo);
+
+        phoneLabel = (TextView) view.findViewById(R.id.phone_reg_form_label);
+        phoneLabel.setTypeface(arimo);
+
+        countryLabel = (TextView) view.findViewById(R.id.country_reg_form_label);
+        countryLabel.setTypeface(arimo);
+
+        cityLabel = (TextView) view.findViewById(R.id.city_reg_form_label);
+        cityLabel.setTypeface(arimo);
+
+        indexLabel = (TextView) view.findViewById(R.id.index_reg_form_label);
+        indexLabel.setTypeface(arimo);
+
+        streetLabel = (TextView) view.findViewById(R.id.street_reg_form_label);
+        streetLabel.setTypeface(arimo);
+
+        houseNumLabel = (TextView) view.findViewById(R.id.num_house_reg_form_label);
+        houseNumLabel.setTypeface(arimo);
+
+        officeNumLabel = (TextView) view.findViewById(R.id.num_flat_reg_form_label);
+        officeNumLabel.setTypeface(arimo);
+
+        okRegFormButton = (TextView) view.findViewById(R.id.ok_reg_form_btn);
+        okRegFormButton.setTypeface(geometric);
+
+        nameRegData = (EditText) view.findViewById(R.id.name_reg_form);
+        nameRegData.setTypeface(geometric);
+
+        emailRegData = (EditText) view.findViewById(R.id.email_reg_form);
+        emailRegData.setTypeface(geometric);
+
+        passwordRegData = (EditText) view.findViewById(R.id.password_reg_form);
+        passwordRegData.setTypeface(geometric);
+
+        confirmPasswordRegData = (EditText) view.findViewById(R.id.confirm_password_reg_form);
+        confirmPasswordRegData.setTypeface(geometric);
+
+        phoneRegData = (EditText) view.findViewById(R.id.phone_reg_form);
+        phoneRegData.setTypeface(geometric);
+
+        countryRegData = (EditText) view.findViewById(R.id.country_reg_form);
+        countryRegData.setTypeface(geometric);
+
+        cityRegData = (EditText) view.findViewById(R.id.city_reg_form);
+        cityRegData.setTypeface(geometric);
+
+        indexRegData = (EditText) view.findViewById(R.id.index_reg_form);
+        indexRegData.setTypeface(geometric);
+
+        streetRegData = (EditText) view.findViewById(R.id.street_reg_form);
+        streetRegData.setTypeface(geometric);
+
+        houseNumRegData = (EditText) view.findViewById(R.id.house_num_reg_form);
+        houseNumRegData.setTypeface(geometric);
+
+        officeNumRegData = (EditText) view.findViewById(R.id.flat_num_reg_form);
+        officeNumRegData.setTypeface(geometric);
+
+        registrationButton = (LinearLayout) view.findViewById(R.id.registration_btn);
+        enterButton = (LinearLayout) view.findViewById(R.id.enter_btn);
+
+        registration = (RadioButton) view.findViewById(R.id.registration);
+        enter = (RadioButton) view.findViewById(R.id.enter);
+
+        personalCabinetForm = (LinearLayout) view.findViewById(R.id.personal_cabinet_form);
+        personalCabinetForm.setVisibility(LinearLayout.GONE);
+
+        registrationLabel = (TextView) view.findViewById(R.id.registrationText);
+        registrationLabel.setTypeface(geometric);
+
+        loginLabel = (TextView) view.findViewById(R.id.login);
+        loginLabel.setTypeface(geometric);
+
+        nameFields = (LinearLayout) view.findViewById(R.id.name_fields);
+        streetFields = (LinearLayout) view.findViewById(R.id.street_fields);
+        houseFields = (LinearLayout) view.findViewById(R.id.num_house_fields);
+        flatFields = (LinearLayout) view.findViewById(R.id.num_flat_fields);
+        phoneFields = (LinearLayout) view.findViewById(R.id.phone_fields);
+        countryFields = (LinearLayout) view.findViewById(R.id.country_fields);
+        indexFields = (LinearLayout) view.findViewById(R.id.index_fields);
+        confirmPasswordFields = (LinearLayout) view.findViewById(R.id.confirm_password_fields);
+        cityFields = (LinearLayout) view.findViewById(R.id.city_fields);
+        /*end RegistrationData*/
 
 
         formDataFragmentId = (LinearLayout) view.findViewById(R.id.formDataFragmentId);
@@ -164,8 +311,6 @@ public class MenuFragment extends Fragment {
         baseLayout.setVisibility(LinearLayout.VISIBLE);
         garbageLayout.setVisibility(LinearLayout.GONE);
 
-        Typeface geometric = Typeface.createFromAsset(getActivity().getAssets(), "fonts/geometric/geometric_706_black.ttf");
-        Typeface arimo = Typeface.createFromAsset(getActivity().getAssets(), "fonts/arimo/Arimo_Regular.ttf");
 
         personal_cabinet_text = (TextView) view.findViewById(R.id.personal_cabinet_text);
         personal_cabinet_text.setTypeface(geometric);
@@ -191,6 +336,7 @@ public class MenuFragment extends Fragment {
 
         formDataClick = (LinearLayout) view.findViewById(R.id.formDataClick);
         orderClick = (LinearLayout) view.findViewById(R.id.orderClick);
+        personalCabinet = (LinearLayout) view.findViewById(R.id.personalCabinet);
 
         seb_btn = (ImageView) view.findViewById(R.id.seb_btn);
         swed_btn = (ImageView) view.findViewById(R.id.swed_btn);
@@ -273,6 +419,14 @@ public class MenuFragment extends Fragment {
 
         deliveryData = DelivaryData.getInstance();
 
+        initListeners();
+
+        return view;
+    }
+
+
+    private void initListeners(){
+
 
         timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
@@ -314,13 +468,6 @@ public class MenuFragment extends Fragment {
             }
         });
 
-        initListeners();
-
-        return view;
-    }
-
-
-    private void initListeners(){
         pay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -339,6 +486,33 @@ public class MenuFragment extends Fragment {
             }
         });
 
+        personalCabinet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (orderDataClickFlag){
+                    removeOrderFragment();
+                    total.setVisibility(LinearLayout.GONE);
+                    paymentMethod.setVisibility(LinearLayout.GONE);
+//                    pay.setVisibility(LinearLayout.GONE);
+                    orderDataClickFlag = false;
+                }
+
+                if (formDataClickFlag){
+                    removeFormDataFragment();
+                    formDataClickFlag = false;
+                }
+
+                if (personalCabinetFlag){
+                    removePersonalCabinet();
+                    personalCabinetFlag = false;
+                }
+                else {
+                    addPersonalCabinet();
+                    personalCabinetFlag = true;
+                }
+            }
+        });
+
         formDataClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -346,8 +520,13 @@ public class MenuFragment extends Fragment {
                     removeOrderFragment();
                     total.setVisibility(LinearLayout.GONE);
                     paymentMethod.setVisibility(LinearLayout.GONE);
-                    pay.setVisibility(LinearLayout.GONE);
+//                    pay.setVisibility(LinearLayout.GONE);
                     orderDataClickFlag = false;
+                }
+
+                if (personalCabinetFlag){
+                    removePersonalCabinet();
+                    personalCabinetFlag = false;
                 }
 
                 if (formDataClickFlag){
@@ -369,19 +548,24 @@ public class MenuFragment extends Fragment {
                     formDataClickFlag = false;
                 }
 
+                if (personalCabinetFlag){
+                    removePersonalCabinet();
+                    personalCabinetFlag = false;
+                }
+
                 if (orderDataClickFlag){
                     removeOrderFragment();
                     orderDataClickFlag = false;
                     total.setVisibility(LinearLayout.GONE);
                     paymentMethod.setVisibility(LinearLayout.GONE);
-                    pay.setVisibility(LinearLayout.GONE);
+//                    pay.setVisibility(LinearLayout.GONE);
                 }
                 else {
                     addOrderFragment();
                     orderDataClickFlag = true;
                     total.setVisibility(LinearLayout.VISIBLE);
                     paymentMethod.setVisibility(LinearLayout.VISIBLE);
-                    pay.setVisibility(LinearLayout.VISIBLE);
+//                    pay.setVisibility(LinearLayout.VISIBLE);
                 }
             }
         });
@@ -474,7 +658,60 @@ public class MenuFragment extends Fragment {
                 dateOrder.setText(delivaryData.getDelivaryData());
             }
         });
+
+        registrationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                enter.setChecked(false);
+                registration.setChecked(true);
+
+                nameFields.setVisibility(LinearLayout.VISIBLE);
+                streetFields.setVisibility(LinearLayout.VISIBLE);
+                houseFields.setVisibility(LinearLayout.VISIBLE);
+                flatFields.setVisibility(LinearLayout.VISIBLE);
+                phoneFields.setVisibility(LinearLayout.VISIBLE);
+                countryFields.setVisibility(LinearLayout.VISIBLE);
+                indexFields.setVisibility(LinearLayout.VISIBLE);
+                confirmPasswordFields.setVisibility(LinearLayout.VISIBLE);
+                cityFields.setVisibility(LinearLayout.VISIBLE);
+
+                okRegFormButton.setText(R.string.register);
+
+                registrationData.setPersonalCabinetType(true);
+            }
+        });
+
+        enterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                enter.setChecked(true);
+                registration.setChecked(false);
+
+                nameFields.setVisibility(LinearLayout.GONE);
+                streetFields.setVisibility(LinearLayout.GONE) ;
+                houseFields.setVisibility(LinearLayout.GONE) ;
+                flatFields.setVisibility(LinearLayout.GONE) ;
+                phoneFields.setVisibility(LinearLayout.GONE) ;
+                countryFields.setVisibility(LinearLayout.GONE) ;
+                indexFields.setVisibility(LinearLayout.GONE) ;
+                confirmPasswordFields.setVisibility(LinearLayout.GONE);
+                cityFields.setVisibility(LinearLayout.GONE) ;
+
+                okRegFormButton.setText(R.string.enter);
+
+                registrationData.setPersonalCabinetType(false);
+            }
+        });
+
+        okRegFormButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                new RegistrationOrLoginAsyncTask((AppCompatActivity) getActivity(), okRegFormButton, pay).execute("11");
+            }
+        });
     }
+    /*End initListeners*/
 
     @Override
     public void onResume() {
@@ -505,8 +742,15 @@ public class MenuFragment extends Fragment {
     }
 
     private void removeFormDataFragment(){
-
         formDataFragmentId.setVisibility(LinearLayout.GONE);
+    }
+
+    private void removePersonalCabinet(){
+        personalCabinetForm.setVisibility(LinearLayout.GONE);
+    }
+
+    private void addPersonalCabinet(){
+        personalCabinetForm.setVisibility(LinearLayout.VISIBLE);
     }
 
     private void addOrderFragment(){
@@ -568,11 +812,11 @@ public class MenuFragment extends Fragment {
     }
 
     public boolean isPersonalCabinetClickFlag() {
-        return personalCabinetClickFlag;
+        return personalCabinetFlag;
     }
 
     public void setPersonalCabinetClickFlag(boolean personalCabinetClickFlag) {
-        this.personalCabinetClickFlag = personalCabinetClickFlag;
+        this.personalCabinetFlag = personalCabinetClickFlag;
     }
 
     public LinearLayout getOrderClick() {
@@ -649,5 +893,13 @@ public class MenuFragment extends Fragment {
 
     public EditText getYourPhone() {
         return yourPhone;
+    }
+
+    public LinearLayout getPersonalCabinet() {
+        return personalCabinet;
+    }
+
+    public TextView getOkRegFormButton() {
+        return okRegFormButton;
     }
 }

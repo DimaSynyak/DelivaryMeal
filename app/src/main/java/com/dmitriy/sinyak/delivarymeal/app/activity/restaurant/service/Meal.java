@@ -1,9 +1,7 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service;
 
 import android.graphics.Bitmap;
-import android.support.v4.app.Fragment;
 
-import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.Garbage;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.body.RestaurantMealFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.fragments.OrderFragment;
 

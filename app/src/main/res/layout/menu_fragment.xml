@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/menu_fragment_linear_layout">
 
 
     <FrameLayout
@@ -70,7 +71,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:clickable="true"
-                            android:id="@+id/prersonalCabinet">
+                            android:id="@+id/personalCabinet">
                             <FrameLayout
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -105,7 +106,428 @@
 
 
                         </LinearLayout>
+<!--************************************************-->
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/personal_cabinet_form"
+                            android:visibility="visible">
 
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="20dp"
+                                android:foregroundGravity="center_horizontal"
+                                android:visibility="visible">
+
+                                <LinearLayout
+                                    android:orientation="horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:clickable="true"
+                                    android:id="@+id/registration_btn">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/registration"
+                                        android:id="@+id/registrationText"
+                                        android:layout_weight="1"
+                                        android:textColor="#000000"
+                                        android:textSize="14sp"
+                                        android:gravity="center_vertical" />
+
+                                    <RadioButton
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text=""
+                                        android:id="@+id/registration"
+                                        android:checked="false"
+                                        android:clickable="false"
+                                        android:buttonTint="@android:color/black"
+                                        android:gravity="center_vertical"
+                                        android:layout_marginRight="20dp" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:orientation="horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:clickable="true"
+                                    android:id="@+id/enter_btn">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/login"
+                                        android:layout_weight="1"
+                                        android:textColor="#000000"
+                                        android:textSize="14sp"
+                                        android:layout_gravity="center_vertical"
+                                        android:id="@+id/login" />
+
+                                    <RadioButton
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text=""
+                                        android:id="@+id/enter"
+                                        android:layout_gravity="center_vertical"
+                                        android:checked="true"
+                                        android:clickable="false"
+                                        android:buttonTint="@android:color/black"
+                                        android:layout_marginRight="20dp" />
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="20dp"
+                                android:visibility="gone"
+                                android:id="@+id/name_fields">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/name"
+                                    android:id="@+id/name_reg_form_label"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:paddingLeft="20dp"
+                                    android:gravity="center_vertical|left" />
+
+                                <EditText
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/name_reg_form"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="Dmitriy" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="20dp"
+                                android:visibility="gone"
+                                android:id="@+id/city_fields">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/city"
+                                    android:id="@+id/city_reg_form_label"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:paddingLeft="20dp"
+                                    android:gravity="center_vertical|left" />
+
+                                <EditText
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/city_reg_form"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="Talin" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="20dp"
+                                android:id="@+id/street_fields"
+                                android:visibility="gone">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/address"
+                                    android:id="@+id/street_reg_form_label"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:paddingLeft="20dp"
+                                    android:gravity="center_vertical|left" />
+
+                                <EditText
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/street_reg_form"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="Beketova" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="20dp"
+                                android:id="@+id/num_house_fields"
+                                android:visibility="gone">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/num_house"
+                                    android:id="@+id/num_house_reg_form_label"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:paddingLeft="20dp"
+                                    android:gravity="center_vertical|left" />
+
+                                <EditText
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/house_num_reg_form"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="11" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="20dp"
+                                android:id="@+id/num_flat_fields"
+                                android:visibility="gone">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/num_flat"
+                                    android:id="@+id/num_flat_reg_form_label"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:paddingLeft="20dp"
+                                    android:gravity="center_vertical|left" />
+
+                                <EditText
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/flat_num_reg_form"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="22" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="20dp"
+                                android:visibility="visible"
+                                android:id="@+id/email_fields">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/your_email"
+                                    android:id="@+id/email_reg_form_label"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:paddingLeft="20dp"
+                                    android:gravity="center_vertical|left" />
+
+                                <EditText
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/email_reg_form"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="ds@mail.ru" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="20dp"
+                                android:visibility="gone"
+                                android:id="@+id/phone_fields">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/your_phone"
+                                    android:id="@+id/phone_reg_form_label"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:paddingLeft="20dp"
+                                    android:gravity="center_vertical|left" />
+
+                                <EditText
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/phone_reg_form"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="777" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="20dp"
+                                android:visibility="gone"
+                                android:id="@+id/country_fields">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/country"
+                                    android:id="@+id/country_reg_form_label"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:paddingLeft="20dp"
+                                    android:gravity="center_vertical|left" />
+
+                                <EditText
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/country_reg_form"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="777" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="20dp"
+                                android:id="@+id/index_fields"
+                                android:visibility="gone">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/index"
+                                    android:id="@+id/index_reg_form_label"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:paddingLeft="20dp"
+                                    android:gravity="center_vertical|left" />
+
+                                <EditText
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/index_reg_form"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="777" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="20dp"
+                                android:id="@+id/password_fields">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/password"
+                                    android:id="@+id/password_reg_form_label"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:paddingLeft="20dp"
+                                    android:gravity="center_vertical|left" />
+
+                                <EditText
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/password_reg_form"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="777"
+                                    android:inputType="textPassword" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="20dp"
+                                android:id="@+id/confirm_password_fields"
+                                android:visibility="gone">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/confirm_password"
+                                    android:id="@+id/confirm_pass_reg_form_label"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:paddingLeft="20dp"
+                                    android:gravity="center_vertical|left" />
+
+                                <EditText
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/confirm_password_reg_form"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="777"
+                                    android:inputType="textPassword" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/container_id"
+                                android:gravity="center"
+                                android:layout_gravity="center_horizontal"></LinearLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/enter"
+                                android:id="@+id/ok_reg_form_btn"
+                                android:layout_gravity="center_horizontal"
+                                android:textSize="18sp"
+                                android:textColor="#000000"
+                                android:padding="15dp"
+                                android:clickable="true" />
+
+                        </LinearLayout>
+<!--************************************************-->
                         <FrameLayout android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:id="@+id/personalDataContainer"
@@ -615,18 +1037,18 @@
                                         android:layout_margin="5dp" />
                                 </LinearLayout>
 
-
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/pay"
+                                    android:id="@+id/textView25"
+                                    android:layout_gravity="center_horizontal"
+                                    android:textColor="#000000"
+                                    android:textSize="18sp"
+                                    android:padding="10dp" />
                             </LinearLayout>
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/pay"
-                                android:id="@+id/textView25"
-                                android:layout_gravity="center_horizontal"
-                                android:textColor="#000000"
-                                android:textSize="18sp"
-                                android:padding="10dp" />
+
                             <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
                                 android:id="@+id/lineView2" android:background="@drawable/line"/>
 

@@ -42,5 +42,16 @@
     <string name="your_order">Tellimus</string>
     <string name="close">LÄHEDAL</string>
     <string name="composition">struktuur</string>
+    <string name="enter">LOGI SISSE</string>
+    <string name="index">indeks</string>
+    <string name="name">Eesnimi</string>
+    <string name="password">Salasõna</string>
+    <string name="quit">EXIT</string>
+    <string name="register">REGISTER</string>
+    <string name="country">Riik</string>
+    <string name="confirm_password">Kinnita oma parooliga</string>
+    <string name="city">City</string>
+    <string name="registration">Logi sisse tasuta</string>
+    <string name="login">LOG</string>
 
 </resources>
