@@ -8,6 +8,7 @@ import java.util.List;
  */
 public class MealList {
     private static List<Meal> meals;
+    private static boolean mealListCompleteFlag = true;
 
     public static List<Meal> getMeals() {
         if (meals == null){
@@ -17,7 +18,7 @@ public class MealList {
         return meals;
     }
 
-    public static Meal getMeal(String id){
+    public static synchronized Meal getMeal(String id){
         for (Meal meal:meals){
             if (meal.getId().equals(id)){
                 return meal;
@@ -27,11 +28,11 @@ public class MealList {
         return null;
     }
 
-    public static void setMeals(List<Meal> _restaurants) {
+    public static synchronized void setMeals(List<Meal> _restaurants) {
         meals = _restaurants;
     }
 
-    public static void addMeal(Meal meal){
+    public static synchronized void addMeal(Meal meal){
         getMeals().add(meal);
     }
 
@@ -43,5 +44,13 @@ public class MealList {
         if (meals == null)
             return;
         meals.clear();
+    }
+
+    public static boolean isMealListCompleteFlag() {
+        return mealListCompleteFlag;
+    }
+
+    public static void setMealListCompleteFlag(boolean mealListCompleteFlag) {
+        MealList.mealListCompleteFlag = mealListCompleteFlag;
     }
 }

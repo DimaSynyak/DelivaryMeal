@@ -45,7 +45,7 @@
     <string name="index">Postcode</string>
     <string name="name">Name</string>
     <string name="password">Password</string>
-    <string name="quit">EXIT</string>
+    <string name="quit">LOGOUT</string>
     <string name="register">REGISTER</string>
     <string name="country">Country</string>
     <string name="confirm_password">Confirm password</string>

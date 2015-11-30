@@ -424,6 +424,7 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
 
         registrationData = RegistrationData.getInstance();
         TextView okRegFormButton = (TextView) findViewById(R.id.ok_reg_form_btn);
+
         if (registrationData.isPersonalCabinetType()) {
             okRegFormButton.setText(R.string.register);
         }else{
@@ -435,6 +436,37 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
 
         TextView loginLabel = (TextView) findViewById(R.id.login);
         loginLabel.setText(R.string.login);
+
+        /**
+         * YOUR DATA in MenuFragment
+         * */
+
+        TextView withDelivery = (TextView) findViewById(R.id.withDelivery);
+        withDelivery.setText(R.string.with_delivery);
+
+        TextView withoutDelivery = (TextView) findViewById(R.id.withoutDelivery);
+        withoutDelivery.setText(R.string.without_delivery);
+
+        TextView name = (TextView) findViewById(R.id.name);
+        name.setText(R.string.enter_name);
+
+        TextView chooseCity = (TextView) findViewById(R.id.city);
+        chooseCity.setText(R.string.choose_city);
+
+        TextView streetText = (TextView) findViewById(R.id.streetText);
+        streetText.setText(R.string.address);
+
+        TextView numHouse = (TextView) findViewById(R.id.numHouse);
+        numHouse.setText(R.string.num_house);
+
+        TextView numFlat = (TextView) findViewById(R.id.numFlat);
+        numFlat.setText(R.string.num_flat);
+
+        TextView email = (TextView) findViewById(R.id.email);
+        email.setText(R.string.your_email);
+
+        TextView phone = (TextView) findViewById(R.id.phone);
+        phone.setText(R.string.your_phone);
     }
 
     public SMCRestaurantActivity getSlidingMenuConfig() {

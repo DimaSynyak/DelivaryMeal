@@ -1,6 +1,8 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -41,6 +43,7 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
     private LoadPageFragment loadPageFragment;
     private SMCRestaurantActivity slidingMenuConfig;
     private MealBody mealBody;
+    private URL imgURL;
 
     private Connection connection;
     private Connection.Response response;
@@ -108,8 +111,19 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
                     meal.setCost(element.getElementsByClass("as").get(0).html());
                     meal.setImgURL(element.getElementsByClass("item-img").get(0).getElementsByTag("img").attr("src"));
 
-                    URL imgURL = new URL(meal.getImgURL());
-                    meal.setImg(BitmapFactory.decodeStream(imgURL.openConnection().getInputStream()));
+                    try{
+                        URL imgURL = new URL(meal.getImgURL());
+                        Bitmap image = BitmapFactory.decodeStream(imgURL.openConnection().getInputStream());
+                        float k = image.getWidth()/image.getHeight();
+                        int width = 350;
+                        int height = (int) (width / k);
+                        meal.setImg(Bitmap.createScaledBitmap(image, width, height, true));
+                    }
+                    catch (IOException e){
+                        meal.setImg(((BitmapDrawable) activity.getResources().getDrawable(R.drawable.no_image)).getBitmap());
+                    }
+
+
                     MealList.addMeal(meal);
                 }
                 count.complete();

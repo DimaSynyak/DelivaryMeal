@@ -6,6 +6,10 @@ package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service;
 public class RegistrationData {
 
     private boolean personalCabinetType;
+    private IChangePersonalCabinetTypeListener iChangePersonalCabinetTypeListener;
+
+    private IChangeNumFlatListener iChangeNumFlatListener;
+
     private String name;
     private String city;
     private String numStreet;
@@ -17,6 +21,10 @@ public class RegistrationData {
     private String index;
     private String password;
     private String confirmPassword;
+
+    private boolean stateLogin;
+    private String logoutLink;
+    private IChangeStateLogoutListener iChangeStateLogoutListener;
 
 
     private ChangeDateListener changeDateListener;
@@ -37,6 +45,11 @@ public class RegistrationData {
 
     public void setPersonalCabinetType(boolean personalCabinetType) {
         this.personalCabinetType = personalCabinetType;
+
+        if (iChangePersonalCabinetTypeListener == null)
+            return;
+
+        iChangePersonalCabinetTypeListener.change();
     }
 
     public String getName() {
@@ -77,6 +90,11 @@ public class RegistrationData {
 
     public void setNumFlat(String numFlat) {
         this.numFlat = numFlat;
+
+        if (iChangeNumFlatListener == null)
+            return;
+
+        iChangeNumFlatListener.change();
     }
 
     public String getEmail() {
@@ -141,5 +159,38 @@ public class RegistrationData {
 
     public static void setDelivaryDataObj(RegistrationData delivaryDataObj) {
         RegistrationData.delivaryDataObj = delivaryDataObj;
+    }
+
+    public boolean isStateLogin() {
+        return stateLogin;
+    }
+
+    public void setStateLogin(boolean stateLogin) {
+        this.stateLogin = stateLogin;
+
+        if (iChangeStateLogoutListener == null)
+            return;
+
+        iChangeStateLogoutListener.change();
+    }
+
+    public String getLogoutLink() {
+        return logoutLink;
+    }
+
+    public void setLogoutLink(String logoutLink) {
+        this.logoutLink = logoutLink;
+    }
+
+    public void setChangeStateLogoutListener(IChangeStateLogoutListener iChangeStateLogoutListener){
+        this.iChangeStateLogoutListener = iChangeStateLogoutListener;
+    }
+
+    public void setiChangePersonalCabinetTypeListener(IChangePersonalCabinetTypeListener iChangePersonalCabinetTypeListener) {
+        this.iChangePersonalCabinetTypeListener = iChangePersonalCabinetTypeListener;
+    }
+
+    public void setiChangeNumFlatListener(IChangeNumFlatListener iChangeNumFlatListener) {
+        this.iChangeNumFlatListener = iChangeNumFlatListener;
     }
 }

@@ -1,6 +1,8 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.main.thread;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -94,8 +96,19 @@ public class ChangeLocale extends AsyncTask<String, Void, String> {
                 count.complete();
                 Elements elements = doc.getElementsByClass("food-item");
 
-                if (elements.size() == 0)
-                    return null; //WARNING change (pick out) ui
+                if (elements.size() == 0) {
+                    count.complete();
+                    count.complete();
+                    count.complete();
+
+                    synchronized (count) {
+                        while (!count.isStateData()) {
+                            count.wait(100);
+                        }
+                    }
+                    return  null;
+                }
+
                 count.complete();
 
                 for (Element element : elements) {
@@ -117,8 +130,18 @@ public class ChangeLocale extends AsyncTask<String, Void, String> {
                     restaurant.setStars(element.getElementsByClass("star").get(0).getElementsByTag("span").attr("style"));
                     restaurant.setMenuLink(element.getElementsByClass("food-img").get(0).getElementsByTag("a").attr("href"));
 
-                    URL imgURL = new URL(restaurant.getImgSRC());
-                    restaurant.setImgBitmap(BitmapFactory.decodeStream(imgURL.openConnection().getInputStream()));
+                    try{
+                        URL imgURL = new URL(restaurant.getImgSRC());
+                        Bitmap image = BitmapFactory.decodeStream(imgURL.openConnection().getInputStream());
+                        float k = image.getWidth()/image.getHeight();
+                        int width = 100;
+                        int height = (int) (width * k);
+                        restaurant.setImgBitmap(Bitmap.createScaledBitmap(image, width, height, true));
+                    }
+                    catch (IOException e){
+                        restaurant.setImgBitmap(((BitmapDrawable) ((MainActivity) activity).getResources().getDrawable(R.drawable.no_image)).getBitmap());
+                    }
+
                     RestaurantList.addRestaurant(restaurant);
                 }
                 count.complete();

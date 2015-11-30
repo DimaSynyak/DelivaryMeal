@@ -1,11 +1,14 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.MainActivity;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.RestaurantList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.thread.Count;
@@ -84,25 +87,27 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... params) {
+
+
         garbage = Garbage.getInstance();
         Document doc = null;
         Elements elements = null;
 
-            synchronized (count){
-                while (!count.isStateLoadFragment()){
-                    try {
-                        count.wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+        synchronized (count){
+            while (!count.isStateLoadFragment()){
+                try {
+                    count.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
+        }
 
         count.complete();
         while (true) {
 
             try {
-
+                MealList.setMealListCompleteFlag(false);
                 connection.url(params[0]);
                 response = connection.execute();
                 connection.cookies(response.cookies());
@@ -111,8 +116,19 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
                 count.complete();
                 elements = doc.getElementsByClass("food-item");
 
-                if (elements.size() == 0)
-                    return null; //WARNING change (pick out) ui
+                if (elements.size() == 0) {
+                    count.complete();
+                    count.complete();
+                    count.complete();
+
+
+                    synchronized (count) {
+                        while (!count.isStateData()) {
+                            count.wait(100);
+                        }
+                    }
+                    return null;
+                }
 
                 List<Restaurant> restaurants = RestaurantList.getRestaurants();
                 int sizeRestaurants = restaurants.size();
@@ -139,16 +155,38 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
                     restaurant.setStars(element.getElementsByClass("star").get(0).getElementsByTag("span").attr("style"));
                     restaurant.setMenuLink(element.getElementsByClass("food-img").get(0).getElementsByTag("a").attr("href"));
 
-                    URL imgURL = new URL(restaurant.getImgSRC());
-                    restaurant.setImgBitmap(BitmapFactory.decodeStream(imgURL.openConnection().getInputStream()));
+                    try{
+                        URL imgURL = new URL(restaurant.getImgSRC());
+                        Bitmap image = BitmapFactory.decodeStream(imgURL.openConnection().getInputStream());
+                        float k = image.getWidth()/image.getHeight();
+                        int width = 500;
+                        int height = (int) (width / k);
+                        restaurant.setImgBitmap(Bitmap.createScaledBitmap(image, width, height, true));
+                    }
+                    catch (IOException e){
+                        restaurant.setImgBitmap(((BitmapDrawable) ((MainActivity) activity).getResources().getDrawable(R.drawable.no_image)).getBitmap());
+                    }
+
 
                     iter++;
                     sizeRestaurants--;
                 }
 
                 restaurant = RestaurantList.getRestaurant();
-                if (restaurant == null)
+
+                if (restaurant == null){
+                    count.complete();
+                    count.complete();
+                    count.complete();
+
+                    synchronized (count) {
+                        while (!count.isStateData()) {
+                            count.wait(100);
+                        }
+                    }
                     return null;
+                }
+
 
                 count.complete();
 
@@ -161,9 +199,15 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
                 count.complete();
                 elements = doc.getElementsByClass("item-food");
 
-                if (elements.size() == 0)
-                    return null; //WARNING change (pick out) ui
-
+                if ((elements.size() == 0)) {
+                    count.complete();
+                    synchronized (count) {
+                        while (!count.isStateData()) {
+                            count.wait(100);
+                        }
+                    }
+                    return null;
+                }
 
                 for (Element element1 : elements) {
 
@@ -176,8 +220,18 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
                     meal.setCost(element1.getElementsByClass("as").get(0).html());
                     meal.setImgURL(element1.getElementsByClass("item-img").get(0).getElementsByTag("img").attr("src"));
 
-                    URL imgURL = new URL(meal.getImgURL());
-                    meal.setImg(BitmapFactory.decodeStream(imgURL.openConnection().getInputStream()));
+                    try{
+                        URL imgURL = new URL(meal.getImgURL());
+                        Bitmap image = BitmapFactory.decodeStream(imgURL.openConnection().getInputStream());
+                        float k = image.getWidth()/image.getHeight();
+                        int width = 350;
+                        int height = (int) (width / k);
+                        meal.setImg(Bitmap.createScaledBitmap(image, width, height, true));
+                    }
+                    catch (IOException e){
+                        meal.setImg(((BitmapDrawable) activity.getResources().getDrawable(R.drawable.no_image)).getBitmap());
+                    }
+
                     MealList.addMeal(meal);
                 }
 
@@ -208,6 +262,9 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            finally {
+                MealList.setMealListCompleteFlag(true);
+            }
         }
     }
 
@@ -215,17 +272,21 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
 
-            ft = activity.getSupportFragmentManager().beginTransaction();
-            ft.remove(loadPageFragment);
-            ft.commit();
 
-            ((RestaurantActivity) activity).initFragment(restaurant);
+        ft = activity.getSupportFragmentManager().beginTransaction();
+        ft.remove(loadPageFragment);
+        ft.commit();
 
-            mealBody = new MealBody(activity);
-            mealBody.init();
-
-            isCancled = true;
+        isCancled = true;
         cancel(true);
+
+        if (restaurant == null)
+            return;
+
+        ((RestaurantActivity) activity).initFragment(restaurant);
+
+        mealBody = new MealBody(activity);
+        mealBody.init();
     }
 
     public boolean isCancled() {

@@ -23,6 +23,9 @@ import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.RestaurantList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Garbage;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.RestaurantActivity;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.IChangeNumFlatListener;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.IChangePersonalCabinetTypeListener;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.IChangeStateLogoutListener;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.ChangeDateListener;
@@ -158,6 +161,7 @@ public class MenuFragment extends Fragment {
     private LinearLayout indexFields;
     private LinearLayout confirmPasswordFields;
     private LinearLayout cityFields;
+    private LinearLayout passwordFields;
 
     private LinearLayout registrationButton;
     private LinearLayout enterButton;
@@ -212,6 +216,8 @@ public class MenuFragment extends Fragment {
 
         passwordLabel = (TextView) view.findViewById(R.id.password_reg_form_label);
         passwordLabel.setTypeface(arimo);
+
+        passwordFields = (LinearLayout) view.findViewById(R.id.password_fields);
 
         confirmPasswordLabel = (TextView) view.findViewById(R.id.confirm_pass_reg_form_label);
         confirmPasswordLabel.setTypeface(arimo);
@@ -326,7 +332,7 @@ public class MenuFragment extends Fragment {
 
         pay = (TextView) view.findViewById(R.id.textView25);
         pay.setTypeface(geometric);
-        pay.setVisibility(LinearLayout.GONE);
+//        pay.setVisibility(LinearLayout.GONE);
 
         back = (TextView) view.findViewById(R.id.textView26);
         back.setTypeface(geometric);
@@ -474,6 +480,9 @@ public class MenuFragment extends Fragment {
                 if (garbage.getTotal() == 0)
                     return;
                 updateDelivaryData();
+                if (!delivaryData.checkData())
+                    return;
+
                 new MainAsyncTask(restaurantActivity).execute(RestaurantList.getRestaurant().getMenuLink());
                 pay.setVisibility(LinearLayout.GONE);
             }
@@ -561,7 +570,9 @@ public class MenuFragment extends Fragment {
 //                    pay.setVisibility(LinearLayout.GONE);
                 }
                 else {
-                    addOrderFragment();
+                    if (!addOrderFragment())
+                        return;
+
                     orderDataClickFlag = true;
                     total.setVisibility(LinearLayout.VISIBLE);
                     paymentMethod.setVisibility(LinearLayout.VISIBLE);
@@ -675,7 +686,7 @@ public class MenuFragment extends Fragment {
                 confirmPasswordFields.setVisibility(LinearLayout.VISIBLE);
                 cityFields.setVisibility(LinearLayout.VISIBLE);
 
-                okRegFormButton.setText(R.string.register);
+//                okRegFormButton.setText(R.string.register);
 
                 registrationData.setPersonalCabinetType(true);
             }
@@ -688,16 +699,16 @@ public class MenuFragment extends Fragment {
                 registration.setChecked(false);
 
                 nameFields.setVisibility(LinearLayout.GONE);
-                streetFields.setVisibility(LinearLayout.GONE) ;
-                houseFields.setVisibility(LinearLayout.GONE) ;
-                flatFields.setVisibility(LinearLayout.GONE) ;
-                phoneFields.setVisibility(LinearLayout.GONE) ;
-                countryFields.setVisibility(LinearLayout.GONE) ;
-                indexFields.setVisibility(LinearLayout.GONE) ;
+                streetFields.setVisibility(LinearLayout.GONE);
+                houseFields.setVisibility(LinearLayout.GONE);
+                flatFields.setVisibility(LinearLayout.GONE);
+                phoneFields.setVisibility(LinearLayout.GONE);
+                countryFields.setVisibility(LinearLayout.GONE);
+                indexFields.setVisibility(LinearLayout.GONE);
                 confirmPasswordFields.setVisibility(LinearLayout.GONE);
-                cityFields.setVisibility(LinearLayout.GONE) ;
+                cityFields.setVisibility(LinearLayout.GONE);
 
-                okRegFormButton.setText(R.string.enter);
+//                okRegFormButton.setText(R.string.enter);
 
                 registrationData.setPersonalCabinetType(false);
             }
@@ -706,12 +717,104 @@ public class MenuFragment extends Fragment {
         okRegFormButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                updateRegisterData();
                 new RegistrationOrLoginAsyncTask((AppCompatActivity) getActivity(), okRegFormButton, pay).execute("11");
+            }
+        });
+
+        registrationData.setChangeStateLogoutListener(new IChangeStateLogoutListener() {
+            @Override
+            public void change() {
+                if (registrationData.isStateLogin()) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            okRegFormButton.setText(R.string.quit);
+                            emailRegData.setEnabled(false);
+                            passwordFields.setVisibility(LinearLayout.GONE);
+                        }
+                    });
+
+                } else {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            okRegFormButton.setText(R.string.enter);
+                            emailRegData.setEnabled(true);
+                            passwordFields.setVisibility(LinearLayout.VISIBLE);
+                        }
+                    });
+                }
+            }
+        });
+
+        registrationData.setiChangePersonalCabinetTypeListener(new IChangePersonalCabinetTypeListener() {
+            @Override
+            public void change() {
+                if (registrationData.isPersonalCabinetType()) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            okRegFormButton.setText(R.string.register);
+                        }
+                    });
+                } else {
+                    if (registrationData.isStateLogin()) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                okRegFormButton.setText(R.string.quit);
+                            }
+                        });
+                    } else {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                okRegFormButton.setText(R.string.enter);
+                            }
+                        });
+                    }
+                }
+            }
+        });
+
+        registrationData.setiChangeNumFlatListener(new IChangeNumFlatListener() {
+            @Override
+            public void change() {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateDataFormUI();
+                    }
+                });
             }
         });
     }
     /*End initListeners*/
+
+    private void updateDataFormUI(){
+        yourName.setText(registrationData.getName());
+        yourCity.setText(registrationData.getCity());
+        yourStreet.setText(registrationData.getNumStreet());
+        yourHouse.setText(registrationData.getNumHouse());
+        yourFlat.setText(registrationData.getNumFlat());
+        yourEmail.setText(registrationData.getEmail());
+        yourPhone.setText(registrationData.getNumPhone());
+    }
+
+    private void updateRegisterData(){
+        registrationData.setName(String.valueOf(nameRegData.getText()));
+        registrationData.setEmail(String.valueOf(emailRegData.getText()));
+        registrationData.setPassword(String.valueOf(passwordRegData.getText()));
+        registrationData.setConfirmPassword(String.valueOf(confirmPasswordRegData.getText()));
+        registrationData.setNumPhone(String.valueOf(phoneRegData.getText()));
+        registrationData.setCountry("EE");
+        registrationData.setCity(String.valueOf(cityRegData.getText()));
+        registrationData.setIndex(String.valueOf(indexRegData.getText()));
+        registrationData.setNumStreet(String.valueOf(streetRegData.getText()));
+        registrationData.setNumHouse(String.valueOf(houseNumRegData.getText()));
+        registrationData.setNumFlat(String.valueOf(officeNumRegData.getText()));
+    }
 
     @Override
     public void onResume() {
@@ -753,7 +856,11 @@ public class MenuFragment extends Fragment {
         personalCabinetForm.setVisibility(LinearLayout.VISIBLE);
     }
 
-    private void addOrderFragment(){
+    private boolean addOrderFragment(){
+
+        if (!MealList.isMealListCompleteFlag())
+            return false;
+
         ft = getActivity().getSupportFragmentManager().beginTransaction();
 
         for (String id : garbage.getListID()) {
@@ -762,6 +869,7 @@ public class MenuFragment extends Fragment {
         }
 
         ft.commit();
+        return true;
     }
 
     private void removeOrderFragment(){
