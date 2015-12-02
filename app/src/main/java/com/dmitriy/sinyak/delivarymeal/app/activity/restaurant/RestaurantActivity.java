@@ -1,7 +1,9 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant;
 
+import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -10,16 +12,15 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup.MarginLayoutParams;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.IActivity;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.fragments.AddressDataFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.RestaurantList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Language;
@@ -38,6 +39,8 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.Restaurant
 import com.dmitriy.sinyak.delivarymeal.app.activity.tools.Tools;
 import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -69,6 +72,26 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
     private Garbage garbage;
     private boolean garbageFlag;
 
+    private TextView specializationField;
+    private TextView workDayField;
+    private TextView workTimeField;
+    private TextView workTimeField2;
+    private TextView specializationData;
+    private TextView workDayData;
+    private TextView workTimesData;
+    private TextView workTimesData2;
+
+    private TextView titleDescription;
+    private TextView description;
+    private TextView titleBranchOffices;
+    private LinearLayout infoLayout;
+    private AddressDataFragment addressDataFragment;
+
+    private Typeface geometric;
+    private Typeface arimo;
+
+    private static List<IRestaurantActivityDestroy> iDestroies;
+
     private int paymentLanguageContainer;
     public static final int TWENTY_PERCENT = 20;
     private DelivaryData delivaryData;
@@ -90,8 +113,8 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_restaurant);
         getSupportActionBar().setCustomView(R.layout.title);
 
-        Typeface geometric = Typeface.createFromAsset(getAssets(), "fonts/geometric/geometric_706_black.ttf");
-        Typeface arimo = Typeface.createFromAsset(getAssets(), "fonts/arimo/Arimo_Regular.ttf");
+        geometric = Typeface.createFromAsset(getAssets(), "fonts/geometric/geometric_706_black.ttf");
+        arimo = Typeface.createFromAsset(getAssets(), "fonts/arimo/Arimo_Regular.ttf");
 
          /*INIT LANGUAGE*/
         languageContainerId = R.id.restaurantLanguageContainer;
@@ -130,7 +153,79 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         delivaryData = DelivaryData.getInstance();
         restaurant = RestaurantList.getRestaurant();
 
+    }
 
+    public void initInfo(){
+        /*INFO LAYOUT*/
+        specializationField = (TextView) findViewById(R.id.specialization_field);
+        specializationField.setTypeface(arimo);
+        specializationField.setText(restaurant.getSpecializationField());
+
+        workDayField = (TextView) findViewById(R.id.work_day_field);
+        workDayField.setTypeface(arimo);
+        workDayField.setText(restaurant.getWorkDayField());
+
+        workTimeField = (TextView) findViewById(R.id.work_time_field);
+        workTimeField.setTypeface(arimo);
+        if (restaurant.getWorkTimeFields() != null && restaurant.getWorkTimeFields().size() > 0) {
+            workTimeField.setText(restaurant.getWorkTimeFields().get(0));
+        }
+
+        workTimeField2 = (TextView) findViewById(R.id.work_time_field2);
+        workTimeField2.setTypeface(arimo);
+        if (restaurant.getWorkTimeFields().size() > 1) {
+            workTimeField2.setText(restaurant.getWorkTimeFields().get(1));
+        }
+        else {
+            workTimeField2.setVisibility(TextView.GONE);
+        }
+
+        specializationData = (TextView) findViewById(R.id.specialization_data);
+        specializationData.setTypeface(geometric);
+        specializationData.setText(restaurant.getSpecializationData());
+
+        workDayData = (TextView) findViewById(R.id.work_day_data);
+        workDayData.setTypeface(geometric);
+        workDayData.setText(restaurant.getWorkDayData());
+
+        workTimesData = (TextView) findViewById(R.id.work_time_data);
+        workTimesData.setTypeface(geometric);
+        if (restaurant.getWorkTimesData() != null && restaurant.getWorkTimesData().size() > 0) {
+            workTimesData.setText(restaurant.getWorkTimesData().get(0));
+        }
+
+        workTimesData2 = (TextView) findViewById(R.id.work_time_data2);
+        workTimesData2.setTypeface(geometric);
+
+        if (restaurant.getWorkTimesData() != null && restaurant.getWorkTimesData().size() > 1){
+            workTimesData2.setText(restaurant.getWorkTimesData().get(1));
+        }
+        else {
+            workTimesData2.setVisibility(TextView.GONE);
+        }
+
+        titleDescription = (TextView) findViewById(R.id.title_description);
+        titleDescription.setTypeface(geometric);
+        titleDescription.setText(restaurant.getTitleDescription());
+
+        description = (TextView) findViewById(R.id.description);
+        description.setTypeface(arimo);
+        description.setText(restaurant.getDescription());
+
+        titleBranchOffices = (TextView) findViewById(R.id.branches_offices);
+        titleBranchOffices.setTypeface(geometric);
+        titleBranchOffices.setText(restaurant.getTitleBranchOffices());
+
+        ft = getSupportFragmentManager().beginTransaction();
+        for (String branchesText : restaurant.getAddressBranchOffices()) {
+            AddressDataFragment addressDataFragment = new AddressDataFragment();
+            addressDataFragment.setAddressBranchesOfficesText(branchesText);
+            ft.add(R.id.address_data_container, addressDataFragment);
+        }
+        ft.commit();
+
+        infoLayout = (LinearLayout) findViewById(R.id.info_layout);
+        infoLayout.setVisibility(LinearLayout.GONE);
     }
 
     @Override
@@ -229,6 +324,9 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
 
     public void scrollInit() {
         scrollView = (ScrollView) findViewById(R.id.scrollView3);
+        final Boolean[] threadRunState = {false};
+        final int[] scrollY = {scrollView.getScrollY()};
+
         scrollView.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
@@ -268,6 +366,15 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
 
                         break;
                 }
+
+                scrollY[0] = scrollView.getScrollY();
+                if (!threadRunState[0] && (scrollView.getChildAt(0).getMeasuredHeight()*2/3)  < scrollY[0]){
+                    threadRunState[0] = true;
+
+                    MealBody mealBody = MealBody.getInstance(RestaurantActivity.this);
+
+                    mealBody.update(threadRunState);
+                }
                 return false;
             }
         });
@@ -298,8 +405,16 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         super.onDestroy();
         MealList.getMeals().clear();
         garbage.clear();
+
+        if (iDestroies == null)
+            return;
+        for (int i = 0; i < iDestroies.size(); i++) {
+            iDestroies.get(i).change();
+        }
+
     }
 
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
     @Override
     public void changeLanguage(Languages languages) {
         if (language.getLanguages() == languages) {
@@ -497,5 +612,13 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
 
     public void setGarbageFlag(boolean garbageFlag) {
         this.garbageFlag = garbageFlag;
+    }
+
+    public static void setiDestroy(IRestaurantActivityDestroy iDestroy) {
+        if (iDestroies == null){
+            iDestroies = new ArrayList<>();
+        }
+
+        RestaurantActivity.iDestroies.add(iDestroy);
     }
 }

@@ -53,5 +53,7 @@
     <string name="city">City</string>
     <string name="registration">Logi sisse tasuta</string>
     <string name="login">LOG</string>
+    <string name="info">INFO</string>
+    <string name="reviews">REVIEW</string>
 
 </resources>

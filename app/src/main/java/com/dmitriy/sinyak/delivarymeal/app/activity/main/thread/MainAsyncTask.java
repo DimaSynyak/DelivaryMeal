@@ -17,6 +17,7 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.SlidingMenuConfig;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.RestaurantList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments.LoadBarFragment;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.UploadReviews;
 import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove;
 
 import org.jsoup.Connection;
@@ -124,12 +125,12 @@ public class MainAsyncTask extends AsyncTask<String, Void, String> {
                         URL imgURL = new URL(restaurant.getImgSRC());
                         Bitmap image = BitmapFactory.decodeStream(imgURL.openConnection().getInputStream());
                         float k = image.getWidth()/image.getHeight();
-                        int width = 500;
+                        int width = 350;
                         int height = (int) (width / k);
                         restaurant.setImgBitmap(Bitmap.createScaledBitmap(image, width, height, true));
                     }
                     catch (IOException e){
-                        restaurant.setImgBitmap(((BitmapDrawable) ((MainActivity) activity).getResources().getDrawable(R.drawable.no_image)).getBitmap());
+//                        restaurant.setImgBitmap(((BitmapDrawable) ((MainActivity) activity).getResources().getDrawable(R.drawable.no_image)).getBitmap());
                     }
 
                     RestaurantList.addRestaurant(restaurant);

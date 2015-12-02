@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.body.RestaurantMealFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.fragments.OrderFragment;
 
+import java.util.List;
+
 /**
  * Created by 1 on 06.11.2015.
  */
@@ -15,12 +17,15 @@ public class Meal {
     private String cost;
     private String weight;
     private String composition;
-    private Bitmap img;
+    private static Bitmap img;
     private String imgURL;
     private RestaurantMealFragment fragment;
     private int countMeal;
     private Garbage garbage;
     private OrderFragment orderFragment;
+
+    private List<Garnir> garnirs;
+    private List<Garnir> orderGarnirs;
 
 
     private int remove_id;
@@ -77,12 +82,12 @@ public class Meal {
         this.composition = composition;
     }
 
-    public Bitmap getImg() {
+    public static Bitmap getImg() {
         return img;
     }
 
-    public void setImg(Bitmap img) {
-        this.img = img;
+    public static void setImg(Bitmap img) {
+        Meal.img = img;
     }
 
     public String getImgURL() {
@@ -143,5 +148,19 @@ public class Meal {
     }
 
 
+    public List<Garnir> getGarnirs() {
+        return garnirs;
+    }
 
+    public void setGarnirs(List<Garnir> garnirs) {
+        this.garnirs = garnirs;
+    }
+
+    public List<Garnir> getOrderGarnirs() {
+        return orderGarnirs;
+    }
+
+    public void setOrderGarnirs(List<Garnir> orderGarnirs) {
+        this.orderGarnirs = orderGarnirs;
+    }
 }

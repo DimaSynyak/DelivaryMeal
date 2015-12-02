@@ -1,7 +1,10 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.body;
 
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -18,7 +21,10 @@ import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Garbage;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.fragments.MenuFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.fragments.OrderFragment;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Garnir;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
+
+import java.net.URL;
 
 /**
  * Created by 1 on 03.11.2015.
@@ -38,6 +44,16 @@ public class RestaurantMealFragment extends Fragment {
     private MenuFragment menuFragment;
     private OrderFragment orderFragment;
     private FragmentTransaction ft;
+
+    private AlertDialog alert;
+
+    URL imgURL;
+    Bitmap image;
+    int gWidth;
+    int gHeight;
+    float k;
+    int width;
+    int height;
 
     private boolean firstFlag;
 
@@ -84,7 +100,7 @@ public class RestaurantMealFragment extends Fragment {
         costMeal.setText(meal.getCost());
 
         img = (ImageView) view.findViewById(R.id.restaurantAvatar);
-        img.setImageBitmap(meal.getImg());
+//        img.setImageBitmap(meal.getImg());
 
         ((TextView) view.findViewById(R.id.costMealText)).setTypeface(geometric);
         countMeal = (TextView) view.findViewById(R.id.textView11);
@@ -95,9 +111,39 @@ public class RestaurantMealFragment extends Fragment {
 
         linearLayout = (LinearLayout) view.findViewById(R.id.linearLayout);
 
+        if (meal.getGarnirs() != null && meal.getGarnirs().size() != 0) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(RestaurantMealFragment.this.getActivity());
+            builder.setTitle(meal.getName())
+                    .setMessage(meal.getComposition())
+                    .setCancelable(false)
+                    .setView(R.layout.select_layout)
+                    .setNegativeButton(getActivity().getResources().getString(R.string.close),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+            alert = builder.create();
+
+            LinearLayout itemContainer = (LinearLayout) alert.findViewById(R.id.item_container);
+
+            ft = getActivity().getSupportFragmentManager().beginTransaction();
+            for (Garnir garnir : meal.getGarnirs()){
+                GarnirFragment garnirFragment = new GarnirFragment();
+                garnirFragment.setGarnirNameText(garnir.getGarnirName());
+                ft.add(R.id.item_container, garnirFragment);
+            }
+            ft.commit();
+        }
+
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (alert != null) {
+                    alert.show();
+                }
+
                 meal.add();
                 countMeal.setText(String.valueOf(meal.getCountMeal()));
                 garbage.update();
@@ -143,6 +189,42 @@ public class RestaurantMealFragment extends Fragment {
                 alert.show();
             }
         });
+
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try{
+                    imgURL = new URL(meal.getImgURL());
+                    image = BitmapFactory.decodeStream(imgURL.openConnection().getInputStream());
+                    gWidth = image.getWidth();
+                    gHeight = image.getHeight();
+                    k = ((float)gWidth)/((float)gHeight);
+                    width = 150;
+                    height = (int) (width / k);
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            img.setImageBitmap(Bitmap.createScaledBitmap(image, width, height, true));
+                        }
+                    });
+//                    meal.setImg(Bitmap.createScaledBitmap(image, width, height, true));
+                }
+                catch (Exception e){
+//                    meal.setImg();
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            img.setImageBitmap(((BitmapDrawable) getActivity().getResources().getDrawable(R.drawable.no_image)).getBitmap());
+                        }
+                    });
+                }
+            }
+        }).start();
+
         return view;
     }
 

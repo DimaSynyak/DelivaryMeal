@@ -3,10 +3,16 @@ package com.dmitriy.sinyak.delivarymeal.app.activity.main.service;
 import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.ILanguageListener;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Language;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.IChange;
+
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 1 on 05.11.2015.
@@ -24,10 +30,38 @@ public class Restaurant {
     private String costDeliverStatic;
     private String timeDeliverStatic;
 
+    private String specializationField;
+    private String workDayField;
+    private List<String> workTimeFields;
+    private String specializationData;
+    private String workDayData;
+    private List<String> workTimesData;
+
+    private String titleDescription;
+    private String description;
+    private String titleBranchOffices;
+    private List<String> addressBranchOffices;
+
     private String imgSRC;
     private Bitmap imgBitmap;
     private String menuLink;
     private Fragment fragment;
+    private static int numPage = 2;
+
+    private List<String> reviewNames;
+    private List<String> reviewReviews;
+    private List<String> reviewStars;
+    private List<String> reviewTimes;
+    private List<IChange> changes;
+
+    static {
+        Language.setiLanguage(new ILanguageListener() {
+            @Override
+            public void change() {
+                numPage = 1;
+            }
+        });
+    }
 
     private static Connection connection;
     private static String _wpnonce;
@@ -179,5 +213,140 @@ public class Restaurant {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public static int getNumPage() {
+        return numPage;
+    }
+
+    public static void setNumPage(int numPage) {
+        Restaurant.numPage = numPage;
+    }
+
+    public String getSpecializationField() {
+        return specializationField;
+    }
+
+    public void setSpecializationField(String specializationField) {
+        this.specializationField = specializationField;
+    }
+
+    public String getWorkDayField() {
+        return workDayField;
+    }
+
+    public void setWorkDayField(String workDayField) {
+        this.workDayField = workDayField;
+    }
+
+    public List<String> getWorkTimeFields() {
+        return workTimeFields;
+    }
+
+    public void setWorkTimeFields(List<String> workTimeFields) {
+        this.workTimeFields = workTimeFields;
+    }
+
+    public String getTitleDescription() {
+        return titleDescription;
+    }
+
+    public void setTitleDescription(String titleDescription) {
+        this.titleDescription = titleDescription;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getTitleBranchOffices() {
+        return titleBranchOffices;
+    }
+
+    public void setTitleBranchOffices(String titleBranchOffices) {
+        this.titleBranchOffices = titleBranchOffices;
+    }
+
+    public List<String> getAddressBranchOffices() {
+        return addressBranchOffices;
+    }
+
+    public void setAddressBranchOffices(List<String> addressBranchOffices) {
+        this.addressBranchOffices = addressBranchOffices;
+    }
+
+    public String getSpecializationData() {
+        return specializationData;
+    }
+
+    public void setSpecializationData(String specializationData) {
+        this.specializationData = specializationData;
+    }
+
+    public String getWorkDayData() {
+        return workDayData;
+    }
+
+    public void setWorkDayData(String workDayData) {
+        this.workDayData = workDayData;
+    }
+
+    public List<String> getWorkTimesData() {
+        return workTimesData;
+    }
+
+    public void setWorkTimesData(List<String> workTimesData) {
+        this.workTimesData = workTimesData;
+    }
+
+    public List<String> getReviewNames() {
+        return reviewNames;
+    }
+
+    public void setReviewNames(List<String> reviewNames) {
+        this.reviewNames = reviewNames;
+    }
+
+    public List<String> getReviewReviews() {
+        return reviewReviews;
+    }
+
+    public void setReviewReviews(List<String> reviewReviews) {
+        this.reviewReviews = reviewReviews;
+    }
+
+    public List<String> getReviewStars() {
+        return reviewStars;
+    }
+
+    public void setReviewStars(List<String> reviewStars) {
+        this.reviewStars = reviewStars;
+
+        if (changes == null)
+            return;
+
+        for (IChange change:changes){
+            change.change();
+        }
+    }
+
+    public List<String> getReviewTimes() {
+        return reviewTimes;
+    }
+
+    public void setReviewTimes(List<String> reviewTimes) {
+        this.reviewTimes = reviewTimes;
+    }
+
+    public void setChanges(IChange change) {
+        if (this.changes == null){
+            this.changes = new ArrayList<>();
+        }
+
+        this.changes.add(change);
     }
 }

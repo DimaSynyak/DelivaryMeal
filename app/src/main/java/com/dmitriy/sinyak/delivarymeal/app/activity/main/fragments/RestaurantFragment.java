@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 /**
  * Created by 1 on 02.11.2015.
@@ -45,6 +46,7 @@ public class RestaurantFragment extends Fragment {
     private TextView costMealText;
     private TextView costDeliverText;
     private TextView timeDeliverText;
+
 
     public RestaurantFragment(){
         super();

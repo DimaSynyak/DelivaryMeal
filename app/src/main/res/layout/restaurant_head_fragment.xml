@@ -199,7 +199,7 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_gravity="center|bottom">
+                android:layout_gravity="center|bottom" android:id="@+id/menu_button" android:clickable="true">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -236,6 +236,33 @@
 
     </LinearLayout>
 
+    </FrameLayout>
+    <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" android:layout_marginTop="184dp" android:id="@+id/menu">
+        <ImageView
+                android:layout_width="176dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView6" android:background="#00ffffff"
+                android:layout_gravity="center_horizontal" android:src="@drawable/main_mini_menu_background"
+                android:layout_marginLeft="0.75dp"/>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content" android:layout_gravity="center">
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ИНФО"
+                    android:id="@+id/info_text" android:textColor="#000000" android:textSize="18sp"
+                    android:padding="5dp" android:gravity="center_horizontal" android:clickable="true"/>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ОТЗЫВЫ"
+                    android:id="@+id/reviews_text" android:textColor="#000000" android:textSize="18sp"
+                    android:padding="5dp" android:gravity="center_horizontal" android:clickable="true"/>
+        </LinearLayout>
     </FrameLayout>
 
 

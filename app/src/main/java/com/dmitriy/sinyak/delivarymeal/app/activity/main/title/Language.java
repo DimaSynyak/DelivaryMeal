@@ -1,15 +1,13 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.main.title;
 
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.ImageView;
 
-import com.dmitriy.sinyak.delivarymeal.app.R;
+import android.support.v7.app.AppCompatActivity;
 import com.dmitriy.sinyak.delivarymeal.app.activity.IActivity;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments.LanguagesFragmentOpacityLow;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments.LanguagesImg;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments.LanguagesTitle;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -25,6 +23,7 @@ public class Language {
     private LanguagesImg languagesImg;
     private LanguagesTitle languagesTitle;
     private AppCompatActivity activity;
+    private static List<ILanguageListener> iLanguageListeners;
 
     public Language(AppCompatActivity activity) {
         this.activity = activity;
@@ -96,5 +95,22 @@ public class Language {
 
     public void init(int opacity){
         languagesImg.init(languages, opacity);
+    }
+
+    public static void setiLanguage(ILanguageListener iLanguageListener) {
+        if (iLanguageListeners == null){
+            iLanguageListeners = new ArrayList<>();
+        }
+
+        Language.iLanguageListeners.add(iLanguageListener);
+    }
+
+    public void change(){
+        if (iLanguageListeners == null)
+            return;
+
+        for (int i = 0; i < iLanguageListeners.size(); i++) {
+            iLanguageListeners.get(i).change();
+        }
     }
 }

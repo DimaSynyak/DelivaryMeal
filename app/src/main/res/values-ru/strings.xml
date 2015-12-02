@@ -52,5 +52,7 @@
     <string name="city">Город</string>
     <string name="registration">РЕГИСТРАЦИЯ</string>
     <string name="login">ВХОД</string>
+    <string name="info">ИНФО</string>
+    <string name="reviews">ОТЗЫВЫ</string>
 
 </resources>

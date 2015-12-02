@@ -164,7 +164,7 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
                         restaurant.setImgBitmap(Bitmap.createScaledBitmap(image, width, height, true));
                     }
                     catch (IOException e){
-                        restaurant.setImgBitmap(((BitmapDrawable) ((MainActivity) activity).getResources().getDrawable(R.drawable.no_image)).getBitmap());
+//                        restaurant.setImgBitmap(((BitmapDrawable) ((MainActivity) activity).getResources().getDrawable(R.drawable.no_image)).getBitmap());
                     }
 
 

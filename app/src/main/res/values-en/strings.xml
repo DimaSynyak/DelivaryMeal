@@ -52,5 +52,7 @@
     <string name="city">City</string>
     <string name="registration">REGISTRATION</string>
     <string name="login">LOGIN</string>
+    <string name="info">INFO</string>
+    <string name="reviews">REVIEWS</string>
 
 </resources>

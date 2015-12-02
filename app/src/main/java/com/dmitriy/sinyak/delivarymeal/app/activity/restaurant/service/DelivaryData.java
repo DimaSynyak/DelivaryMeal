@@ -56,9 +56,9 @@ public class DelivaryData {
 
     public String getDelivaryType() {
         if (delivaryType)
-            return "с доставкой";
+            return "СЃ РґРѕСЃС‚Р°РІРєРѕР№";
         else
-            return "самовывоз";
+            return "СЃР°РјРѕРІС‹РІРѕР·";
     }
 
     public boolean isDelivaryType(){

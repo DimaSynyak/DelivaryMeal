@@ -13,10 +13,182 @@
         android:layout_marginTop="180dp">
 
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/restaurantMenuContainer">
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/delay_top"></FrameLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/restaurantMenuContainer">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/info_layout"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="3dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="3dp"
+                    android:layout_gravity="center_horizontal">
+
+                    <TextView
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/specialization_field"
+                        android:textSize="16sp"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/specialization_data"
+                        android:paddingLeft="25dp"
+                        android:textSize="16sp"
+                        android:textColor="#000000" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="3dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="3dp"
+                    android:layout_gravity="center_horizontal">
+
+                    <TextView
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/work_day_field"
+                        android:textSize="16sp"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/work_day_data"
+                        android:textSize="16sp"
+                        android:textColor="#000000"
+                        android:paddingLeft="25dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="3dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="3dp"
+                    android:layout_gravity="center_horizontal">
+
+                    <TextView
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/work_time_field"
+                        android:textSize="16sp"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/work_time_data"
+                        android:textSize="16sp"
+                        android:textColor="#000000"
+                        android:paddingLeft="25dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="3dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="3dp"
+                    android:layout_gravity="center_horizontal">
+
+                    <TextView
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/work_time_field2"
+                        android:textSize="16sp"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/work_time_data2"
+                        android:textSize="16sp"
+                        android:textColor="#000000"
+                        android:paddingLeft="25dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/branches_offices"
+                    android:textSize="20sp"
+                    android:textColor="#000000"
+                    android:gravity="center"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="25dp" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/address_data_container"
+                    android:layout_gravity="center_horizontal"></LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/title_description"
+                    android:gravity="center"
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    android:paddingTop="25dp"
+                    android:paddingBottom="5dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/description"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textSize="16sp"
+                    android:textColor="#000000" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/reviews_container"
+                android:visibility="gone"></LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/delay_bottom" />
 
         </LinearLayout>
     </ScrollView>
@@ -36,7 +208,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/restaurantPercentContainer"
             android:layout_gravity="bottom"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:visibility="visible" />
 
     </LinearLayout>
 
@@ -46,7 +219,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="#00ffffff"
-        android:clickable="false">
+        android:clickable="false"
+        android:id="@+id/garbage_layout">
 
         <ImageView
             android:layout_width="wrap_content"

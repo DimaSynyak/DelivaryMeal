@@ -161,6 +161,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         if (firstFlag) {
             language.getLanguagesImg().updateLanguage();
+
+            Restaurant.setConnection(language.getURL());
         }
         firstFlag = true;
     }

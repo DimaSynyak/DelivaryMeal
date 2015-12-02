@@ -230,7 +230,7 @@ public class RegistrationOrLoginAsyncTask extends AsyncTask<String, String, Stri
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
 
-        for (TextView text: ok) {
+        for (TextView text : ok) {
             text.setVisibility(TextView.VISIBLE);
         }
     }

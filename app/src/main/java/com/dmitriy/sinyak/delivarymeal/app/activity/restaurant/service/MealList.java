@@ -10,7 +10,7 @@ public class MealList {
     private static List<Meal> meals;
     private static boolean mealListCompleteFlag = true;
 
-    public static List<Meal> getMeals() {
+    public synchronized static List<Meal> getMeals() {
         if (meals == null){
             meals = new ArrayList<Meal>();
         }

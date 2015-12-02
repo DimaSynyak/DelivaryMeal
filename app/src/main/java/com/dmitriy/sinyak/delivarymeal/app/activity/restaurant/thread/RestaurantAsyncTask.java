@@ -7,15 +7,20 @@ import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.fragments.AddressDataFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.SlidingMenuConfig;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.RestaurantList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.thread.Count;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments.LoadPageFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.MealBody;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.RestaurantActivity;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.body.ReviewFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.SMCRestaurantActivity;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Garnir;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
 import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove;
@@ -28,6 +33,8 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -83,10 +90,11 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
             }
         }
 
+//        Meal.setImg(((BitmapDrawable) activity.getResources().getDrawable(R.drawable.no_image)).getBitmap());
+
         count.complete();
         while (true) {
             try {
-
                 connection.url(params[0]);
                 response = connection.execute();
                 connection.cookies(response.cookies());
@@ -97,8 +105,65 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
                 count.complete();
                 Elements elements = doc.getElementsByClass("item-food");
 
-                if (elements.size() == 0)
+                Restaurant restaurant = RestaurantList.getRestaurant();
+
+                /**/
+                restaurant.setSpecializationField(doc.getElementsByClass("spec").text());
+                restaurant.setWorkDayField(doc.getElementsByClass("rab").text());
+
+                List<String> list = new ArrayList<>();
+                for (Element element : doc.getElementsByClass("vremya")) {
+                        list.add(element.text());
+                }
+
+                restaurant.setWorkTimeFields(list);
+
+                restaurant.setSpecializationData(doc.getElementById("android-spec").text());
+                restaurant.setWorkDayData(doc.getElementById("android-workday").text());
+
+                list = new ArrayList<>();
+
+                list.add(doc.getElementById("android-worktime").text());
+                list.add(doc.getElementById("android-worktime2").text());
+
+                restaurant.setWorkTimesData(list);
+
+                Element desc = doc.getElementById("android-about");
+                restaurant.setTitleDescription(desc.text());
+                StringBuilder str = new StringBuilder();
+
+                Element content = doc.getElementById("android-content");
+
+                for (Element element : content.getElementsByTag("p")){
+                    str.append(element.text());
+                    str.append(" ");
+                }
+
+                restaurant.setDescription(str.toString());
+
+                restaurant.setTitleBranchOffices(doc.getElementById("android-title-branch").text());
+
+                list = new ArrayList<>();
+                for (Element element : doc.getElementsByClass("adres").get(0).getElementsByTag("p")) {
+                    list.add(element.text());
+                }
+                restaurant.setAddressBranchOffices(list);
+                /**/
+
+                if (elements.size() == 0) {
+                    count.complete();
+                    count.complete();
+                    count.complete();
+
+                    synchronized (count) {
+                        while (!count.isStateData()) {
+                            count.wait(100);
+                        }
+                    }
                     return null; //WARNING change (pick out) ui
+                }
+
+
                 count.complete();
                 for (Element element : elements) {
 
@@ -111,22 +176,47 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
                     meal.setCost(element.getElementsByClass("as").get(0).html());
                     meal.setImgURL(element.getElementsByClass("item-img").get(0).getElementsByTag("img").attr("src"));
 
-                    try{
-                        URL imgURL = new URL(meal.getImgURL());
-                        Bitmap image = BitmapFactory.decodeStream(imgURL.openConnection().getInputStream());
-                        float k = image.getWidth()/image.getHeight();
-                        int width = 350;
-                        int height = (int) (width / k);
-                        meal.setImg(Bitmap.createScaledBitmap(image, width, height, true));
-                    }
-                    catch (IOException e){
-                        meal.setImg(((BitmapDrawable) activity.getResources().getDrawable(R.drawable.no_image)).getBitmap());
+                    List<Garnir> garnirs = new ArrayList<>();
+
+                    for (Element element1 : element.getElementById("pa_garnish").getElementsByTag("option")){
+                        Garnir garnir = new Garnir();
+                        garnir.setGarnirName(element1.text());
+                        garnir.setGarnirValue(element1.attr("value"));
+                        garnirs.add(garnir);
                     }
 
+                    // TODO: 02.12.2015 add id garnir
 
                     MealList.addMeal(meal);
                 }
                 count.complete();
+
+                elements = doc.getElementsByClass("otzuvu");
+
+                if (elements == null || elements.size() == 0){
+                    count.complete();
+
+                    synchronized (count) {
+                        while (!count.isStateData()) {
+                            count.wait(100);
+                        }
+                    }
+                    return null;
+                }
+
+                for (Element element : elements){
+                    ft = activity.getSupportFragmentManager().beginTransaction();
+                    ReviewFragment reviewFragment = new ReviewFragment();
+                    reviewFragment.setNameText(element.getElementsByTag("span").get(2).text());
+                    reviewFragment.setReviewText(element.getElementsByTag("p").text());
+                    reviewFragment.setTimeText(element.getElementsByClass("time").text());
+                    reviewFragment.setRatingBarText(element.getElementsByClass("star").get(0).getElementsByTag("span").attr("style"));
+
+                    ft.add(R.id.reviews_container, reviewFragment);
+                    ft.commit();
+                }
+
+
                 count.complete();
                 synchronized (count) {
                     while (!count.isStateData()) {
@@ -162,6 +252,9 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
 
         mealBody = new MealBody(activity);
         mealBody.init();
+
+        ((RestaurantActivity) activity).initInfo();
+        new UploadReviews(activity).start();
         cancel(true);
     }
 
