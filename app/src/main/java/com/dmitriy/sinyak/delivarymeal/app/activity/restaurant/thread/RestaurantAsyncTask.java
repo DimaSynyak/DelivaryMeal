@@ -90,8 +90,6 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
             }
         }
 
-//        Meal.setImg(((BitmapDrawable) activity.getResources().getDrawable(R.drawable.no_image)).getBitmap());
-
         count.complete();
         while (true) {
             try {
@@ -178,13 +176,21 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
 
                     List<Garnir> garnirs = new ArrayList<>();
 
-                    for (Element element1 : element.getElementById("pa_garnish").getElementsByTag("option")){
-                        Garnir garnir = new Garnir();
-                        garnir.setGarnirName(element1.text());
-                        garnir.setGarnirValue(element1.attr("value"));
-                        garnirs.add(garnir);
+
+                    Element pa_garnish = element.getElementById("pa_garnish");
+                    if (pa_garnish != null) {
+                        Elements option = pa_garnish.getElementsByTag("option");
+
+                        if (option != null)
+                            for (Element element1 : option) {
+                                Garnir garnir = new Garnir();
+                                garnir.setGarnirName(element1.text());
+                                garnir.setGarnirValue(element1.attr("value"));
+                                garnirs.add(garnir);
+                            }
                     }
 
+                    meal.setGarnirs(garnirs);
                     // TODO: 02.12.2015 add id garnir
 
                     MealList.addMeal(meal);

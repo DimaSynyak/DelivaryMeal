@@ -20,22 +20,23 @@ public class GarnirFragment extends Fragment {
 
     private TextView garnirName;
     private String garnirNameText;
+    private static String chooseGarnir;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.search_fragment, container, false);
+        View view = inflater.inflate(R.layout.select_fragment, container, false);
         Typeface geometric = Typeface.createFromAsset(getActivity().getAssets(), "fonts/geometric/geometric_706_black.ttf");
         Typeface arimo = Typeface.createFromAsset(getActivity().getAssets(), "fonts/arimo/Arimo_Regular.ttf");
 
-        garnirName = (TextView) view.findViewById(R.id.garnir_name);
+//        garnirName = (TextView) view.findViewById(R.id.garnir_name);
         garnirName.setTypeface(geometric);
         garnirName.setText(garnirNameText);
 
         garnirName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 02.12.2015
+                chooseGarnir = garnirNameText;
             }
         });
 

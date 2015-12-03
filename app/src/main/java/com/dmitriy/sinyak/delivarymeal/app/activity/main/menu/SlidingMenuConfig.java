@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -36,22 +37,17 @@ public class SlidingMenuConfig {
     private int idFragmentGlobal;
     private Fragment fragmentGlobal;
     private boolean flag = true;
-    private CountryFragment countryFragment;
-    private CityFragment cityFragment;
-    private KitchenFragment kitchenFragment;
-    private CategoryFragment categoryFragment;
     private FragmentTransaction ft;
     private TextView countryText;
     private TextView cityText;
-    private TextView kitchenText;
+    private TextView criteriaText;
     private TextView categoryText;
     private HorizontalScrollView horizontalScrollView;
-    private ListView citiesList;
-    private List<String> estonia;
-    private List<String> finland;
-    private List<String> latvia;
-    private List<Country> countries;
-    private String[] string;
+
+    private LinearLayout categoryLayout;
+    private LinearLayout criteriaLayout;
+    private LinearLayout categoryContainer;
+    private LinearLayout criteriaContainer;
 
     /*Категории ресторанов*/
     private PizzaButtonFragment pizzaButtonFragment;
@@ -66,36 +62,38 @@ public class SlidingMenuConfig {
 
     public void initSlidingMenu(){
 
-        countryText = (TextView) activity.findViewById(R.id.countryText);
-        cityText = (TextView) activity.findViewById(R.id.cityText);
-        kitchenText = (TextView) activity.findViewById(R.id.kitchenText);
-        categoryText = (TextView) activity.findViewById(R.id.categoryText);
+        categoryLayout = (LinearLayout) activity.findViewById(R.id.category_layout);
+        criteriaLayout = (LinearLayout) activity.findViewById(R.id.criteria_layout);
+        categoryContainer = (LinearLayout) activity.findViewById(R.id.category_container);
+        categoryContainer.setVisibility(View.GONE);
+        criteriaContainer = (LinearLayout) activity.findViewById(R.id.criteria_container);
+        criteriaContainer.setVisibility(View.GONE);
 
         /*Инициализация стран и городов*/
-        List<Country> countries = new ArrayList<Country>();
-        List<String> estonia = new ArrayList<String>();
-        List<String> finland = new ArrayList<String>();
-        List<String> latvia = new ArrayList<String>();
-
-        estonia.add("Тарту");
-        estonia.add("Рапла");
-        estonia.add("Вилджанди");
-
-        finland.add("Тампере");
-        finland.add("Лахти");
-        finland.add("Хельсинки");
-
-        latvia.add("Рига");
-        latvia.add("Джелгава");
-        latvia.add("Валмиера");
-
-        countries.add(new Country("Эстония"));
-        countries.add(new Country("Финляндия"));
-        countries.add(new Country("Латвия"));
-
-        countries.get(0).setCities(estonia);
-        countries.get(1).setCities(finland);
-        countries.get(2).setCities(latvia);
+//        List<Country> countries = new ArrayList<Country>();
+//        List<String> estonia = new ArrayList<String>();
+//        List<String> finland = new ArrayList<String>();
+//        List<String> latvia = new ArrayList<String>();
+//
+//        estonia.add("Тарту");
+//        estonia.add("Рапла");
+//        estonia.add("Вилджанди");
+//
+//        finland.add("Тампере");
+//        finland.add("Лахти");
+//        finland.add("Хельсинки");
+//
+//        latvia.add("Рига");
+//        latvia.add("Джелгава");
+//        latvia.add("Валмиера");
+//
+//        countries.add(new Country("Эстония"));
+//        countries.add(new Country("Финляндия"));
+//        countries.add(new Country("Латвия"));
+//
+//        countries.get(0).setCities(estonia);
+//        countries.get(1).setCities(finland);
+//        countries.get(2).setCities(latvia);
         /*Конец инициализации стран и городов*/
 
 
@@ -110,16 +108,36 @@ public class SlidingMenuConfig {
         menu.attachToActivity(activity, SlidingMenu.SLIDING_CONTENT);
         menu.setMenu(R.layout.menu_main);
 
-        initFragment();
+        initListeners();
     }
 
-    private void initFragment(){
-        countryFragment = new CountryFragment();
-        cityFragment = new CityFragment();
-        kitchenFragment = new KitchenFragment();
-        categoryFragment = new CategoryFragment();
+    private void initListeners(){
+        categoryLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (categoryContainer.getVisibility() == View.VISIBLE){
+                    categoryContainer.setVisibility(View.GONE);
+                }
+                else {
+                    categoryContainer.setVisibility(View.VISIBLE);
+                    criteriaContainer.setVisibility(View.GONE);
+                }
 
-        idFragmentGlobal = -1;
+            }
+        });
+
+        criteriaLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (criteriaContainer.getVisibility() == View.VISIBLE){
+                    criteriaContainer.setVisibility(View.GONE);
+                }
+                else {
+                    criteriaContainer.setVisibility(View.VISIBLE);
+                    categoryContainer.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     private void addFragmentOnPlace(int idFrame, IFragments objKitchen){

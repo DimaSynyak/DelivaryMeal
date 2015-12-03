@@ -24,6 +24,15 @@ public class Language {
     private LanguagesTitle languagesTitle;
     private AppCompatActivity activity;
     private static List<ILanguageListener> iLanguageListeners;
+    private static Language language;
+
+    public static Language getInstance(){
+        if (language == null){
+//            language = new Language();
+            // TODO: 12/3/15 ERROR
+        }
+        return language;
+    }
 
     public Language(AppCompatActivity activity) {
         this.activity = activity;

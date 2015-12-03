@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.body.RestaurantMealFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.fragments.OrderFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -148,11 +149,11 @@ public class Meal {
     }
 
 
-    public List<Garnir> getGarnirs() {
+    public synchronized List<Garnir> getGarnirs() {
         return garnirs;
     }
 
-    public void setGarnirs(List<Garnir> garnirs) {
+    public synchronized void setGarnirs(List<Garnir> garnirs) {
         this.garnirs = garnirs;
     }
 
@@ -162,5 +163,28 @@ public class Meal {
 
     public void setOrderGarnirs(List<Garnir> orderGarnirs) {
         this.orderGarnirs = orderGarnirs;
+    }
+
+    public void addGarnir(Garnir orderGarnir) {
+        if (orderGarnirs == null){
+            orderGarnirs = new ArrayList<>();
+        }
+
+        this.orderGarnirs.add(orderGarnir);
+    }
+
+    public void addGarnir(String nameGarnir) {
+        if (garnirs == null || garnirs.size() == 0)
+            return;
+
+        for (Garnir garnir : garnirs) {
+            if (garnir.getGarnirName().equals(nameGarnir)){
+                if (orderGarnirs == null){
+                    orderGarnirs = new ArrayList<>();
+                }
+                this.orderGarnirs.add(garnir);
+                return;
+            }
+        }
     }
 }

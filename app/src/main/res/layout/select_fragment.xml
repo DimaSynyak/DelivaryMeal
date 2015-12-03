@@ -3,14 +3,24 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/garnir_name"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:textColor="#000000"
-        android:padding="5dp"
-        android:clickable="true" />
+        android:layout_height="80dp"
+        android:id="@+id/scrollView"
+        android:background="#f1f1f1"
+        android:visibility="gone"
+        android:touchscreenBlocksFocus="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:clickable="false" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/garnirs_container"
+            android:gravity="center"
+            android:padding="10dp" />
+    </ScrollView>
+
 </LinearLayout>

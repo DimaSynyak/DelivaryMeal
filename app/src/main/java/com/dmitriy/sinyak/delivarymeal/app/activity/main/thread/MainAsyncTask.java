@@ -17,6 +17,8 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.SlidingMenuConfig;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.RestaurantList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments.LoadBarFragment;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.filter.IFilter;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.filter.RestaurantFilter;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.UploadReviews;
 import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove;
 
@@ -44,6 +46,7 @@ public class MainAsyncTask extends AsyncTask<String, Void, String> {
 
     private Connection connection;
     private Connection.Response response;
+    private IFilter filter;
 
 
     public MainAsyncTask(IActivity activity) {
@@ -64,6 +67,7 @@ public class MainAsyncTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... params) {
+        filter = new RestaurantFilter();
         synchronized (count) {
             while (!count.isStateLoadFragment()) {
                 try {
@@ -84,6 +88,8 @@ public class MainAsyncTask extends AsyncTask<String, Void, String> {
                 count.complete();
 
                 Elements elements = doc.getElementsByClass("food-item");
+
+                filter.init(doc);
 
                 if ((elements.size() == 0)){
                     count.complete();
@@ -168,6 +174,7 @@ public class MainAsyncTask extends AsyncTask<String, Void, String> {
         slidingMenuConfig = new SlidingMenuConfig(((MainActivity )activity));
         slidingMenuConfig.initSlidingMenu();
         ((MainActivity )activity).setSlidingMenuConfig(slidingMenuConfig);
+
 
         restaurantBody = new RestaurantBody(((MainActivity )activity));
         restaurantBody.init();

@@ -46,11 +46,16 @@ public class MealBody {
             @Override
             public void run() {
                 List<Meal> meals = MealList.getMeals();
-                for (int i = 0; i < COUNT_FOOD; i++) {
-                    ft = activity.getSupportFragmentManager().beginTransaction();
-                    ft.add(R.id.restaurantMenuContainer,  new RestaurantMealFragment(meals.get(i)));
-                    ft.commit();
+                ft = activity.getSupportFragmentManager().beginTransaction();
+
+                if (count_food > meals.size())
+                    count_food = meals.size();
+
+                for (int i = 0; i < count_food; i++) {
+                    ft.add(R.id.restaurantMenuContainer, new RestaurantMealFragment(meals.get(i)));
                 }
+
+                ft.commit();
 
                 count_food = count_food2 - 1;
                 new UploadPageAsyncTask(activity).execute();

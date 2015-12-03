@@ -2,7 +2,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/restaurantFragment"
-                android:orientation="horizontal"
+                android:orientation="vertical"
     android:paddingLeft="10dp"
     android:clickable="false"
     android:paddingTop="5dp"
