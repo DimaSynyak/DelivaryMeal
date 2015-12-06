@@ -1,30 +1,25 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.main.menu;
 
+import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewTreeObserver;
+import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.MainActivity;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.CategoryFragment;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.CityFragment;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.CountryFragment;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.Ifragments.IFragments;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.KitchenFragment;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.category.AsianButtonFragment;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.category.CaucasianButtonFragment;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.category.EuropeanButtonFragment;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.category.PizzaButtonFragment;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.category.SushiButtonFragment;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.FilterItemFragment;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.thread.ChangeLocale;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Language;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.filter.FilterData;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.filter.RestaurantFilter;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,72 +28,30 @@ import java.util.List;
 public class SlidingMenuConfig {
 
     private FragmentActivity activity;
-
-    private int idFragmentGlobal;
-    private Fragment fragmentGlobal;
-    private boolean flag = true;
     private FragmentTransaction ft;
-    private TextView countryText;
-    private TextView cityText;
-    private TextView criteriaText;
-    private TextView categoryText;
-    private HorizontalScrollView horizontalScrollView;
+
 
     private LinearLayout categoryLayout;
     private LinearLayout criteriaLayout;
     private LinearLayout categoryContainer;
     private LinearLayout criteriaContainer;
+    private EditText editText;
 
-    /*Категории ресторанов*/
-    private PizzaButtonFragment pizzaButtonFragment;
-    private SushiButtonFragment sushiButtonFragment;
-    private AsianButtonFragment asianButtonFragment;
-    private EuropeanButtonFragment europeanButtonFragment;
-    private CaucasianButtonFragment caucasianButtonFragment;
+    private Language language;
+
+    private RestaurantFilter filter;
 
     public SlidingMenuConfig(FragmentActivity activity) {
         this.activity = activity;
+        language = Language.getInstance();
     }
 
     public void initSlidingMenu(){
-
-        categoryLayout = (LinearLayout) activity.findViewById(R.id.category_layout);
-        criteriaLayout = (LinearLayout) activity.findViewById(R.id.criteria_layout);
-        categoryContainer = (LinearLayout) activity.findViewById(R.id.category_container);
-        categoryContainer.setVisibility(View.GONE);
-        criteriaContainer = (LinearLayout) activity.findViewById(R.id.criteria_container);
-        criteriaContainer.setVisibility(View.GONE);
-
-        /*Инициализация стран и городов*/
-//        List<Country> countries = new ArrayList<Country>();
-//        List<String> estonia = new ArrayList<String>();
-//        List<String> finland = new ArrayList<String>();
-//        List<String> latvia = new ArrayList<String>();
-//
-//        estonia.add("Тарту");
-//        estonia.add("Рапла");
-//        estonia.add("Вилджанди");
-//
-//        finland.add("Тампере");
-//        finland.add("Лахти");
-//        finland.add("Хельсинки");
-//
-//        latvia.add("Рига");
-//        latvia.add("Джелгава");
-//        latvia.add("Валмиера");
-//
-//        countries.add(new Country("Эстония"));
-//        countries.add(new Country("Финляндия"));
-//        countries.add(new Country("Латвия"));
-//
-//        countries.get(0).setCities(estonia);
-//        countries.get(1).setCities(finland);
-//        countries.get(2).setCities(latvia);
-        /*Конец инициализации стран и городов*/
-
+        Typeface geometric = Typeface.createFromAsset(activity.getAssets(), "fonts/geometric/geometric_706_black.ttf");
+        Typeface arimo = Typeface.createFromAsset(activity.getAssets(), "fonts/arimo/Arimo_Regular.ttf");
 
         SlidingMenu menu = new SlidingMenu(activity);
-        ((MainActivity) activity).setCustomViewAbove(menu.getmViewAbove());
+        MainActivity.setCustomViewAbove(menu.getmViewAbove());
         menu.setMode(SlidingMenu.LEFT);
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
         menu.setShadowWidthRes(R.dimen.shadow_width);
@@ -108,17 +61,49 @@ public class SlidingMenuConfig {
         menu.attachToActivity(activity, SlidingMenu.SLIDING_CONTENT);
         menu.setMenu(R.layout.menu_main);
 
+        categoryLayout = (LinearLayout) activity.findViewById(R.id.category_layout);
+        criteriaLayout = (LinearLayout) activity.findViewById(R.id.criteria_layout);
+        categoryContainer = (LinearLayout) activity.findViewById(R.id.category_container);
+        categoryContainer.setVisibility(View.GONE);
+        criteriaContainer = (LinearLayout) activity.findViewById(R.id.criteria_container);
+        criteriaContainer.setVisibility(View.GONE);
+        editText = (EditText) activity.findViewById(R.id.editText);
+
+        TextView categoryText = (TextView) activity.findViewById(R.id.categoryText);
+        categoryText.setTypeface(geometric);
+
+        TextView criteriaText = (TextView) activity.findViewById(R.id.criteriaText);
+        criteriaText.setTypeface(geometric);
+
+        TextView searchButton = (TextView) activity.findViewById(R.id.search_button);
+        searchButton.setTypeface(geometric);
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                RestaurantFilter.getSearchData().setText(String.valueOf(editText.getText()));
+                RestaurantFilter.getSearchData().setStateUse(true);
+
+                new ChangeLocale(((AppCompatActivity)activity)).execute(language.getURL());
+            }
+        });
+
         initListeners();
     }
 
     private void initListeners(){
+
+        filter = RestaurantFilter.getInstance();
+
+        addFilterData();
+
         categoryLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (categoryContainer.getVisibility() == View.VISIBLE){
+                if (categoryContainer.getVisibility() == View.VISIBLE) {
                     categoryContainer.setVisibility(View.GONE);
-                }
-                else {
+                } else {
                     categoryContainer.setVisibility(View.VISIBLE);
                     criteriaContainer.setVisibility(View.GONE);
                 }
@@ -129,157 +114,39 @@ public class SlidingMenuConfig {
         criteriaLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (criteriaContainer.getVisibility() == View.VISIBLE){
+                if (criteriaContainer.getVisibility() == View.VISIBLE) {
                     criteriaContainer.setVisibility(View.GONE);
-                }
-                else {
+                } else {
                     criteriaContainer.setVisibility(View.VISIBLE);
                     categoryContainer.setVisibility(View.GONE);
                 }
             }
         });
+
+
     }
 
-    private void addFragmentOnPlace(int idFrame, IFragments objKitchen){
+    private void addFilterData(){
+        List<FilterData> dataList = filter.getCategoryList();
         ft = activity.getSupportFragmentManager().beginTransaction();
-        ft.add(idFrame, (Fragment) objKitchen);
+        for (FilterData filterData : dataList) {
+            FilterItemFragment filterItemFragment = new FilterItemFragment();
+            filterItemFragment.setFilterData(filterData);
+            filterItemFragment.setResIdContainer(R.id.filterLayout);
+
+            ft.add(R.id.category_container, filterItemFragment);
+        }
         ft.commit();
 
-        horizontalScrollView = (HorizontalScrollView) activity.findViewById(R.id.horizontalScrollView);
-        horizontalScrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                horizontalScrollView.post(new Runnable() {
-                    public void run() {
-                        horizontalScrollView.fullScroll(View.FOCUS_RIGHT);
-                    }
-                });
-            }
-        });
-    }
-
-    private void removeFragmentFromPlace(IFragments objKitchen){
+        dataList = filter.getCriteriaList();
         ft = activity.getSupportFragmentManager().beginTransaction();
-        ft.remove((Fragment) objKitchen);
-        ft.commit();
-    }
+        for (FilterData filterData : dataList) {
+            FilterItemFragment filterItemFragment = new FilterItemFragment();
+            filterItemFragment.setFilterData(filterData);
+            filterItemFragment.setResIdContainer(R.id.filterLayout);
 
-    private void slidingMenu(int idFrame, IFragments fragment){
-        ft = activity.getSupportFragmentManager().beginTransaction();
-        ft.setCustomAnimations(R.anim.abc_slide_in_top, R.anim.abc_slide_in_bottom);
-
-        if (flag && (idFragmentGlobal == idFrame || idFragmentGlobal == -1)){
-            ft.add(idFrame, (Fragment) fragment);
-            idFragmentGlobal = idFrame;
-            fragmentGlobal = (Fragment) fragment;
-            flag = false;
-        }
-        else if (!flag && idFrame == idFragmentGlobal){
-            ft.remove((Fragment) fragment);
-            idFragmentGlobal = -1;
-            flag = true;
-        }
-        else if (!flag && idFrame != idFragmentGlobal){
-            ft.remove(fragmentGlobal);
-            ft.commit();
-            fragmentGlobal = (Fragment) fragment;
-            idFragmentGlobal = idFrame;
-            flag = true;
-            slidingMenu(idFrame, fragment);
-            return;
+            ft.add(R.id.criteria_container, filterItemFragment);
         }
         ft.commit();
-    }
-
-    public void onClickDp(int viewId){
-        switch (viewId){
-            case R.id.countryLayout:{
-                slidingMenu(R.id.countryFrame, countryFragment);
-                break;
-            }
-            case R.id.cityLayout:{
-                slidingMenu(R.id.cityFrame, cityFragment);
-                break;
-            }
-            case R.id.kitchenLayout:{
-                slidingMenu(R.id.kitchenFrame, kitchenFragment);
-                break;
-            }
-            case R.id.categoryLayout:{
-                slidingMenu(R.id.categoryFrame, categoryFragment);
-                break;
-            }
-            case R.id.pizzaClick:{
-                if (pizzaButtonFragment != null){
-                    return;
-                }
-
-                pizzaButtonFragment = new PizzaButtonFragment();
-                addFragmentOnPlace(R.id.filterLayout, pizzaButtonFragment);
-                break;
-            }
-            case R.id.sushiClick:{
-                if (sushiButtonFragment != null){
-                    return;
-                }
-
-                sushiButtonFragment = new SushiButtonFragment();
-                addFragmentOnPlace(R.id.filterLayout, sushiButtonFragment);
-                break;
-            }
-            case R.id.caucasianClick:{
-                if (caucasianButtonFragment != null){
-                    return;
-                }
-
-                caucasianButtonFragment = new CaucasianButtonFragment();
-                addFragmentOnPlace(R.id.filterLayout, caucasianButtonFragment);
-                break;
-            }
-            case R.id.asianClick:{
-                if (asianButtonFragment != null){
-                    return;
-                }
-
-                asianButtonFragment = new AsianButtonFragment();
-                addFragmentOnPlace(R.id.filterLayout, asianButtonFragment);
-                break;
-            }
-            case R.id.europeanClick:{
-                if (europeanButtonFragment != null){
-                    return;
-                }
-
-                europeanButtonFragment = new EuropeanButtonFragment();
-                addFragmentOnPlace(R.id.filterLayout, europeanButtonFragment);
-                break;
-            }
-            case R.id.pizzaClickRemove:{
-                removeFragmentFromPlace(pizzaButtonFragment);
-                pizzaButtonFragment = null;
-                break;
-            }
-            case R.id.sushiClickRemove:{
-                removeFragmentFromPlace(sushiButtonFragment);
-                sushiButtonFragment = null;
-                break;
-            }
-            case R.id.caucasianClickRemove:{
-                removeFragmentFromPlace(caucasianButtonFragment);
-                caucasianButtonFragment = null;
-                break;
-            }
-            case R.id.asianClickRemove:{
-                removeFragmentFromPlace(asianButtonFragment);
-                asianButtonFragment = null;
-                break;
-            }
-            case R.id.europeanClickRemove:{
-                removeFragmentFromPlace(europeanButtonFragment);
-                europeanButtonFragment = null;
-                break;
-            }
-            default: break;
-        }
     }
 }

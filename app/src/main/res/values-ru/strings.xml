@@ -54,5 +54,6 @@
     <string name="login">ВХОД</string>
     <string name="info">ИНФО</string>
     <string name="reviews">ОТЗЫВЫ</string>
+    <string name="search_button">ПОИСК</string>
 
 </resources>

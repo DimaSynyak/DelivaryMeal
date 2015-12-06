@@ -2,31 +2,32 @@ package com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.IActivity;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.MainActivity;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Language;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Languages;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by 1 on 30.10.2015.
  */
 public class LanguagesTitle extends Fragment {
 
-    private LanguagesImg languagesImg;
-    private IActivity activity;
+    private Language language;
+    private FragmentTransaction ft;
+    private LanguagesFragmentOpacityLow languagesFragmentOpacityLow;
+    private int idContainer;
 
     public LanguagesTitle() {
-        super();
-    }
-
-    public LanguagesTitle(IActivity activity) {
-        this.activity = activity;
+        language = Language.getInstance();
+        languagesFragmentOpacityLow = new LanguagesFragmentOpacityLow();
     }
 
     @Override
@@ -36,29 +37,85 @@ public class LanguagesTitle extends Fragment {
         viewHierarchy.findViewById(R.id.russianText).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.changeLanguage(Languages.RU);
-                languagesImg.dropDownUpLanguageList();
+                ((IActivity)getActivity()).changeLanguage(Languages.RU);
+                dropDownUpLanguageList();
             }
         });
         viewHierarchy.findViewById(R.id.estoniaText).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.changeLanguage(Languages.EE);
-                languagesImg.dropDownUpLanguageList();
+                ((IActivity)getActivity()).changeLanguage(Languages.EE);
+                dropDownUpLanguageList();
             }
         });
         viewHierarchy.findViewById(R.id.englishText).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.changeLanguage(Languages.EN);
-                languagesImg.dropDownUpLanguageList();
+                ((IActivity)getActivity()).changeLanguage(Languages.EN);
+                dropDownUpLanguageList();
             }
         });
         return viewHierarchy;
     }
 
 
-    public void setLanguagesImg(LanguagesImg languagesImg) {
-        this.languagesImg = languagesImg;
+    public void dropDownUpLanguageList(AppCompatActivity activity){
+        if (MainActivity.getCustomViewAbove() != null) {
+            if (MainActivity.getCustomViewAbove().getCurrentItem() == 0) {
+                MainActivity.getCustomViewAbove().setCurrentItem(1);
+            }
+        }
+        ft = activity.getSupportFragmentManager().beginTransaction();
+        if (!isAdded()) {
+            ft.add(idContainer, languagesFragmentOpacityLow);
+            ft.commit();
+
+            ft = activity.getSupportFragmentManager().beginTransaction();
+            ft.setCustomAnimations(R.anim.abc_slide_in_top, R.anim.abc_slide_in_bottom);
+            ft.add(idContainer, this);
+            ft.commit();
+        }
+        else {
+            ft.remove(this);
+            ft.commit();
+            ft = activity.getSupportFragmentManager().beginTransaction();
+            ft.remove(languagesFragmentOpacityLow);
+            ft.commit();
+        }
+
+    }
+
+    public void dropDownUpLanguageList(){
+        if (MainActivity.getCustomViewAbove() != null) {
+            if (MainActivity.getCustomViewAbove().getCurrentItem() == 0) {
+                MainActivity.getCustomViewAbove().setCurrentItem(1);
+            }
+        }
+        ft = getActivity().getSupportFragmentManager().beginTransaction();
+        if (!isAdded()) {
+            ft.add(idContainer, languagesFragmentOpacityLow);
+            ft.commit();
+
+            ft = getActivity().getSupportFragmentManager().beginTransaction();
+            ft.setCustomAnimations(R.anim.abc_slide_in_top, R.anim.abc_slide_in_bottom);
+            ft.add(idContainer, this);
+            ft.commit();
+        }
+        else {
+            ft.remove(this);
+            ft.commit();
+            ft = getActivity().getSupportFragmentManager().beginTransaction();
+            ft.remove(languagesFragmentOpacityLow);
+            ft.commit();
+        }
+
+    }
+
+    public int getIdContainer() {
+        return idContainer;
+    }
+
+    public void setIdContainer(int idContainer) {
+        this.idContainer = idContainer;
     }
 }

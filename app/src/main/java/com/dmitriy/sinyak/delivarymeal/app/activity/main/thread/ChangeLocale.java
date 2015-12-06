@@ -15,6 +15,8 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.main.RestaurantBody;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.RestaurantList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments.LoadPageFragment;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.filter.IFilter;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.filter.RestaurantFilter;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -37,6 +39,7 @@ public class ChangeLocale extends AsyncTask<String, Void, String> {
     private AppCompatActivity activity;
     private LoadPageFragment loadPageFragment;
     private RestaurantBody restaurantBody;
+    private IFilter filter;
 
     private boolean isCancled;
 
@@ -61,7 +64,7 @@ public class ChangeLocale extends AsyncTask<String, Void, String> {
             }
             ft.commit();
 
-            restaurants.clear();
+            RestaurantList.clear();
         }
 
 
@@ -74,6 +77,8 @@ public class ChangeLocale extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... params) {
+
+        filter = RestaurantFilter.getInstance();
 
         synchronized (count){
             while (!count.isStateLoadFragment()){
@@ -88,7 +93,10 @@ public class ChangeLocale extends AsyncTask<String, Void, String> {
         while (true) {
             Document doc = null;
             try {
-                connection.url(params[0]);
+//                connection.url(params[0]);
+
+                filter.filter(connection);
+
                 response = connection.execute();
                 connection.cookies(response.cookies());
 
@@ -130,17 +138,7 @@ public class ChangeLocale extends AsyncTask<String, Void, String> {
                     restaurant.setStars(element.getElementsByClass("star").get(0).getElementsByTag("span").attr("style"));
                     restaurant.setMenuLink(element.getElementsByClass("food-img").get(0).getElementsByTag("a").attr("href"));
 
-                    try{
-                        URL imgURL = new URL(restaurant.getImgSRC());
-                        Bitmap image = BitmapFactory.decodeStream(imgURL.openConnection().getInputStream());
-                        float k = image.getWidth()/image.getHeight();
-                        int width = 100;
-                        int height = (int) (width * k);
-                        restaurant.setImgBitmap(Bitmap.createScaledBitmap(image, width, height, true));
-                    }
-                    catch (IOException e){
-//                        restaurant.setImgBitmap(((BitmapDrawable) ((MainActivity) activity).getResources().getDrawable(R.drawable.no_image)).getBitmap());
-                    }
+
 
                     RestaurantList.addRestaurant(restaurant);
                 }

@@ -3,7 +3,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="search">Поиск</string>
+    <string name="search">Otsi</string>
     <string name="email">info@menu24.ee</string>
     <string name="phone_number">+37255689197</string>
     <string name="geometric_706_black">fonts/geometric_706_black.ttf</string>
@@ -55,5 +55,6 @@
     <string name="login">LOG</string>
     <string name="info">INFO</string>
     <string name="reviews">REVIEW</string>
+    <string name="search_button">OTSI</string>
 
 </resources>

@@ -18,6 +18,7 @@ public class LoadBarFragment extends Fragment {
     private Count count;
     private TextView dynamicTextView;
     private int data;
+    private boolean stateOnPause;
 
     public LoadBarFragment() {
         super();
@@ -51,6 +52,8 @@ public class LoadBarFragment extends Fragment {
                             LoadBarFragment.this.getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    if (stateOnPause)
+                                        return;
                                     dynamicTextView.setText(String.valueOf(data));
                                 }
                             });
@@ -92,5 +95,18 @@ public class LoadBarFragment extends Fragment {
     public void onStop() {
         super.onStop();
         count = null;
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        stateOnPause = true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        stateOnPause = false;
     }
 }

@@ -1,6 +1,7 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head;
 
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -116,7 +117,15 @@ public class RestaurantHeadFragment extends Fragment {
         timeDeliver.setText(restaurant.getTimeDeliver());
 
         img = (ImageView) view.findViewById(R.id.restaurantHeadAvatar);
-        img.setImageBitmap(restaurant.getImgBitmap());
+
+
+        ImageView imageView = (ImageView) restaurant.getFragment().getView().findViewById(R.id.restaurantAvatar);
+        imageView.buildDrawingCache(true);
+        imageView.getDrawingCache(true);
+
+        BitmapDrawable drawable = (BitmapDrawable)imageView.getDrawable();
+
+        img.setImageBitmap(drawable.getBitmap());
 
         costMealText = (TextView) view.findViewById(R.id.costMealText);
         costDeliverText = (TextView) view.findViewById(R.id.costDeliverText);

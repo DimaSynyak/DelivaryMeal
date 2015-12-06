@@ -3,18 +3,17 @@
     android:orientation="horizontal" android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="#fda94d"
-    android:id="@+id/sushiClickRemove"
-    android:onClick="onClick"
+    android:id="@+id/filter_remove"
     android:clickable="true"
+    android:onClick="onClick"
     android:layout_margin="10dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/sushi"
-        android:id="@+id/pizzaText"
-        android:fontFamily="@string/geometric_706_black"
+        android:text="@string/asian"
+        android:id="@+id/text"
         android:textSize="13sp"
         android:layout_margin="5dp" />
 

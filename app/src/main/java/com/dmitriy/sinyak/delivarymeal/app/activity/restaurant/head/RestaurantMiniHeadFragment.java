@@ -1,6 +1,8 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head;
 
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -106,7 +108,15 @@ public class RestaurantMiniHeadFragment extends Fragment {
         restaurantTitle.setText(restaurant.getName());
 
         img = (ImageView) view.findViewById(R.id.restaurantAvatar);
-        img.setImageBitmap(restaurant.getImgBitmap());
+
+
+        ImageView imageView = (ImageView) restaurant.getFragment().getView().findViewById(R.id.restaurantAvatar);
+        imageView.buildDrawingCache(true);
+        imageView.getDrawingCache(true);
+
+        BitmapDrawable drawable = (BitmapDrawable)imageView.getDrawable();
+
+        img.setImageBitmap(drawable.getBitmap());
 
         menu = (TextView) view.findViewById(R.id.textView7);
 

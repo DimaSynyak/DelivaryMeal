@@ -68,16 +68,17 @@
                         <FrameLayout
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content" android:id="@+id/categoryLayout" android:clickable="false"
-                            android:onClick="onClick"
-                            android:layout_marginBottom="9dp"
-                            android:layout_marginTop="18dp">
+                            android:nestedScrollingEnabled="false"
+                            android:paddingTop="20dp"
+                            android:paddingBottom="9dp">
 
                             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                                 android:textAppearance="?android:attr/textAppearanceLarge"
                                 android:id="@+id/categoryText" android:layout_gravity="left|center_vertical" android:clickable="false"
                                 android:layout_marginLeft="30dp" android:fontFamily="@string/geometric_706_black"
                                 android:textSize="18sp"
-                                android:textColor="#000000" />
+                                android:textColor="#000000"
+                                android:text="@string/kitchen" />
 
                             <ImageView android:layout_width="20dp" android:layout_height="20dp" android:id="@+id/arrowImg4"
                                 android:src="@drawable/arrow" android:layout_gravity="center_vertical|right"
@@ -90,7 +91,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:id="@+id/category_container"
-                            android:visibility="gone"></LinearLayout>
+                            android:visibility="gone"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="10dp"></LinearLayout>
 
                         <ImageView
                             android:layout_width="fill_parent"
@@ -109,15 +112,16 @@
 
                         <FrameLayout android:orientation="horizontal" android:layout_width="match_parent"
                             android:layout_height="wrap_content" android:id="@+id/kitchenLayout"
-                            android:layout_gravity="top" android:clickable="false" android:onClick="onClick"
-                            android:layout_marginBottom="9dp"
-                            android:layout_marginTop="18dp">
+                            android:layout_gravity="top" android:clickable="false"
+                            android:paddingTop="20dp"
+                            android:paddingBottom="9dp">
                             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                                 android:textAppearance="?android:attr/textAppearanceLarge"
                                 android:id="@+id/criteriaText" android:layout_gravity="left|center_vertical"
                                 android:clickable="false" android:layout_marginLeft="30dp" android:textSize="18sp"
                                 android:fontFamily="@string/geometric_706_black"
-                                android:textColor="#000000" />
+                                android:textColor="#000000"
+                                android:text="@string/criteria" />
 
                             <ImageView android:layout_width="20dp" android:layout_height="20dp"
                                 android:id="@+id/arrowImg3" android:src="@drawable/arrow"
@@ -130,7 +134,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:id="@+id/criteria_container"
-                            android:visibility="gone" />
+                            android:visibility="gone"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="10dp" />
 
                         <ImageView
                             android:layout_width="fill_parent"
@@ -142,6 +148,16 @@
 
                 </LinearLayout>
             </ScrollView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/search"
+                android:id="@+id/search_button"
+                android:gravity="center"
+                android:padding="20dp"
+                android:textSize="20sp"
+                android:textColor="#000000" />
 
             <fragment tools:layout="@layout/menu_signature"
                 android:name="com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.SignatureFragment"

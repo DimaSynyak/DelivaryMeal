@@ -7,10 +7,8 @@ import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.body.RestaurantMealFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
-import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.UploadPageAsyncTask;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by 1 on 02.11.2015.
@@ -39,12 +37,13 @@ public class MealBody {
 
     public void init(){
 
-        count_food = COUNT_FOOD;
-        count_food2 = COUNT_FOOD*2;
-
         new Thread(new Runnable() {
             @Override
             public void run() {
+
+                count_food = COUNT_FOOD;
+                count_food2 = COUNT_FOOD*2;
+
                 List<Meal> meals = MealList.getMeals();
                 ft = activity.getSupportFragmentManager().beginTransaction();
 
@@ -57,8 +56,8 @@ public class MealBody {
 
                 ft.commit();
 
-                count_food = count_food2 - 1;
-                new UploadPageAsyncTask(activity).execute();
+                count_food2 = count_food + 1;
+                MealList.startUploadPageAsycTask(activity);
             }
         }).start();
 
@@ -68,11 +67,10 @@ public class MealBody {
         final List<Meal> meals = MealList.getMeals();
 
         synchronized (count_food) {
-            if (count_food2 > meals.size()) {
-                count_food2 = meals.size();
-            }
+
 
             if (count_food >= meals.size()){
+                threadRunState[0] = false;
                 return;
             }
         }
@@ -82,10 +80,15 @@ public class MealBody {
             @Override
             public void run() {
                 synchronized (count_food) {
+
+                    if (count_food2 > meals.size()) {
+                        count_food2 = meals.size();
+                    }
+
                     ft = activity.getSupportFragmentManager().beginTransaction();
 
                     RestaurantMealFragment restaurantMealFragment = null;
-                    for (int i = count_food - 1; i < count_food2; i++) {
+                    for (int i = count_food; i < count_food2; i++) {
                         restaurantMealFragment = new RestaurantMealFragment(meals.get(i));
                         ft.add(R.id.restaurantMenuContainer, restaurantMealFragment);
                     }

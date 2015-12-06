@@ -270,7 +270,7 @@ public class RestaurantMealFragment extends Fragment {
                        garbage.update();
 
                        if (menuFragment == null){
-                           menuFragment = (MenuFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.menu_fragment_id);
+//                           menuFragment = (MenuFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.menu_fragment_id);
                        }
 
                        if (menuFragment != null) {

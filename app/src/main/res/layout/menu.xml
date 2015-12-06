@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,24 +12,1109 @@
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
-
             <ScrollView
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/scrollView" android:fillViewport="false"
                 android:layout_weight="12">
 
-                <FrameLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    <fragment
-                        android:name="com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.fragments.MenuFragment"
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content" android:id="@+id/baseLayout"
+                        android:background="#f1f1f1"
+                        android:visibility="visible">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/search_element"
+                            android:paddingTop="20dp"
+                            android:paddingBottom="20dp">
+
+                            <EditText
+                                android:layout_width="wrap_content"
+                                android:layout_height="32dp"
+                                android:id="@+id/editText"
+                                android:background="#d4d4d4"
+                                android:layout_marginLeft="16dp"
+                                android:hint="@string/search"
+                                android:paddingLeft="25dp"
+                                android:fontFamily="@string/arimo_regular"
+                                android:textSize="20dp"
+                                android:layout_gravity="left"
+                                android:layout_weight="25"
+                                android:textColor="#000000"
+                                android:textColorHint="#000000" />
+
+                            <ImageButton
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:id="@+id/imageButton"
+                                android:src="@drawable/loupe"
+                                android:background="#d4d4d4"
+                                android:layout_gravity="right"
+                                android:layout_weight="1"
+                                android:layout_marginRight="30dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/base_layout_container"></LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/search"
+                            android:id="@+id/search_button"
+                            android:gravity="center"
+                            android:padding="20dp"
+                            android:textSize="20sp"
+                            android:textColor="#000000" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:layout="@layout/menu_fragment"
-                        android:id="@+id/menu_fragment_id"/>
-                </FrameLayout>
+                        android:background="#f1f1f1"
+                        android:id="@+id/garbageLayout"
+                        android:visibility="visible">
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clickable="true"
+                            android:id="@+id/linearLayout3"
+                            android:onClick="onClick" >
+
+                            <FrameLayout
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/frameLayout3"
+                                android:clickable="false"
+                                android:layout_marginBottom="9dp"
+                                android:layout_marginTop="18dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="?android:attr/textAppearanceLarge"
+                                    android:text="@string/back"
+                                    android:id="@+id/textView26"
+                                    android:layout_gravity="center_horizontal"
+                                    android:clickable="true"
+                                    android:fontFamily="@string/geometric_706_black"
+                                    android:textSize="18sp"
+                                    android:textColor="#000000" />
+
+                            </FrameLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clickable="true"
+                            android:id="@+id/personalCabinet">
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/frameLayout"
+                                android:clickable="false"
+                                android:layout_marginBottom="9dp"
+                                android:layout_marginTop="18dp"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="?android:attr/textAppearanceLarge"
+                                    android:text="@string/personal_cabinet"
+                                    android:id="@+id/personal_cabinet_text"
+                                    android:layout_gravity="left|center_vertical"
+                                    android:clickable="false"
+                                    android:layout_marginLeft="30dp"
+                                    android:fontFamily="@string/geometric_706_black"
+                                    android:textSize="18sp"
+                                    android:textColor="#000000" />
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:id="@+id/imageView5"
+                                    android:src="@drawable/arrow"
+                                    android:layout_gravity="center_vertical|right"
+                                    android:layout_marginRight="35dp" />
+                            </FrameLayout>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/personal_cabinet_form"
+                            android:visibility="visible">
+
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="20dp"
+                                android:foregroundGravity="center_horizontal"
+                                android:visibility="visible">
+
+                                <LinearLayout
+                                    android:orientation="horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:clickable="true"
+                                    android:id="@+id/registration_btn">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/registration"
+                                        android:id="@+id/registrationText"
+                                        android:layout_weight="1"
+                                        android:textColor="#000000"
+                                        android:textSize="14sp"
+                                        android:gravity="center_vertical" />
+
+                                    <RadioButton
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text=""
+                                        android:id="@+id/registration"
+                                        android:checked="false"
+                                        android:clickable="false"
+                                        android:buttonTint="@android:color/black"
+                                        android:gravity="center_vertical"
+                                        android:layout_marginRight="20dp" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:orientation="horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:clickable="true"
+                                    android:id="@+id/enter_btn">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/login"
+                                        android:layout_weight="1"
+                                        android:textColor="#000000"
+                                        android:textSize="14sp"
+                                        android:layout_gravity="center_vertical"
+                                        android:id="@+id/login" />
+
+                                    <RadioButton
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text=""
+                                        android:id="@+id/enter"
+                                        android:layout_gravity="center_vertical"
+                                        android:checked="true"
+                                        android:clickable="false"
+                                        android:buttonTint="@android:color/black"
+                                        android:layout_marginRight="20dp" />
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="20dp"
+                                android:visibility="gone"
+                                android:id="@+id/name_fields">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/name"
+                                    android:id="@+id/name_reg_form_label"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:paddingLeft="20dp"
+                                    android:gravity="center_vertical|left" />
+
+                                <EditText
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/name_reg_form"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="Dmitriy" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="20dp"
+                                android:visibility="gone"
+                                android:id="@+id/city_fields">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/city"
+                                    android:id="@+id/city_reg_form_label"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:paddingLeft="20dp"
+                                    android:gravity="center_vertical|left" />
+
+                                <EditText
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/city_reg_form"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="Talin" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="20dp"
+                                android:id="@+id/street_fields"
+                                android:visibility="gone">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/address"
+                                    android:id="@+id/street_reg_form_label"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:paddingLeft="20dp"
+                                    android:gravity="center_vertical|left" />
+
+                                <EditText
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/street_reg_form"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="Beketova" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="20dp"
+                                android:id="@+id/num_house_fields"
+                                android:visibility="gone">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/num_house"
+                                    android:id="@+id/num_house_reg_form_label"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:paddingLeft="20dp"
+                                    android:gravity="center_vertical|left" />
+
+                                <EditText
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/house_num_reg_form"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="11" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="20dp"
+                                android:id="@+id/num_flat_fields"
+                                android:visibility="gone">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/num_flat"
+                                    android:id="@+id/num_flat_reg_form_label"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:paddingLeft="20dp"
+                                    android:gravity="center_vertical|left" />
+
+                                <EditText
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/flat_num_reg_form"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="22" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="20dp"
+                                android:visibility="visible"
+                                android:id="@+id/email_fields">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/your_email"
+                                    android:id="@+id/email_reg_form_label"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:paddingLeft="20dp"
+                                    android:gravity="center_vertical|left" />
+
+                                <EditText
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/email_reg_form"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="qwertyuiop@mail.ru"
+                                    android:textSize="16sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="20dp"
+                                android:visibility="gone"
+                                android:id="@+id/phone_fields">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/your_phone"
+                                    android:id="@+id/phone_reg_form_label"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:paddingLeft="20dp"
+                                    android:gravity="center_vertical|left" />
+
+                                <EditText
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/phone_reg_form"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="777" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="20dp"
+                                android:visibility="gone"
+                                android:id="@+id/country_fields">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/country"
+                                    android:id="@+id/country_reg_form_label"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:paddingLeft="20dp"
+                                    android:gravity="center_vertical|left" />
+
+                                <EditText
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/country_reg_form"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="777" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="20dp"
+                                android:id="@+id/index_fields"
+                                android:visibility="gone">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/index"
+                                    android:id="@+id/index_reg_form_label"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:paddingLeft="20dp"
+                                    android:gravity="center_vertical|left" />
+
+                                <EditText
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/index_reg_form"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="777" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="20dp"
+                                android:id="@+id/password_fields">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/password"
+                                    android:id="@+id/password_reg_form_label"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:paddingLeft="20dp"
+                                    android:gravity="center_vertical|left" />
+
+                                <EditText
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/password_reg_form"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="qwertyuiop"
+                                    android:inputType="textPassword"
+                                    android:textSize="16sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="20dp"
+                                android:id="@+id/confirm_password_fields"
+                                android:visibility="gone">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/confirm_password"
+                                    android:id="@+id/confirm_pass_reg_form_label"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:paddingLeft="20dp"
+                                    android:gravity="center_vertical|left" />
+
+                                <EditText
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/confirm_password_reg_form"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="777"
+                                    android:inputType="textPassword" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/container_id"
+                                android:gravity="center"
+                                android:layout_gravity="center_horizontal"></LinearLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/enter"
+                                android:id="@+id/ok_reg_form_btn"
+                                android:layout_gravity="center_horizontal"
+                                android:textSize="18sp"
+                                android:textColor="#000000"
+                                android:padding="15dp"
+                                android:clickable="true" />
+
+                        </LinearLayout>
+
+                        <FrameLayout android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:id="@+id/personalDataContainer"
+                            android:layout_gravity="bottom"/>
+
+                        <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                            android:id="@+id/lineView1" android:background="@drawable/line"/>
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clickable="true"
+                            android:id="@+id/formDataClick">
+                            <FrameLayout
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content" android:id="@+id/deliverLayout" android:clickable="false"
+                                android:layout_marginBottom="9dp"
+                                android:layout_marginTop="18dp">
+                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                    android:textAppearance="?android:attr/textAppearanceLarge" android:text="@string/your_data"
+                                    android:id="@+id/deliverText" android:layout_gravity="left|center_vertical" android:clickable="false"
+                                    android:layout_marginLeft="30dp" android:fontFamily="@string/geometric_706_black"
+                                    android:textSize="18sp"
+                                    android:textColor="#000000" />
+                                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:id="@+id/arrowImg1"
+                                    android:src="@drawable/arrow" android:layout_gravity="center_vertical|right"
+                                    android:layout_marginRight="35dp"/>
+                            </FrameLayout>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:id="@+id/formDataFragmentId"
+                            android:visibility="visible">
+
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="20dp"
+                                android:foregroundGravity="center_horizontal">
+
+                                <LinearLayout
+                                    android:orientation="horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:clickable="true"
+                                    android:id="@+id/delivery_btn">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/with_delivery"
+                                        android:id="@+id/withDelivery"
+                                        android:layout_weight="1"
+                                        android:textColor="#000000"
+                                        android:textSize="14sp"
+                                        android:gravity="center_vertical" />
+
+                                    <RadioButton
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text=""
+                                        android:id="@+id/delivery"
+                                        android:checked="true"
+                                        android:clickable="false"
+                                        android:buttonTint="@android:color/black"
+                                        android:gravity="center_vertical"
+                                        android:layout_marginRight="20dp" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:orientation="horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:clickable="true"
+                                    android:id="@+id/non_delivery_btn">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/without_delivery"
+                                        android:layout_weight="1"
+                                        android:textColor="#000000"
+                                        android:textSize="14sp"
+                                        android:layout_gravity="center_vertical"
+                                        android:id="@+id/withoutDelivery" />
+
+                                    <RadioButton
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text=""
+                                        android:id="@+id/non_delivery"
+                                        android:layout_gravity="center_vertical"
+                                        android:checked="false"
+                                        android:clickable="false"
+                                        android:buttonTint="@android:color/black"
+                                        android:layout_marginRight="20dp" />
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="20dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/enter_name"
+                                    android:id="@+id/name"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:paddingLeft="20dp"
+                                    android:gravity="center_vertical|left" />
+
+                                <EditText
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/yourName"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="Dmitriy" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="20dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/choose_city"
+                                    android:id="@+id/city"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:paddingLeft="20dp"
+                                    android:gravity="center_vertical|left" />
+
+                                <EditText
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/yourCity"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="Talin" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="20dp"
+                                android:id="@+id/street">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/address"
+                                    android:id="@+id/streetText"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:paddingLeft="20dp"
+                                    android:gravity="center_vertical|left" />
+
+                                <EditText
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/yourStreet"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="Beketova" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="20dp"
+                                android:id="@+id/num_house">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/num_house"
+                                    android:id="@+id/numHouse"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:paddingLeft="20dp"
+                                    android:gravity="center_vertical|left" />
+
+                                <EditText
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/yourHouseNum"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="11" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="20dp"
+                                android:id="@+id/num_flat">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/num_flat"
+                                    android:id="@+id/numFlat"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:paddingLeft="20dp"
+                                    android:gravity="center_vertical|left" />
+
+                                <EditText
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/yourFlatNum"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="22" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="20dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/your_email"
+                                    android:id="@+id/email"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:paddingLeft="20dp"
+                                    android:gravity="center_vertical|left" />
+
+                                <EditText
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/yourEmail"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="ds@mail.ru" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="20dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/your_phone"
+                                    android:id="@+id/phone"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:paddingLeft="20dp"
+                                    android:gravity="center_vertical|left" />
+
+                                <EditText
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/yourPhone"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="777" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="20dp">
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:layout_marginTop="-20dp">
+
+                                <DatePicker
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/datePicker"
+                                    android:layout_weight="1"
+                                    android:calendarViewShown="false"
+                                    android:scaleX="0.8"
+                                    android:scaleY="0.8"
+                                    android:padding="-20dp"/>
+
+                                <TimePicker
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/timePicker"
+                                    android:layout_weight="1"
+                                    android:scaleX="0.8"
+                                    android:scaleY="0.8"
+                                    android:padding="-20dp"/>
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                            android:id="@+id/lineView21" android:background="@drawable/line"/>
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clickable="true"
+                            android:id="@+id/orderClick">
+
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content" android:id="@+id/meals" android:clickable="false"
+                                android:layout_marginBottom="9dp"
+                                android:layout_marginTop="18dp"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false">
+                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                    android:textAppearance="?android:attr/textAppearanceLarge" android:text="@string/your_order"
+                                    android:id="@+id/mealText" android:layout_gravity="left|center_vertical" android:clickable="false"
+                                    android:layout_marginLeft="30dp" android:fontFamily="@string/geometric_706_black"
+                                    android:textSize="18sp"
+                                    android:textColor="#000000" />
+                                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:id="@+id/arrowImg4"
+                                    android:src="@drawable/arrow" android:layout_gravity="center_vertical|right"
+                                    android:layout_marginRight="35dp"/>
+                            </FrameLayout>
+
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:id="@+id/orderDataContainer"
+                                android:layout_gravity="bottom"/>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:visibility="visible"
+                                android:id="@+id/total">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#000000"
+                                    android:textSize="16sp"
+                                    android:text="@string/total"
+                                    android:id="@+id/total_text1"
+                                    android:paddingTop="10dp"
+                                    android:paddingBottom="10dp"
+                                    android:paddingLeft="10dp" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text=":"
+                                    android:textColor="#000000"
+                                    android:textSize="18sp"
+                                    android:paddingTop="10dp"
+                                    android:paddingBottom="10dp" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#000000"
+                                    android:textSize="16sp"
+                                    android:text="1250"
+                                    android:id="@+id/total_text2"
+                                    android:padding="10dp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="25.11.15 9:48"
+                                    android:id="@+id/dateOrder"
+                                    android:textSize="14sp"
+                                    android:textColor="#000000"
+                                    android:layout_marginLeft="10dp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:id="@+id/payment_method">
+
+                                <LinearLayout
+                                    android:orientation="horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="50dp"
+                                        android:id="@+id/seb_btn"
+                                        android:src="@drawable/seb"
+                                        android:clickable="true"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1"
+                                        android:padding="10dp"
+                                        android:layout_margin="5dp" />
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="50dp"
+                                        android:id="@+id/swed_btn"
+                                        android:src="@drawable/swedbank"
+                                        android:clickable="true"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1"
+                                        android:padding="10dp"
+                                        android:layout_margin="5dp" />
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="50dp"
+                                        android:id="@+id/lhv_btn"
+                                        android:src="@drawable/lhv"
+                                        android:clickable="true"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1"
+                                        android:padding="10dp"
+                                        android:layout_margin="5dp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:orientation="horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:layout_marginBottom="10dp">
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="50dp"
+                                        android:id="@+id/nordea_btn"
+                                        android:src="@drawable/nordea"
+                                        android:clickable="true"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1"
+                                        android:padding="10dp"
+                                        android:layout_margin="5dp" />
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="50dp"
+                                        android:id="@+id/danske_btn"
+                                        android:src="@drawable/danske"
+                                        android:clickable="true"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1"
+                                        android:padding="10dp"
+                                        android:layout_margin="5dp" />
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="50dp"
+                                        android:id="@+id/kredit_btn"
+                                        android:src="@drawable/krediidipank"
+                                        android:clickable="true"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1"
+                                        android:padding="10dp"
+                                        android:layout_margin="5dp" />
+                                </LinearLayout>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/pay"
+                                    android:id="@+id/textView25"
+                                    android:layout_gravity="center_horizontal"
+                                    android:textColor="#000000"
+                                    android:textSize="18sp"
+                                    android:padding="10dp"
+                                    android:visibility="visible" />
+                            </LinearLayout>
+
+
+                            <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                                android:id="@+id/lineView2" android:background="@drawable/line"/>
+
+                        <!--</LinearLayout>-->
+
+                    </LinearLayout>
+                </LinearLayout>
+                </LinearLayout>
+
             </ScrollView>
 
             <fragment tools:layout="@layout/menu_signature"

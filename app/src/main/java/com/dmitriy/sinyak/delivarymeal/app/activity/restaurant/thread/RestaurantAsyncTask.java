@@ -23,6 +23,8 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.SMCRestauran
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Garnir;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.filter.IFilter;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.filter.MealFilter;
 import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove;
 
 import org.jsoup.Connection;
@@ -54,6 +56,7 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
 
     private Connection connection;
     private Connection.Response response;
+    private IFilter filter;
 
     public RestaurantAsyncTask() {
         super();
@@ -80,6 +83,8 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... params) {
 
+        filter = MealFilter.getInstance();
+
         synchronized (count) {
             while (!count.isStateLoadFragment()) {
                 try {
@@ -99,6 +104,8 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
 
                 Document doc = null;
                 doc = response.parse();
+
+                filter.init(doc);
 
                 count.complete();
                 Elements elements = doc.getElementsByClass("item-food");
@@ -261,6 +268,7 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
 
         ((RestaurantActivity) activity).initInfo();
         new UploadReviews(activity).start();
+        MealList.startUploadPageAsycTask(activity);
         cancel(true);
     }
 

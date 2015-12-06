@@ -18,6 +18,9 @@ import java.util.List;
  * Created by 1 on 05.11.2015.
  */
 public class Restaurant {
+
+    private static boolean loginState;
+
     private  int id;
     private String name;
     private String profile; //sostav edi
@@ -348,5 +351,13 @@ public class Restaurant {
         }
 
         this.changes.add(change);
+    }
+
+    public static boolean isLoginState() {
+        return loginState;
+    }
+
+    public static void setLoginState(boolean loginState) {
+        Restaurant.loginState = loginState;
     }
 }

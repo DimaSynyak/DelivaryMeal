@@ -27,12 +27,11 @@
         android:clickable="true"
         android:onClick="onClick" />
 
-    <fragment
-        android:name="com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments.LanguagesImg"
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/languagesFrame"
+        android:id="@+id/language_image"
         android:layout_weight="1"
-        tools:layout="@layout/languages_img_ru"/>
+        android:src="@drawable/language_ru" />
 
 </LinearLayout>

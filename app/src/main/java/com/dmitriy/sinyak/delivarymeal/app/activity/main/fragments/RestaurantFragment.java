@@ -1,7 +1,10 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.main.fragments;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -33,6 +36,8 @@ import java.util.List;
 public class RestaurantFragment extends Fragment {
     private AppCompatActivity activity;
     private Restaurant restaurant;
+    private RestaurantList restaurantList;
+
     private boolean firstFlag;
 
     private TextView name;
@@ -47,6 +52,8 @@ public class RestaurantFragment extends Fragment {
     private TextView costDeliverText;
     private TextView timeDeliverText;
 
+    private Bitmap cutImage;
+
 
     public RestaurantFragment(){
         super();
@@ -55,6 +62,7 @@ public class RestaurantFragment extends Fragment {
     public RestaurantFragment(AppCompatActivity activity, Restaurant restaurant) {
         this.activity = activity;
         this.restaurant = restaurant;
+        restaurantList = RestaurantList.getInstance();
         restaurant.setFragment(this);
     }
 
@@ -87,7 +95,7 @@ public class RestaurantFragment extends Fragment {
         timeDeliver.setText(restaurant.getTimeDeliver());
 
         avatar = (ImageView) view.findViewById(R.id.restaurantAvatar);
-        avatar.setImageBitmap(restaurant.getImgBitmap());
+//        avatar.setImageBitmap(restaurant.getImgBitmap());
 
         stars = (RatingBar) view.findViewById(R.id.ratingBar);
         stars.setRating(restaurant.getStars());
@@ -99,6 +107,7 @@ public class RestaurantFragment extends Fragment {
 
         restaurantProfile = (TextView) view.findViewById(R.id.restaurantProfile);
         restaurantProfile.setTypeface(arimo);
+        restaurantProfile.setText(restaurant.getProfile());
 
         costMealText = (TextView) view.findViewById(R.id.costMealText);
         costMealText.setTypeface(arimo);
@@ -112,7 +121,7 @@ public class RestaurantFragment extends Fragment {
         view.findViewById(R.id.restaurantFragment).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RestaurantList.setPositionRestaurant(restaurant.getId());
+                restaurantList.setPositionRestaurant(restaurant.getId());
                 Intent intent = new Intent(activity, RestaurantActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 intent.putExtra("language", String.valueOf(this));
@@ -120,6 +129,82 @@ public class RestaurantFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                URL imgURL = null;
+                InputStream is = null;
+                try{
+
+                    imgURL = new URL(restaurant.getImgSRC());
+
+                    is = imgURL.openConnection().getInputStream();
+                    BitmapFactory.Options o = new BitmapFactory.Options();
+                    o.inJustDecodeBounds = true;
+                    BitmapFactory.decodeStream(is, null, o);
+                    is.close();
+
+                    int origWidth = o.outWidth;                     //исходная ширина
+                    int origHeight = o.outHeight;                   //исходная высота
+                    int bytesPerPixel = 2;                          //соответствует RGB_555 конфигурации
+                    int maxSize = 480 * 800 * bytesPerPixel;        //Максимально разрешенный размер Bitmap
+                    int desiredWidth = 350;                           //Нужная ширина
+                    int desiredHeight = 318;                          //Нужная высота
+                    int desiredSize = desiredWidth * desiredHeight * bytesPerPixel; //Максимально разрешенный размер Bitmap для заданных width х height
+                    if (desiredSize < maxSize) maxSize = desiredSize;
+                    int scale = 1; //кратность уменьшения
+                    //высчитываем кратность уменьшения
+                    if (origWidth > origHeight) {
+                        scale = Math.round((float) origHeight / (float) desiredHeight);
+                    } else {
+                        scale = Math.round((float) origWidth / (float) desiredWidth);
+                    }
+
+                    o = new BitmapFactory.Options();
+                    o.inSampleSize = scale;
+                    o.inPreferredConfig = Bitmap.Config.RGB_565;
+
+                    is = imgURL.openConnection().getInputStream(); //Ваш InputStream. Важно - открыть его нужно еще раз, т.к второй раз читать из одного и того же InputStream не разрешается (Проверено на ByteArrayInputStream и FileInputStream).
+                    cutImage = BitmapFactory.decodeStream(is, null, o);
+                    is.close();
+                    /**/
+
+//                    restaurant.setImgBitmap(cutImage);
+                    if (cutImage != null) {
+                        RestaurantFragment.this.getActivity().runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                avatar.setImageBitmap(RestaurantFragment.this.cutImage);
+                                cutImage = null;
+                            }
+                        });
+                    }
+                }
+                catch (Exception e){
+                    RestaurantFragment.this.getActivity().runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            avatar.setImageBitmap(((BitmapDrawable) RestaurantFragment.this.getActivity().getResources().getDrawable(R.drawable.no_image)).getBitmap());
+                            cutImage = null;
+                        }
+                    });
+                }
+                finally {
+                    try {
+                        if (is != null)
+                            is.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+
+
         return view;
     }
 
@@ -132,10 +217,10 @@ public class RestaurantFragment extends Fragment {
             costMeal.setText(restaurant.getCostMeal());
             costDeliver.setText(restaurant.getCostDeliver());
             timeDeliver.setText(restaurant.getTimeDeliver());
-            avatar.setImageBitmap(restaurant.getImgBitmap());
+            restaurantProfile.setText(restaurant.getProfile());
             stars.setRating(restaurant.getStars());
 
-            restaurantProfile.setText(restaurant.getProfile());
+
             costMealText.setText(R.string.min_cost_order);
             costDeliverText.setText(R.string.cost_deliver);
             timeDeliverText.setText(R.string.time_deliver);

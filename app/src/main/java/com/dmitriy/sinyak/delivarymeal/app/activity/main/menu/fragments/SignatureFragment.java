@@ -9,12 +9,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.Ifragments.IFragments;
-
 /**
  * Created by 1 on 27.10.2015.
  */
-public class SignatureFragment extends Fragment implements IFragments {
+public class SignatureFragment extends Fragment  {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

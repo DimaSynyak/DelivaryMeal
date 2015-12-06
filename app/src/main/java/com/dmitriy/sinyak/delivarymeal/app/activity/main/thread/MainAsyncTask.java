@@ -67,7 +67,7 @@ public class MainAsyncTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... params) {
-        filter = new RestaurantFilter();
+        filter = RestaurantFilter.getInstance();
         synchronized (count) {
             while (!count.isStateLoadFragment()) {
                 try {
@@ -126,18 +126,6 @@ public class MainAsyncTask extends AsyncTask<String, Void, String> {
                     restaurant.setProfile(element.getElementsByClass("and-profile").html());
                     restaurant.setStars(element.getElementsByClass("star").get(0).getElementsByTag("span").attr("style"));
                     restaurant.setMenuLink(element.getElementsByClass("food-img").get(0).getElementsByTag("a").attr("href"));
-
-                    try{
-                        URL imgURL = new URL(restaurant.getImgSRC());
-                        Bitmap image = BitmapFactory.decodeStream(imgURL.openConnection().getInputStream());
-                        float k = image.getWidth()/image.getHeight();
-                        int width = 350;
-                        int height = (int) (width / k);
-                        restaurant.setImgBitmap(Bitmap.createScaledBitmap(image, width, height, true));
-                    }
-                    catch (IOException e){
-//                        restaurant.setImgBitmap(((BitmapDrawable) ((MainActivity) activity).getResources().getDrawable(R.drawable.no_image)).getBitmap());
-                    }
 
                     RestaurantList.addRestaurant(restaurant);
                 }

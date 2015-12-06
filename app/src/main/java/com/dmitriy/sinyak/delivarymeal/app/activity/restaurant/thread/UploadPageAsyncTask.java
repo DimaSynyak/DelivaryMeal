@@ -18,6 +18,8 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.RestaurantActivit
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.SMCRestaurantActivity;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.filter.MealFilter;
+
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -47,6 +49,7 @@ public class UploadPageAsyncTask extends AsyncTask<String, Void, String> {
     private Connection.Response response;
     private int numPage;
     int numMealBeforeUpload;
+    private MealFilter filter;
 
     public UploadPageAsyncTask() {
         super();
@@ -68,6 +71,7 @@ public class UploadPageAsyncTask extends AsyncTask<String, Void, String> {
     protected void onPreExecute() {
         super.onPreExecute();
 
+        connection = Restaurant.getConnection();
 
         numPage = Restaurant.getNumPage();
 
@@ -76,6 +80,8 @@ public class UploadPageAsyncTask extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... params) {
 
+        filter = MealFilter.getInstance();
+
         while (true) {
             try {
 
@@ -83,13 +89,9 @@ public class UploadPageAsyncTask extends AsyncTask<String, Void, String> {
                     return null;
 
                 while (true) {
-                    connection = Jsoup.connect("http://menu24.ee/wp-admin/admin-ajax.php");
-                    connection.data("page", String.valueOf(Restaurant.getNumPage()));
-                    connection.data("action", "get_food");
-                    connection.data("restaurant", RestaurantList.getRestaurant().getName().toLowerCase());
-                    connection.data("foodCategories", "");
-                    connection.data("search", "");
-                    connection.method(Connection.Method.POST);
+
+                    filter.filter(connection, Restaurant.getNumPage());
+
                     response = connection.execute();
 
                     numMealBeforeUpload = MealList.getMeals().size();
@@ -118,9 +120,12 @@ public class UploadPageAsyncTask extends AsyncTask<String, Void, String> {
                         meal.setCost(element.getElementsByClass("as").get(0).html());
                         meal.setImgURL(element.getElementsByClass("item-img").get(0).getElementsByTag("img").attr("src"));
 
+                        if (isCancelled())
+                            return null;
                         MealList.addMeal(meal);
                     }
                 }
+                Restaurant.setNumPage(2);
                 return null;
 
             }catch(IOException e){
@@ -129,6 +134,8 @@ public class UploadPageAsyncTask extends AsyncTask<String, Void, String> {
                 } catch (InterruptedException e1) {
                     e1.printStackTrace();
                 }
+            }catch (Exception e){
+                System.out.println(1);
             }
         }
 

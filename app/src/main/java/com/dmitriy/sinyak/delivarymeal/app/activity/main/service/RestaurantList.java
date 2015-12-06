@@ -9,9 +9,10 @@ import java.util.List;
 public class RestaurantList {
 
     private static List<Restaurant> restaurants;
-    private static int positionRestaurant;
+    private int positionRestaurant;
+    private static RestaurantList restaurantList;
 
-    public static List<Restaurant> getRestaurants() {
+    public List<Restaurant> getRestaurants() {
         if (restaurants == null){
             restaurants = new ArrayList<Restaurant>();
         }
@@ -19,32 +20,47 @@ public class RestaurantList {
         return restaurants;
     }
 
-    public static void setRestaurants(List<Restaurant> _restaurants) {
+    public static RestaurantList getInstance(){
+        if (restaurantList == null){
+            restaurantList = new RestaurantList();
+        }
+
+        return restaurantList;
+    }
+
+    public  void setRestaurants(List<Restaurant> _restaurants) {
         restaurants = _restaurants;
     }
 
-    public static void addRestaurant(Restaurant restaurant){
+    public  void addRestaurant(Restaurant restaurant){
         getRestaurants().add(restaurant);
     }
 
-    public static void removeRestaurant(Restaurant restaurant){
+    public  void removeRestaurant(Restaurant restaurant){
         getRestaurants().remove(restaurant);
     }
 
-    public static int getPositionRestaurant() {
+    public int getPositionRestaurant() {
         return positionRestaurant;
     }
 
-    public static void setPositionRestaurant(int positionRestaurant) {
-        RestaurantList.positionRestaurant = positionRestaurant;
+    public void setPositionRestaurant(int positionRestaurant) {
+        this.positionRestaurant = positionRestaurant;
     }
 
-    public static Restaurant getRestaurant(){
+    public Restaurant getRestaurant(){
         for (Restaurant restaurant:restaurants ){
-            if (restaurant.getId() == positionRestaurant)
+            if (positionRestaurant == restaurant.getId())
                 return restaurant;
         }
 
         return null;
+    }
+
+    public void clear(){
+        if (restaurants == null){
+            return;
+        }
+        restaurants.clear();
     }
 }

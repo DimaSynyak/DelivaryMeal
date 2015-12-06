@@ -1,9 +1,6 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.main.title;
 
 
-import android.support.v7.app.AppCompatActivity;
-import com.dmitriy.sinyak.delivarymeal.app.activity.IActivity;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments.LanguagesImg;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments.LanguagesTitle;
 
 import java.util.ArrayList;
@@ -20,37 +17,19 @@ public class Language {
     public static final String RESTAURANTS_URL_EN = "http://www.menu24.ee/en/restaurant/";
 
     public static Languages languages;
-    private LanguagesImg languagesImg;
-    private LanguagesTitle languagesTitle;
-    private AppCompatActivity activity;
     private static List<ILanguageListener> iLanguageListeners;
     private static Language language;
 
     public static Language getInstance(){
         if (language == null){
-//            language = new Language();
-            // TODO: 12/3/15 ERROR
+            language = new Language();
         }
         return language;
     }
 
-    public Language(AppCompatActivity activity) {
-        this.activity = activity;
+    public Language() {
 
-        languagesImg = new LanguagesImg(activity);
-        languagesTitle = new LanguagesTitle((IActivity) activity);
 
-        languagesImg.setLanguagesTitle(languagesTitle);
-        languagesTitle.setLanguagesImg(languagesImg);
-        languagesImg.setLanguage(this);
-    }
-
-    public LanguagesImg getLanguagesImg() {
-        return languagesImg;
-    }
-
-    public void setLanguagesImg(LanguagesImg languagesImg) {
-        this.languagesImg = languagesImg;
     }
 
     public Languages getLanguages() {
@@ -98,12 +77,11 @@ public class Language {
 
     }
 
-    public void init(){
-        languagesImg.init(languages);
-    }
+    public LanguagesTitle init(int container){
+        LanguagesTitle languagesTitle = new LanguagesTitle();
+        languagesTitle.setIdContainer(container);
 
-    public void init(int opacity){
-        languagesImg.init(languages, opacity);
+        return languagesTitle;
     }
 
     public static void setiLanguage(ILanguageListener iLanguageListener) {

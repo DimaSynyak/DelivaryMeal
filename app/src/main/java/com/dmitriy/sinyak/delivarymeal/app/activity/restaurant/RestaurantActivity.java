@@ -12,6 +12,7 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup.MarginLayoutParams;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,6 +26,8 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.RestaurantList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Language;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Languages;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments.LanguagesFragmentOpacityLow;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments.LanguagesTitle;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.DelivaryData;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantHeadFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantMiniHeadFragment;
@@ -34,6 +37,7 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.SMCRestauran
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Garbage;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.RegistrationData;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.filter.MealFilter;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.ChangeLanguageAsyncTask;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.RestaurantAsyncTask;
 import com.dmitriy.sinyak.delivarymeal.app.activity.tools.Tools;
@@ -49,7 +53,7 @@ import java.util.Locale;
 public class RestaurantActivity extends AppCompatActivity implements View.OnClickListener, IActivity {
     private SMCRestaurantActivity slidingMenuConfig;
     private Language language;
-    private CustomViewAbove customViewAbove;
+    private static CustomViewAbove customViewAbove;
     private RestaurantHeadFragment restaurantHeadFragment;
     private RestaurantMiniHeadFragment restaurantMiniHeadFragment;
     private RestaurantMiniMenuFragment restaurantMiniMenuFragment;
@@ -86,14 +90,14 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
     private TextView titleBranchOffices;
     private LinearLayout infoLayout;
     private AddressDataFragment addressDataFragment;
+    private LanguagesFragmentOpacityLow languagesFragmentOpacityLow;
+    private LanguagesTitle languagesTitle;
 
     private Typeface geometric;
     private Typeface arimo;
 
     private static List<IRestaurantActivityDestroy> iDestroies;
 
-    private int paymentLanguageContainer;
-    public static final int TWENTY_PERCENT = 20;
     private DelivaryData delivaryData;
 
 
@@ -117,9 +121,9 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         arimo = Typeface.createFromAsset(getAssets(), "fonts/arimo/Arimo_Regular.ttf");
 
          /*INIT LANGUAGE*/
-        languageContainerId = R.id.restaurantLanguageContainer;
-        language = new Language(this);
-        language.init();
+        language = Language.getInstance();
+        languagesTitle = language.init(R.id.restaurantLanguageContainer);
+        init(language.getLanguages());
         /*END INIT LANGUAGE*/
 
         restaurantActivity = this;
@@ -230,8 +234,6 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        if (slidingMenuConfig != null)
-            slidingMenuConfig.onClickDp(v.getId());
         switch (v.getId()){
             case R.id.menuClick:{
                 if (customViewAbove.getCurrentItem() == 1){
@@ -274,14 +276,10 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
                     return;
 
 
-                if (menuFragment == null){
-                    menuFragment = (MenuFragment) getSupportFragmentManager().findFragmentById(R.id.menu_fragment_id);
-                }
-
                 garbageFlag = true;
                 customViewAbove.setCurrentItem(0);
 
-                menuFragment.setGarbageFragment();
+                slidingMenuConfig.setGarbageFragment();
 
                 break;
             }
@@ -368,7 +366,7 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
                 }
 
                 scrollY[0] = scrollView.getScrollY();
-                if (!threadRunState[0] && (scrollView.getChildAt(0).getMeasuredHeight()*2/3)  < scrollY[0]){
+                if (!threadRunState[0] && (scrollView.getChildAt(0).getMeasuredHeight() * 2 / 3) < scrollY[0]) {
                     threadRunState[0] = true;
 
                     MealBody mealBody = MealBody.getInstance(RestaurantActivity.this);
@@ -380,31 +378,24 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         });
     }
 
-    @Override
-    public void setCustomViewAbove(CustomViewAbove customViewAbove) {
-        this.customViewAbove = customViewAbove;
+
+    public static void setCustomViewAbove(CustomViewAbove customViewAbove) {
+        RestaurantActivity.customViewAbove = customViewAbove;
     }
 
-    @Override
-    public CustomViewAbove getCustomViewAbove() {
-        return this.customViewAbove;
+
+    public static CustomViewAbove getCustomViewAbove() {
+        return RestaurantActivity.customViewAbove;
     }
 
-    @Override
-    public int getLanguageContainerId() {
-        return languageContainerId;
-    }
-
-    @Override
-    public void setLanguageContainerId(int languageContainerId) {
-        this.languageContainerId = languageContainerId;
-    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         MealList.getMeals().clear();
         garbage.clear();
+        MealFilter.destroy();
+
 
         if (iDestroies == null)
             return;
@@ -412,6 +403,36 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
             iDestroies.get(i).change();
         }
 
+    }
+
+
+    /***************Language***********************/
+
+    public void init(Languages languages){
+        languagesFragmentOpacityLow = new LanguagesFragmentOpacityLow();
+        if (!(languages == null)){
+
+            switch (languages) {
+                case RU: {
+                    ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_ru);
+                    break;
+                }
+                case EE: {
+                    ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_ee);
+                    break;
+                }
+                case EN: {
+                    ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_en);
+                }
+            }
+        }
+
+        (findViewById(R.id.language_image)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                languagesTitle.dropDownUpLanguageList(RestaurantActivity.this);
+            }
+        });
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
@@ -443,8 +464,6 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         }
 
 
-
-        Fragment iconFragment = (Fragment) getSupportFragmentManager().findFragmentById(R.id.languagesFrame);
         changeLocale = new ChangeLanguageAsyncTask(this);
         Locale myLocale = null;
         Tools tools = Tools.getInstance();
@@ -454,19 +473,19 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
 
         switch (languages){
             case RU:{
-                ((ImageView) iconFragment.getView().findViewById(R.id.languagesClick)).setImageResource(R.drawable.language_ru);
+                ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_ru);
                 myLocale = new Locale("ru");
                 changeLocale.execute(language.getURL());
                 break;
             }
             case EE:{
-                ((ImageView) iconFragment.getView().findViewById(R.id.languagesClick)).setImageResource(R.drawable.language_ee);
+                ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_ee);
                 myLocale = new Locale("et");
                 changeLocale.execute(language.getURL());
                 break;
             }
             case EN:{
-                ((ImageView) iconFragment.getView().findViewById(R.id.languagesClick)).setImageResource(R.drawable.language_en);
+                ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_en);
                 myLocale = new Locale("en");
                 changeLocale.execute(language.getURL());
                 break;
@@ -485,6 +504,11 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void updateUI(){
+
+        EditText search = (EditText) findViewById(R.id.editText);
+        search.setHint(R.string.search);
+        TextView find = (TextView) findViewById(R.id.search_button);
+        find.setText(R.string.search_button);
 
         TextView textView26 = (TextView) findViewById(R.id.textView26);
         textView26.setText(R.string.back);

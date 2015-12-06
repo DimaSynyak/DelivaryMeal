@@ -9,6 +9,7 @@ import org.jsoup.nodes.Document;
  */
 public interface IFilter {
     void filter(Connection connection);
+    void filter(Connection connection, int numPage);
 
     void init(Connection connection);
     void init(Connection.Response response);

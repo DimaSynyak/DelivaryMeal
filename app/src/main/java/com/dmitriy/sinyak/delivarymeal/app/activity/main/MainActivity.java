@@ -2,6 +2,7 @@ package com.dmitriy.sinyak.delivarymeal.app.activity.main;
 
 import android.app.ActionBar;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -19,6 +20,8 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.main.thread.ChangeLocale;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.thread.MainAsyncTask;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Language;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Languages;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments.LanguagesFragmentOpacityLow;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments.LanguagesTitle;
 import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove;
 
 import java.util.Locale;
@@ -26,13 +29,25 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, IActivity {
 
     private Language language;
-    private CustomViewAbove customViewAbove;
+    private static CustomViewAbove customViewAbove;
     private int languageContainerId;
     private boolean firstFlag;
     private android.support.v7.app.ActionBar actionBar;
-    private MainActivity mainActivity;
+    private static MainActivity mainActivity;
     private SlidingMenuConfig slidingMenuConfig;
     private ChangeLocale changeLocale;
+
+    private FragmentTransaction ft;
+    private LanguagesFragmentOpacityLow languagesFragmentOpacityLow;
+    private LanguagesTitle languagesTitle;
+
+
+
+
+
+    public static MainActivity getInstance() {
+        return mainActivity;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +60,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getSupportActionBar().setCustomView(R.layout.title);
 
         /*INIT LANGUAGE*/
-        languageContainerId = R.id.languageContainer;
-        language = new Language(this);
+        language = Language.getInstance();
         language.setLanguageString(local);
-        language.init();
+        languagesTitle = language.init(R.id.languageContainer);
+        init(language.getLanguages());
         /*END INIT LANGUAGE*/
 
         actionBar = getSupportActionBar();
@@ -59,6 +74,79 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         new MainAsyncTask(this).execute();
     }
 
+    /**************************/
+
+    public void init(Languages languages){
+        languagesFragmentOpacityLow = new LanguagesFragmentOpacityLow();
+        if (!(languages == null)){
+
+            switch (languages) {
+                case RU: {
+                    ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_ru);
+                    break;
+                }
+                case EE: {
+                    ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_ee);
+                    break;
+                }
+                case EN: {
+                    ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_en);
+                }
+            }
+        }
+
+        (findViewById(R.id.language_image)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                languagesTitle.dropDownUpLanguageList(MainActivity.this);
+            }
+        });
+    }
+
+
+
+
+    public void setLanguage(Language language) {
+        this.language = language;
+    }
+
+    public void updateLanguage(){
+
+        ChangeLocale changeLocale = null;
+        Locale myLocale = null;
+
+        switch (language.getLanguages()){
+            case RU:{
+                ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_ru);
+                myLocale = new Locale("ru");
+
+                break;
+            }
+            case EE:{
+                ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_ee);
+                myLocale = new Locale("et");
+
+                break;
+            }
+            case EN:{
+                ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_en);
+                myLocale = new Locale("en");
+
+                break;
+            }
+            default: return;
+        }
+        Locale.setDefault(myLocale);
+        android.content.res.Configuration config = new android.content.res.Configuration();
+        config.locale = myLocale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+    }
+    /***************************/
+
+
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -68,9 +156,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-
-        if (slidingMenuConfig != null)
-            slidingMenuConfig.onClickDp(v.getId());
 
         switch (v.getId()){
             case R.id.menuClick:{
@@ -91,20 +176,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public CustomViewAbove getCustomViewAbove() {
+    public static CustomViewAbove getCustomViewAbove() {
         return customViewAbove;
     }
 
-    public void setCustomViewAbove(CustomViewAbove customViewAbove) {
-        this.customViewAbove = customViewAbove;
-    }
-
-    public int getLanguageContainerId() {
-        return languageContainerId;
-    }
-
-    public void setLanguageContainerId(int languageContainerId) {
-        this.languageContainerId = languageContainerId;
+    public static void setCustomViewAbove(CustomViewAbove customViewAbove) {
+        MainActivity.customViewAbove = customViewAbove;
     }
 
     @Override
@@ -118,28 +195,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return;
         }
 
-        Fragment iconFragment = getSupportFragmentManager().findFragmentById(R.id.languagesFrame);
 
         changeLocale = null;
         Locale myLocale = null;
 
         switch (languages){
             case RU:{
-                ((ImageView) iconFragment.getView().findViewById(R.id.languagesClick)).setImageResource(R.drawable.language_ru);
+                ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_ru);
                 myLocale = new Locale("ru");
                 changeLocale = getChangeLocale();
                 changeLocale.execute(Language.RESTAURANTS_URL_RU);
                 break;
             }
             case EE:{
-                ((ImageView) iconFragment.getView().findViewById(R.id.languagesClick)).setImageResource(R.drawable.language_ee);
+                ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_ee);
                 myLocale = new Locale("et");
                 changeLocale = getChangeLocale();
                 changeLocale.execute(Language.RESTAURANTS_URL_EE);
                 break;
             }
             case EN:{
-                ((ImageView) iconFragment.getView().findViewById(R.id.languagesClick)).setImageResource(R.drawable.language_en);
+                ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_en);
                 myLocale = new Locale("en");
                 changeLocale = getChangeLocale();
                 changeLocale.execute(Language.RESTAURANTS_URL_EN);
@@ -156,11 +232,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         language.setLanguages(languages);
     }
 
+    private void updateImageLanguage(){
+
+        switch (language.getLanguages()){
+            case RU:{
+                ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_ru);
+                break;
+            }
+            case EE:{
+                ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_ee);
+                break;
+            }
+            case EN:{
+                ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_en);
+                break;
+            }
+            default: return;
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
         if (firstFlag) {
-            language.getLanguagesImg().updateLanguage();
+            updateImageLanguage();
 
             Restaurant.setConnection(language.getURL());
         }

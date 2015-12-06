@@ -1,5 +1,9 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service;
 
+import android.support.v7.app.AppCompatActivity;
+
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.UploadPageAsyncTask;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +13,7 @@ import java.util.List;
 public class MealList {
     private static List<Meal> meals;
     private static boolean mealListCompleteFlag = true;
+    private static UploadPageAsyncTask uploadPageAsyncTask;
 
     public synchronized static List<Meal> getMeals() {
         if (meals == null){
@@ -53,4 +58,15 @@ public class MealList {
     public static void setMealListCompleteFlag(boolean mealListCompleteFlag) {
         MealList.mealListCompleteFlag = mealListCompleteFlag;
     }
+
+    public static void startUploadPageAsycTask(AppCompatActivity activity){
+        uploadPageAsyncTask = new UploadPageAsyncTask(activity);
+        uploadPageAsyncTask.execute();
+    }
+
+    public static UploadPageAsyncTask getUploadPageAsyncTask(){
+        return uploadPageAsyncTask;
+    }
+
+
 }
