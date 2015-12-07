@@ -55,5 +55,7 @@
     <string name="info">INFO</string>
     <string name="reviews">REVIEWS</string>
     <string name="search_button">SEARCH</string>
+    <string name="kitchen">Food type</string>
+    <string name="criteria">Criteria</string>
 
 </resources>

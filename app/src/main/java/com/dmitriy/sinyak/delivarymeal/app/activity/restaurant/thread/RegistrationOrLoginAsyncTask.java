@@ -1,10 +1,7 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
@@ -12,25 +9,14 @@ import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.lib.NumberProgressBar;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.thread.Count;
-import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.RestaurantActivity;
-import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.fragments.MenuFragment;
-import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.DelivaryData;
-import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Garbage;
-import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
-import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.RegistrationData;
 
 import org.jsoup.Connection;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import example.Tools;
 
 /**
  * Created by 1 on 27.11.2015.
@@ -44,10 +30,19 @@ public class RegistrationOrLoginAsyncTask extends AsyncTask<String, String, Stri
     private Count count;
     private NumberProgressBar numberProgressBar;
     private TextView[] ok;
+    private  int containerId;
 
     public RegistrationOrLoginAsyncTask(AppCompatActivity activity, TextView... textViews) {
         this.activity = activity;
         ok = textViews;
+    }
+
+    public int getContainerId() {
+        return containerId;
+    }
+
+    public void setContainerId(int containerId) {
+        this.containerId = containerId;
     }
 
     @Override
@@ -63,7 +58,7 @@ public class RegistrationOrLoginAsyncTask extends AsyncTask<String, String, Stri
         
         connection = Restaurant.getConnection();
         registrationData = RegistrationData.getInstance();
-        numberProgressBar = new NumberProgressBar(5, R.id.container_id, activity);
+        numberProgressBar = new NumberProgressBar(5, containerId, activity);
         numberProgressBar.init();
     }
 

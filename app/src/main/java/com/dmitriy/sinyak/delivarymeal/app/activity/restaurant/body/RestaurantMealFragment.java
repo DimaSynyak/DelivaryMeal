@@ -1,6 +1,5 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.body;
 
-import android.app.ActionBar;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,20 +13,16 @@ import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.ScrollView;
-import android.widget.Scroller;
 import android.widget.TextView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
-import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.RestaurantActivity;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Garbage;
-import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.fragments.MenuFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.fragments.OrderFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Garnir;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
@@ -35,6 +30,8 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +51,6 @@ public class RestaurantMealFragment extends Fragment {
     private static DisplayMetrics metrics;
     private boolean stateBackgroundColor;
 
-    private MenuFragment menuFragment;
     private OrderFragment orderFragment;
     private FragmentTransaction ft;
     private TextView textView;
@@ -239,7 +235,12 @@ public class RestaurantMealFragment extends Fragment {
                     .setPositiveButton(getActivity().getResources().getString(R.string.ok),
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    meal.addGarnir(String.valueOf(textView.getText()));
+                                    for (Garnir garnir :meal.getGarnirs()){
+                                        if (garnir.getRadioButton().isChecked()){
+                                            meal.addGarnir(String.valueOf(garnir.getGarnirName()));
+                                        }
+                                    }
+
                                     step = 1;
                                     linearLayout.callOnClick();
                                     step = 0;
@@ -269,26 +270,22 @@ public class RestaurantMealFragment extends Fragment {
                        countMeal.setText(String.valueOf(meal.getCountMeal()));
                        garbage.update();
 
-                       if (menuFragment == null){
-//                           menuFragment = (MenuFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.menu_fragment_id);
-                       }
-
-                       if (menuFragment != null) {
-                           if (menuFragment.isAdded()) {
-                               if (menuFragment.isOrderDataClickFlag()) {
-                                   if (meal.getCountMeal() > 1) {
-                                       orderFragment = meal.getOrderFragment();
-                                       TextView countMeal = (TextView) orderFragment.getView().findViewById(R.id.countMeal);
-                                       countMeal.setText(String.valueOf(meal.getCountMeal()));
-                                   } else {
-                                       ft = getActivity().getSupportFragmentManager().beginTransaction();
-                                       ft.add(R.id.orderDataContainer, new OrderFragment(meal));
-                                       ft.commit();
-                                   }
-                               }
-
-                           }
-                       }
+//                       if (menuFragment != null) {
+//                           if (menuFragment.isAdded()) {
+//                               if (menuFragment.isOrderDataClickFlag()) {
+//                                   if (meal.getCountMeal() > 1) {
+//                                       orderFragment = meal.getOrderFragment();
+//                                       TextView countMeal = (TextView) orderFragment.getView().findViewById(R.id.countMeal);
+//                                       countMeal.setText(String.valueOf(meal.getCountMeal()));
+//                                   } else {
+//                                       ft = getActivity().getSupportFragmentManager().beginTransaction();
+//                                       ft.add(R.id.orderDataContainer, new OrderFragment(meal));
+//                                       ft.commit();
+//                                   }
+//                               }
+//
+//                           }
+//                       }
                        break;
                    }
                }
@@ -323,9 +320,12 @@ public class RestaurantMealFragment extends Fragment {
             public void run() {
                 URL imgURL = null;
                 InputStream is = null;
-                try{
 
-                    imgURL = new URL(meal.getImgURL());
+                try{
+                    String query = URLEncoder.encode(meal.getImgURL(), "cp1251");
+//                    query = URLDecoder.decode(query, "UTF-8");
+                    String url = meal.getImgURL();
+                    imgURL = new URL(url);
 
                     is = imgURL.openConnection().getInputStream();
                     BitmapFactory.Options o = new BitmapFactory.Options();

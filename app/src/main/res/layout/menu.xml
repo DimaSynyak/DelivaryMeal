@@ -28,7 +28,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content" android:id="@+id/baseLayout"
                         android:background="#f1f1f1"
-                        android:visibility="visible">
+                        android:visibility="gone">
 
                         <LinearLayout
                             android:orientation="horizontal"
@@ -128,7 +128,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:clickable="true"
-                            android:id="@+id/personalCabinet">
+                            android:id="@+id/personalCabinet"
+                            android:visibility="visible">
                             <FrameLayout
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -863,7 +864,7 @@
                                     android:id="@+id/yourEmail"
                                     android:layout_gravity="center"
                                     android:gravity="center"
-                                    android:text="ds@mail.ru" />
+                                    android:text="qwertyuiop@mail.ru" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -890,7 +891,7 @@
                                     android:id="@+id/yourPhone"
                                     android:layout_gravity="center"
                                     android:gravity="center"
-                                    android:text="777" />
+                                    android:text="744445554454477" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -1092,6 +1093,14 @@
                                         android:padding="10dp"
                                         android:layout_margin="5dp" />
                                 </LinearLayout>
+
+                                <LinearLayout
+                                    android:orientation="vertical"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/payment_container_id"
+                                    android:gravity="center"
+                                    android:layout_gravity="center_horizontal" />
 
                                 <TextView
                                     android:layout_width="wrap_content"

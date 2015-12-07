@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.MainActivity;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.RestaurantBody;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.SlidingMenuConfig;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.RestaurantList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments.LoadPageFragment;
@@ -35,11 +36,13 @@ import java.util.concurrent.TimeUnit;
 public class ChangeLocale extends AsyncTask<String, Void, String> {
     private FragmentTransaction ft;
     private Count count;
+    private boolean flagChangeLocale;
 
     private AppCompatActivity activity;
     private LoadPageFragment loadPageFragment;
     private RestaurantBody restaurantBody;
     private IFilter filter;
+    private RestaurantList restaurantList;
 
     private boolean isCancled;
 
@@ -48,6 +51,7 @@ public class ChangeLocale extends AsyncTask<String, Void, String> {
 
     public ChangeLocale(AppCompatActivity activity) {
         this.activity = activity;
+        restaurantList = RestaurantList.getInstance();
     }
 
     @Override
@@ -56,15 +60,15 @@ public class ChangeLocale extends AsyncTask<String, Void, String> {
 
         connection = Restaurant.getConnection();
 
-        List<Restaurant> restaurants = RestaurantList.getRestaurants();
+        List<Restaurant> restaurants = restaurantList.getRestaurants();
         if (restaurants != null && restaurants.size() > 0) {
             ft = activity.getSupportFragmentManager().beginTransaction();
-            for (Restaurant restaurant : RestaurantList.getRestaurants()) {
+            for (Restaurant restaurant : restaurantList.getRestaurants()) {
                 ft.remove(restaurant.getFragment());
             }
             ft.commit();
 
-            RestaurantList.clear();
+            restaurantList.clear();
         }
 
 
@@ -73,6 +77,10 @@ public class ChangeLocale extends AsyncTask<String, Void, String> {
         ft = activity.getSupportFragmentManager().beginTransaction();
         ft.add(R.id.languageContainer, loadPageFragment);
         ft.commit();
+
+        if (flagChangeLocale) {
+            SlidingMenuConfig.getSlidingMenuConfig().removeFilterData();
+        }
     }
 
     @Override
@@ -93,14 +101,24 @@ public class ChangeLocale extends AsyncTask<String, Void, String> {
         while (true) {
             Document doc = null;
             try {
-//                connection.url(params[0]);
 
-                filter.filter(connection);
+
+                if (flagChangeLocale) {
+                    connection.url(params[0]);
+                }
+                else {
+                    filter.filter(connection);
+                }
 
                 response = connection.execute();
                 connection.cookies(response.cookies());
 
                 doc = response.parse();
+
+                if (flagChangeLocale) {
+                    filter.init(doc);
+                }
+
                 count.complete();
                 Elements elements = doc.getElementsByClass("food-item");
 
@@ -140,7 +158,7 @@ public class ChangeLocale extends AsyncTask<String, Void, String> {
 
 
 
-                    RestaurantList.addRestaurant(restaurant);
+                    restaurantList.addRestaurant(restaurant);
                 }
                 count.complete();
                 count.complete();
@@ -167,15 +185,20 @@ public class ChangeLocale extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
 
-            ft = activity.getSupportFragmentManager().beginTransaction();
-            ft.remove(loadPageFragment);
-            ft.commit();
+        ft = activity.getSupportFragmentManager().beginTransaction();
+        ft.remove(loadPageFragment);
+        ft.commit();
 
-            restaurantBody = RestaurantBody.getInstance(activity);
-            restaurantBody.init();
+        restaurantBody = RestaurantBody.getInstance(activity);
+        restaurantBody.init();
 
-            isCancled = true;
-     cancel(true);
+        if (flagChangeLocale) {
+            SlidingMenuConfig.getSlidingMenuConfig().addFilterData();
+            flagChangeLocale = false;
+        }
+
+        isCancled = true;
+        cancel(true);
     }
 
     public boolean isCancled() {
@@ -192,5 +215,13 @@ public class ChangeLocale extends AsyncTask<String, Void, String> {
 
     public void setLoadPageFragment(LoadPageFragment loadPageFragment) {
         this.loadPageFragment = loadPageFragment;
+    }
+
+    public boolean isFlagChangeLocale() {
+        return flagChangeLocale;
+    }
+
+    public void setFlagChangeLocale(boolean flagChangeLocale) {
+        this.flagChangeLocale = flagChangeLocale;
     }
 }

@@ -7,17 +7,17 @@ import android.widget.RadioButton;
  * Created by 1 on 02.12.2015.
  */
 public class Garnir {
-    private String garnirId;
+    private int garnirId;
     private String garnirName;
     private String garnirValue;
     private LinearLayout horizontalLayout;
     private RadioButton radioButton;
 
-    public String getGarnirId() {
+    public int getGarnirId() {
         return garnirId;
     }
 
-    public void setGarnirId(String garnirId) {
+    public void setGarnirId(int garnirId) {
         this.garnirId = garnirId;
     }
 

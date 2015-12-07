@@ -1,17 +1,11 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
+
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
-
 import com.dmitriy.sinyak.delivarymeal.app.R;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.fragments.AddressDataFragment;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.SlidingMenuConfig;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.RestaurantList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.thread.Count;
@@ -25,10 +19,9 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.filter.IFilter;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.filter.MealFilter;
-import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove;
+import com.dmitriy.sinyak.delivarymeal.app.activity.tools.Tools;
 
 import org.jsoup.Connection;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -53,6 +46,7 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
     private SMCRestaurantActivity slidingMenuConfig;
     private MealBody mealBody;
     private URL imgURL;
+    private RestaurantList restaurantList;
 
     private Connection connection;
     private Connection.Response response;
@@ -64,6 +58,7 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
 
     public RestaurantAsyncTask(AppCompatActivity activity) {
         this.activity = activity;
+        restaurantList = RestaurantList.getInstance();
     }
 
     @Override
@@ -110,7 +105,7 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
                 count.complete();
                 Elements elements = doc.getElementsByClass("item-food");
 
-                Restaurant restaurant = RestaurantList.getRestaurant();
+                Restaurant restaurant = restaurantList.getRestaurant();
 
                 /**/
                 restaurant.setSpecializationField(doc.getElementsByClass("spec").text());
@@ -128,13 +123,22 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
 
                 list = new ArrayList<>();
 
-                list.add(doc.getElementById("android-worktime").text());
-                list.add(doc.getElementById("android-worktime2").text());
+                Element workTime1 = doc.getElementById("android-worktime");
+                if (workTime1 != null) {
+                    list.add(workTime1.text());
+                }
+
+                Element workTime2 = doc.getElementById("android-worktime2");
+                if (workTime2 != null) {
+                    list.add(workTime2.text());
+                }
 
                 restaurant.setWorkTimesData(list);
 
                 Element desc = doc.getElementById("android-about");
-                restaurant.setTitleDescription(desc.text());
+                if (desc != null) {
+                    restaurant.setTitleDescription(desc.text());
+                }
                 StringBuilder str = new StringBuilder();
 
                 Element content = doc.getElementById("android-content");
@@ -174,26 +178,36 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
 
                     Meal meal = new Meal();
 
-                    meal.setId(element.getElementsByClass("add_to_cart_button").attr("data-product_id"));
+                    meal.setId(Tools.getNumInt(element.attr("id")));
                     meal.setName(element.getElementsByClass("and-name").get(0).html());
                     meal.setComposition(element.getElementsByClass("and-composition").get(0).html());
                     meal.setWeight(element.getElementsByClass("pull-right").get(0).html());
                     meal.setCost(element.getElementsByClass("as").get(0).html());
-                    meal.setImgURL(element.getElementsByClass("item-img").get(0).getElementsByTag("img").attr("src"));
+                    meal.setImgURL(element.getElementsByTag("img").attr("src"));
 
                     List<Garnir> garnirs = new ArrayList<>();
 
-
+                    String temp = null;
+                    int variation_id = 0;
                     Element pa_garnish = element.getElementById("pa_garnish");
                     if (pa_garnish != null) {
                         Elements option = pa_garnish.getElementsByTag("option");
 
+                        boolean flag = false;
                         if (option != null)
+
+                            temp = element.select("form[data-product_id =" + meal.getId() + " ]").attr("data-product_variations");
+                        variation_id = Tools.getVariationId(temp);
                             for (Element element1 : option) {
-                                Garnir garnir = new Garnir();
-                                garnir.setGarnirName(element1.text());
-                                garnir.setGarnirValue(element1.attr("value"));
-                                garnirs.add(garnir);
+                                if (flag){
+                                    Garnir garnir = new Garnir();
+                                    garnir.setGarnirName(element1.text());
+                                    garnir.setGarnirValue(element1.attr("value"));
+                                    garnir.setGarnirId(variation_id);
+                                    variation_id++;
+                                    garnirs.add(garnir);
+                                }
+                                flag = true;
                             }
                     }
 

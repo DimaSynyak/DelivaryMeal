@@ -56,5 +56,7 @@
     <string name="info">INFO</string>
     <string name="reviews">REVIEW</string>
     <string name="search_button">OTSI</string>
+    <string name="kitchen">Köögid</string>
+    <string name="criteria">Kriteeriumid</string>
 
 </resources>

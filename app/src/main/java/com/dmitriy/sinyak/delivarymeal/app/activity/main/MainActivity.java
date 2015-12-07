@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mainActivity = this;
 
         Restaurant.setConnection(language.getURL());
-        new MainAsyncTask(this).execute();
+        new MainAsyncTask(this).execute(language.getURL());
     }
 
     /**************************/
@@ -199,11 +200,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         changeLocale = null;
         Locale myLocale = null;
 
+
         switch (languages){
             case RU:{
                 ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_ru);
                 myLocale = new Locale("ru");
                 changeLocale = getChangeLocale();
+                changeLocale.setFlagChangeLocale(true);
                 changeLocale.execute(Language.RESTAURANTS_URL_RU);
                 break;
             }
@@ -211,6 +214,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_ee);
                 myLocale = new Locale("et");
                 changeLocale = getChangeLocale();
+                changeLocale.setFlagChangeLocale(true);
                 changeLocale.execute(Language.RESTAURANTS_URL_EE);
                 break;
             }
@@ -218,6 +222,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_en);
                 myLocale = new Locale("en");
                 changeLocale = getChangeLocale();
+                changeLocale.setFlagChangeLocale(true);
                 changeLocale.execute(Language.RESTAURANTS_URL_EN);
                 break;
             }
@@ -230,6 +235,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
 
         language.setLanguages(languages);
+
+        updateUI();
+    }
+
+
+    private void updateUI(){
+        EditText search = (EditText) findViewById(R.id.editText);
+        search.setHint(R.string.search);
+
+        TextView categoryText = (TextView) findViewById(R.id.categoryText);
+        categoryText.setText(R.string.kitchen);
+
+        TextView criteriaText = (TextView) findViewById(R.id.criteriaText);
+        criteriaText.setText(R.string.criteria);
+
+        TextView searchButton = (TextView) findViewById(R.id.search_button);
+        searchButton.setText(R.string.search_button);
     }
 
     private void updateImageLanguage(){

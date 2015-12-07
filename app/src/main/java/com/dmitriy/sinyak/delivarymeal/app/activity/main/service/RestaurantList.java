@@ -49,12 +49,16 @@ public class RestaurantList {
     }
 
     public Restaurant getRestaurant(){
-        for (Restaurant restaurant:restaurants ){
-            if (positionRestaurant == restaurant.getId())
-                return restaurant;
+        Restaurant restaurant = null;
+        for (Restaurant rest:restaurants ){
+            int id = rest.getId();
+            if (positionRestaurant == id) {
+                restaurant = rest;
+                break;
+            }
         }
 
-        return null;
+        return restaurant;
     }
 
     public void clear(){

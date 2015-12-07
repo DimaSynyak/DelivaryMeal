@@ -19,6 +19,7 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.SMCRestauran
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.filter.MealFilter;
+import com.dmitriy.sinyak.delivarymeal.app.activity.tools.Tools;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -113,7 +114,7 @@ public class UploadPageAsyncTask extends AsyncTask<String, Void, String> {
 
                         Meal meal = new Meal();
 
-                        meal.setId(element.getElementsByClass("add_to_cart_button").attr("data-product_id"));
+                        meal.setId(Tools.getNumInt(element.getElementsByClass("add_to_cart_button").attr("data-product_id")));
                         meal.setName(element.getElementsByClass("and-name").get(0).html());
                         meal.setComposition(element.getElementsByClass("and-composition").get(0).html());
                         meal.setWeight(element.getElementsByClass("pull-right").get(0).html());

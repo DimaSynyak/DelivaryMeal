@@ -29,11 +29,13 @@ public class UploadReviews extends Thread {
     private static int page = 2;
     private AppCompatActivity activity;
     private FragmentTransaction ft;
+    private RestaurantList restaurantList;
 
     public UploadReviews() {
         super();
         this.connection = Restaurant.getConnection();
-        restaurant = RestaurantList.getRestaurant();
+        restaurantList = RestaurantList.getInstance();
+        restaurant = restaurantList.getRestaurant();
     }
 
     public UploadReviews(AppCompatActivity activity) {

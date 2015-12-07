@@ -23,9 +23,9 @@ public class MealList {
         return meals;
     }
 
-    public static synchronized Meal getMeal(String id){
+    public static synchronized Meal getMeal(int id){
         for (Meal meal:meals){
-            if (meal.getId().equals(id)){
+            if (meal.getId() == id){
                 return meal;
             }
         }

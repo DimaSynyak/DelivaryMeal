@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.MainActivity;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.FilterFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.FilterItemFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.thread.ChangeLocale;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Language;
@@ -37,6 +38,8 @@ public class SlidingMenuConfig {
     private LinearLayout criteriaContainer;
     private EditText editText;
 
+    private static SlidingMenuConfig slidingMenuConfig;
+
     private Language language;
 
     private RestaurantFilter filter;
@@ -44,6 +47,7 @@ public class SlidingMenuConfig {
     public SlidingMenuConfig(FragmentActivity activity) {
         this.activity = activity;
         language = Language.getInstance();
+        slidingMenuConfig = this;
     }
 
     public void initSlidingMenu(){
@@ -126,7 +130,7 @@ public class SlidingMenuConfig {
 
     }
 
-    private void addFilterData(){
+    public void addFilterData(){
         List<FilterData> dataList = filter.getCategoryList();
         ft = activity.getSupportFragmentManager().beginTransaction();
         for (FilterData filterData : dataList) {
@@ -148,5 +152,64 @@ public class SlidingMenuConfig {
             ft.add(R.id.criteria_container, filterItemFragment);
         }
         ft.commit();
+    }
+
+    public void updateFilterData(){
+        removeFilterData();
+        addFilterData();
+    }
+
+    public void removeFilterData(){
+        List<FilterData> dataList = filter.getCategoryList();
+
+        for (FilterData filterData : dataList) {
+            FilterItemFragment filterItemFragment = filterData.getFilterItemFragment();
+
+            if (filterItemFragment != null && filterItemFragment.isAdded()){
+                ft = activity.getSupportFragmentManager().beginTransaction();
+                ft.remove(filterItemFragment);
+                ft.commit();
+            }
+
+            FilterFragment filterFragment = filterData.getFilterFragment();
+            if (filterFragment !=null && filterFragment.isAdded()){
+                ft = activity.getSupportFragmentManager().beginTransaction();
+                ft.remove(filterFragment);
+                ft.commit();
+            }
+
+        }
+
+
+        dataList = filter.getCriteriaList();
+
+        for (FilterData filterData : dataList) {
+            FilterItemFragment filterItemFragment = filterData.getFilterItemFragment();
+
+            if (filterItemFragment != null && filterItemFragment.isAdded()){
+                ft = activity.getSupportFragmentManager().beginTransaction();
+                ft.remove(filterItemFragment);
+                ft.commit();
+            }
+
+
+            FilterFragment filterFragment = filterData.getFilterFragment();
+            if (filterFragment !=null && filterFragment.isAdded()){
+                ft = activity.getSupportFragmentManager().beginTransaction();
+                ft.remove(filterFragment);
+                ft.commit();
+            }
+
+        }
+
+        filter.clear();
+    }
+
+    public static SlidingMenuConfig getSlidingMenuConfig() {
+        return slidingMenuConfig;
+    }
+
+    public static void setSlidingMenuConfig(SlidingMenuConfig slidingMenuConfig) {
+        SlidingMenuConfig.slidingMenuConfig = slidingMenuConfig;
     }
 }

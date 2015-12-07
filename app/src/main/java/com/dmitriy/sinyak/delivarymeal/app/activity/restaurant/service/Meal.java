@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class Meal {
 
-    private String id;
+    private int id;
     private String name;
     private String cost;
     private String weight;
@@ -124,29 +124,29 @@ public class Meal {
         garbage.removeAll();
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        String id = null;
-        if(o instanceof String) {
-            id = (String) o;
-        }
-        else {
-            return false;
-        }
-
-        if (this.id.equals(id))
-            return true;
-        else
-            return false;
-    }
+//    @Override
+//    public boolean equals(Object o) {
+//        int id = null;
+//        if(o instanceof String) {
+//            id = (String) o;
+//        }
+//        else {
+//            return false;
+//        }
+//
+//        if (this.id == id)
+//            return true;
+//        else
+//            return false;
+//    }
 
 
     public synchronized List<Garnir> getGarnirs() {

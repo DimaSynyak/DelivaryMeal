@@ -2,6 +2,7 @@ package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.filter;
 
 
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.FilterFragment;
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.FilterItemFragment;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class FilterData {
     private boolean stateUse;
     private List<FilterData> list;
     private FilterFragment filterFragment;
+    private FilterItemFragment filterItemFragment;
 
 
     public boolean isStateUse() {
@@ -63,5 +65,13 @@ public class FilterData {
 
     public void setFilterFragment(FilterFragment filterFragment) {
         this.filterFragment = filterFragment;
+    }
+
+    public FilterItemFragment getFilterItemFragment() {
+        return filterItemFragment;
+    }
+
+    public void setFilterItemFragment(FilterItemFragment filterItemFragment) {
+        this.filterItemFragment = filterItemFragment;
     }
 }

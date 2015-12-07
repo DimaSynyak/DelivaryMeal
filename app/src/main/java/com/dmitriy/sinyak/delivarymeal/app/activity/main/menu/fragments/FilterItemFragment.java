@@ -46,6 +46,7 @@ public class FilterItemFragment extends Fragment {
 
         horizontalScrollView = (HorizontalScrollView) getActivity().findViewById(R.id.horizontalScrollView);
 
+
         buttonLayout = (LinearLayout) view.findViewById(R.id.button_layout);
         buttonLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,9 +54,10 @@ public class FilterItemFragment extends Fragment {
 
                 if (filterData.isStateUse())
                     return;
-
+                filterFragment.setFilterData(filterData);
                 filterData.setStateUse(true);
                 ft = getActivity().getSupportFragmentManager().beginTransaction();
+                filterData.setFilterFragment(filterFragment);
                 ft.add(resIdContainer, filterFragment);
                 ft.commit();
             }
@@ -77,13 +79,15 @@ public class FilterItemFragment extends Fragment {
     }
 
 
+
+
     public FilterItemFragment() {
         filterFragment = new FilterFragment();
     }
 
     public void setFilterData(FilterData filterData) {
         this.filterData = filterData;
-        filterFragment.setFilterData(filterData);
+        filterData.setFilterItemFragment(this);
     }
 
     public int getResIdContainer() {

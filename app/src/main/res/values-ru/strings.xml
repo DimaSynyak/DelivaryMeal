@@ -55,5 +55,7 @@
     <string name="info">ИНФО</string>
     <string name="reviews">ОТЗЫВЫ</string>
     <string name="search_button">ПОИСК</string>
+    <string name="kitchen">Кухня</string>
+    <string name="criteria">Критерии</string>
 
 </resources>

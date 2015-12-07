@@ -5,9 +5,11 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 
+import com.dmitriy.sinyak.delivarymeal.app.activity.lib.NumberProgressBar;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Garbage;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.DelivaryData;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Garnir;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
 
@@ -33,10 +35,14 @@ public class MainAsyncTask extends AsyncTask<String, String, String>{
     private DelivaryData delivaryData;
     private Garbage garbage;
     private List<Meal> mealList;
+    private NumberProgressBar numberProgressBar;
+    private int containerId;
 
-    public MainAsyncTask(AppCompatActivity activity) {
+    public MainAsyncTask(AppCompatActivity activity, int conteinerId) {
         this.activity = activity;
+        this.containerId = conteinerId;
     }
+
 
     @Override
     protected void onPreExecute() {
@@ -46,6 +52,9 @@ public class MainAsyncTask extends AsyncTask<String, String, String>{
         delivaryData = DelivaryData.getInstance();
         garbage = Garbage.getInstance();
         mealList = MealList.getMeals();
+
+        numberProgressBar = new NumberProgressBar(5, containerId, activity);
+        numberProgressBar.init();
     }
 
     @Override
@@ -53,22 +62,41 @@ public class MainAsyncTask extends AsyncTask<String, String, String>{
 
 
         try {
+            numberProgressBar.levelComplete();
             connection.url(params[0]);
             connection.ignoreContentType(true);
-
-            for (String id : garbage.getListID()){
-                Meal meal = MealList.getMeal(id);
+            numberProgressBar.levelComplete();
+            for (Meal meal : garbage.getListOrderMeal()){
 
                 if (meal == null)
                     continue;
 
-                for (int i = 0; i < meal.getCountMeal(); i++) {
-                    connection.data("wc-ajax", "add_to_cart").data("lang", "ru").data("product_id", meal.getId()).method(Connection.Method.GET);
-                    response = connection.execute();
-                    connection.cookies(response.cookies());
+                if (meal.getGarnirs() == null || meal.getGarnirs().size() == 0) {
+                    for (int i = 0; i < meal.getCountMeal(); i++) {
+                        connection.request().data().clear();
+                        connection.data("wc-ajax", "add_to_cart").data("lang", "ru").data("product_id", String.valueOf(meal.getId())).method(Connection.Method.GET);
+                        response = connection.execute();
+                        connection.cookies(response.cookies());
+                    }
+                } else {
+                    for (int i = 0; i < meal.getCountMeal(); i++) {
+
+                        connection.request().data().clear();
+
+                        Garnir garnir = meal.getOrderGarnirs().get(i);
+                        connection
+                                .data("attribute_pa_garnish", garnir.getGarnirValue())
+                                .data("quantity", "1")
+                                .data("add-to-cart",String.valueOf(meal.getId()))
+                                .data("variation_id", String.valueOf(garnir.getGarnirId()))
+                                .data("product_id", String.valueOf(meal.getId()))
+                                .method(Connection.Method.POST);
+                        response = connection.execute();
+                        connection.cookies(response.cookies());
+                    }
                 }
             }
-
+            numberProgressBar.levelComplete();
             Document doc = response.parse();
             Elements elements = doc.select("input");
             String _wpnonce = null;
@@ -98,7 +126,7 @@ public class MainAsyncTask extends AsyncTask<String, String, String>{
                     break;
                 }
             }
-
+            numberProgressBar.levelComplete();
             Restaurant.set_wpnonce(_wpnonce);
 
             connection.url("http://menu24.ee/checkout/");
@@ -142,16 +170,25 @@ public class MainAsyncTask extends AsyncTask<String, String, String>{
 
 
             doc = response.parse();
-
+            numberProgressBar.levelComplete();
             forms = doc.getElementsByAttribute("action");
             url = forms.get(0).attr("action");
 
-
+            numberProgressBar.waitLoadNumber();
         } catch (Exception e) {
             e.printStackTrace();// Display out data about non-internet
+            numberProgressBar.levelComplete();
+            numberProgressBar.levelComplete();
+            numberProgressBar.levelComplete();
+
+            try {
+                numberProgressBar.waitLoadNumber();
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
         }
 
-        return null;
+        return "good";
     }
 
 
@@ -159,6 +196,8 @@ public class MainAsyncTask extends AsyncTask<String, String, String>{
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
+        if (s == null)
+            return;
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         activity.startActivity(intent);
         Restaurant.setConnection("http://menu24.ee/");

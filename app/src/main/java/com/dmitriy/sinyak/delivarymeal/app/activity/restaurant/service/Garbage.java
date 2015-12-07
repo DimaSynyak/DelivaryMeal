@@ -17,12 +17,12 @@ public class Garbage {
     private AppCompatActivity activity;
     private int total;
     private TextView garbageNum;
-    private Set<String> listID;
+    private Set<Meal> listOrderMeal;
     private float totalCost;
     private TextView totalCostStr;
 
     public Garbage() {
-        listID = new HashSet<>();
+        listOrderMeal = new HashSet<>();
     }
 
     public static Garbage getInstance(){
@@ -57,7 +57,7 @@ public class Garbage {
     }
 
     public void add(Meal meal) {
-        listID.add(meal.getId());
+        listOrderMeal.add(meal);
         total++;
         totalCost += Tools.getNum(meal.getCost());
     }
@@ -69,25 +69,25 @@ public class Garbage {
         }
 
         if (meal.getCountMeal() == 0){
-            listID.remove(meal.getId());
+            listOrderMeal.remove(meal.getId());
         }
     }
 
     public void removeAll(){
         total = 0;
-        listID.clear();
+        listOrderMeal.clear();
     }
 
     public static void clear(){
         garbage = null;
     }
 
-    public Set<String> getListID() {
-        return listID;
+    public Set<Meal> getListOrderMeal() {
+        return listOrderMeal;
     }
 
-    public void setListID(Set<String> listID) {
-        this.listID = listID;
+    public void setListOrderMeal(Set<Meal> listOrderMeal) {
+        this.listOrderMeal = listOrderMeal;
     }
 
     public float getTotalCost() {

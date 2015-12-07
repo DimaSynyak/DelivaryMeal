@@ -48,9 +48,11 @@ public class MainAsyncTask extends AsyncTask<String, Void, String> {
     private Connection.Response response;
     private IFilter filter;
 
+    private RestaurantList restaurantList;
 
     public MainAsyncTask(IActivity activity) {
         this.activity = activity;
+        restaurantList = RestaurantList.getInstance();
     }
 
     @Override
@@ -81,6 +83,9 @@ public class MainAsyncTask extends AsyncTask<String, Void, String> {
         while (true) {
             Document doc = null;
             try {
+
+                filter.filter(connection);
+                connection.url(params[0]);
                 response = connection.execute();
                 connection.cookies(response.cookies());
                 doc = response.parse();
@@ -127,7 +132,7 @@ public class MainAsyncTask extends AsyncTask<String, Void, String> {
                     restaurant.setStars(element.getElementsByClass("star").get(0).getElementsByTag("span").attr("style"));
                     restaurant.setMenuLink(element.getElementsByClass("food-img").get(0).getElementsByTag("a").attr("href"));
 
-                    RestaurantList.addRestaurant(restaurant);
+                    restaurantList.addRestaurant(restaurant);
                 }
                 count.complete();
                 count.complete();

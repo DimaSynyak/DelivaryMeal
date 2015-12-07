@@ -54,7 +54,7 @@ public class RestaurantFilter implements IFilter{
                 break;
             }
             case EE:{
-                connection.url("http://menu24.ee/wp-admin/admin-ajax.php?lang=et");
+                connection.url("http://menu24.ee/wp-admin/admin-ajax.php?lang=ee");
                 break;
             }
             case EN:{
@@ -67,11 +67,20 @@ public class RestaurantFilter implements IFilter{
         map.put("search", searchData.getText());
         map.put("opened", "false");
 
+        StringBuilder tmp = new StringBuilder();
+        boolean flag = false;
         for (FilterData filterData : categoryList) {
-            if (filterData.isStateUse() == true)
-                map.put("foodCategories", filterData.getName());
-        }
 
+            if (filterData.isStateUse() == true){
+                if (flag){
+                    tmp.append(",");
+                }
+                tmp.append(filterData.getName());
+                flag = true;
+            }
+
+        }
+        map.put("foodCategories", tmp.toString());
         for (FilterData filterData : criteriaList) {
             if (filterData.isStateUse() == true)
                 map.put(filterData.getId(), "true");
@@ -163,5 +172,14 @@ public class RestaurantFilter implements IFilter{
 
     public static void setSearchData(FilterData searchData) {
         RestaurantFilter.searchData = searchData;
+    }
+    public void clear(){
+        if (categoryList != null){
+            categoryList.clear();
+        }
+
+        if (criteriaList != null){
+            criteriaList.clear();
+        }
     }
 }

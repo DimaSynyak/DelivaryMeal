@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -25,10 +24,8 @@ import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.FilterFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.RestaurantList;
-import com.dmitriy.sinyak.delivarymeal.app.activity.main.thread.ChangeLocale;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Language;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.RestaurantActivity;
-import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.fragments.MenuFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.fragments.OrderFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.ChangeDateListener;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.DelivaryData;
@@ -41,7 +38,6 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.RegistrationData;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.filter.FilterData;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.filter.MealFilter;
-import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.filter.RestaurantFilter;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.ChangeLanguageAsyncTask;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.MainAsyncTask;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.RegistrationOrLoginAsyncTask;
@@ -152,6 +148,7 @@ public class SMCRestaurantActivity {
     private TextView officeNumLabel;
 
     private TextView okRegFormButton;
+    private RestaurantList restaurantList;
 
     private EditText nameRegData;
     private EditText emailRegData;
@@ -202,7 +199,6 @@ public class SMCRestaurantActivity {
     private Typeface geometric;
     private Typeface arimo;
 
-    private MenuFragment menuFragment;
     private OrderFragment orderFragment;
 
     private ChangeLanguageAsyncTask changeLanguageAsyncTask;
@@ -216,14 +212,13 @@ public class SMCRestaurantActivity {
     public SMCRestaurantActivity(FragmentActivity activity) {
         this.activity = activity;
         language = Language.getInstance();
-        restaurant = RestaurantList.getRestaurant();
-
-
         restaurantActivity = ((RestaurantActivity) activity);
         garbage = Garbage.getInstance();
         delivaryData = DelivaryData.getInstance();
         registrationData = RegistrationData.getInstance();
         smcRestaurantActivity = this;
+        restaurantList = RestaurantList.getInstance();
+        restaurant = restaurantList.getRestaurant();
     }
 
     public void initSlidingMenu(){
@@ -502,20 +497,26 @@ public class SMCRestaurantActivity {
                 MealFilter.getSearchData().setText(String.valueOf(editText.getText()));
                 MealFilter.getSearchData().setStateUse(true);
 
-                if (changeLanguageAsyncTask != null && !changeLanguageAsyncTask.isCancelled()){
+                if (changeLanguageAsyncTask != null && !changeLanguageAsyncTask.isCancelled()) {
                     changeLanguageAsyncTask.setIsCancled(true);
                     changeLanguageAsyncTask.cancel(true);
                 }
 
                 UploadPageAsyncTask uploadPageAsyncTask = MealList.getUploadPageAsyncTask();
-                if (uploadPageAsyncTask != null && !uploadPageAsyncTask.isCancelled()){
+                if (uploadPageAsyncTask != null && !uploadPageAsyncTask.isCancelled()) {
                     uploadPageAsyncTask.cancel(true);
                 }
 
+                MealFilter mealFilter = MealFilter.getInstance();
+                mealFilter.setStateMealFilter(true);
                 changeLanguageAsyncTask = new ChangeLanguageAsyncTask(((AppCompatActivity) activity));
                 changeLanguageAsyncTask.execute(language.getURL());
             }
         });
+
+
+        baseLayout.setVisibility(LinearLayout.VISIBLE);
+        garbageLayout.setVisibility(LinearLayout.GONE);
 
        initListeners();
     }
@@ -589,7 +590,7 @@ public class SMCRestaurantActivity {
                 if (!delivaryData.checkData())
                     return;
 
-                new MainAsyncTask(restaurantActivity).execute(RestaurantList.getRestaurant().getMenuLink());
+                new MainAsyncTask(restaurantActivity, R.id.payment_container_id).execute(restaurantList.getRestaurant().getMenuLink());
                 pay.setVisibility(LinearLayout.GONE);
             }
         });
@@ -824,7 +825,10 @@ public class SMCRestaurantActivity {
             @Override
             public void onClick(View v) {
                 updateRegisterData();
-                new RegistrationOrLoginAsyncTask((AppCompatActivity) activity, okRegFormButton, pay).execute("11");
+
+                RegistrationOrLoginAsyncTask registrationOrLoginAsyncTask = new RegistrationOrLoginAsyncTask((AppCompatActivity) activity, okRegFormButton, pay);
+                registrationOrLoginAsyncTask.setContainerId(R.id.container_id);
+                registrationOrLoginAsyncTask.execute("11");
             }
         });
 
@@ -900,7 +904,6 @@ public class SMCRestaurantActivity {
     }
 
     public void addFilterData(){
-        base_layout_container = (LinearLayout) activity.findViewById(R.id.base_layout_container);
 
         base_layout_container.removeAllViews();
 
@@ -993,16 +996,16 @@ public class SMCRestaurantActivity {
                     tv.setTextColor(Color.BLACK);
                     tv.setPadding(55, 5, 0, 10);
                     tv.setOnClickListener(new View.OnClickListener() {
-                        private FilterData fd1 = fd;
+
                         @Override
                         public void onClick(View v) {
 
-                            if (fd1.isStateUse())
+                            if (fd.isStateUse())
                                 return;
 
-                            fd1.setStateUse(true);
+                            fd.setStateUse(true);
                             ft = activity.getSupportFragmentManager().beginTransaction();
-                            ft.add(R.id.filterLayout, fd1.getFilterFragment());
+                            ft.add(R.id.filterLayout, fd.getFilterFragment());
                             ft.commit();
                         }
                     });
@@ -1120,6 +1123,7 @@ public class SMCRestaurantActivity {
                 base_layout_container.addView(linearLayout);
             }
         }
+        base_layout_container.setVisibility(View.VISIBLE);
     }
 
     public float dpToPx(float dp) {
@@ -1209,8 +1213,7 @@ public class SMCRestaurantActivity {
 
         ft = activity.getSupportFragmentManager().beginTransaction();
 
-        for (String id : garbage.getListID()) {
-            Meal meal = MealList.getMeal(id);
+        for (Meal meal : garbage.getListOrderMeal()) {
             ft.add(R.id.orderDataContainer, new OrderFragment(meal));
         }
 
@@ -1220,9 +1223,7 @@ public class SMCRestaurantActivity {
 
     private void removeOrderFragment(){
         ft = activity.getSupportFragmentManager().beginTransaction();
-        for (String id : garbage.getListID()) {
-            Meal meal = MealList.getMeal(id);
-
+        for (Meal meal : garbage.getListOrderMeal()) {
             if (meal.getOrderFragment() == null)
                 continue;
 

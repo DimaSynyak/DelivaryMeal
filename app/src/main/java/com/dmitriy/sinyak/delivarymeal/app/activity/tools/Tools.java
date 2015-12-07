@@ -30,6 +30,19 @@ public class Tools {
         return Float.parseFloat(tmp.toString());
     }
 
+    public static int getNumInt(String str){
+        StringBuilder tmp = new StringBuilder();
+
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) >= '0' && str.charAt(i) <= '9'){
+                tmp.append(str.charAt(i));
+            }
+        }
+
+
+        return Integer.parseInt(tmp.toString());
+    }
+
 
     public String getStrUrl(String url,Languages languages){ /*change url for languages*/
         StringBuilder temp = new StringBuilder();
@@ -60,5 +73,32 @@ public class Tools {
             }
         }
         return String.valueOf(temp);
+    }
+
+    public static int getVariationId(String str){
+        StringBuilder builder = new StringBuilder();
+        int i = 0;
+        int j = 0;
+        if(str.contains("variation_id")){
+            i = str.indexOf("variation_id");
+
+            boolean flag = false;
+            while (true){
+                if (str.charAt(i) >= '0' && str.charAt(i) <= '9'){
+                    if (!flag){
+                        j = i;
+                        flag = true;
+                    }
+
+                    if (i > j){
+                        break;
+                    }
+                    builder.append(str.charAt(i));
+                    j++;
+                }
+                i++;
+            }
+        }
+        return Integer.parseInt(builder.toString());
     }
 }

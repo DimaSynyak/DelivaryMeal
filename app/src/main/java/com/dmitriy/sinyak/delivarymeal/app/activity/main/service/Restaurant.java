@@ -79,6 +79,7 @@ public class Restaurant {
 
     public static void setConnection(String url) {
         Restaurant.connection = Jsoup.connect(url);
+        Restaurant.connection.header("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
     }
 
     public static String get_wpnonce() {

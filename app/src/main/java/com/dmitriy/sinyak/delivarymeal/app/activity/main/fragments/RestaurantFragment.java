@@ -125,7 +125,7 @@ public class RestaurantFragment extends Fragment {
                 Intent intent = new Intent(activity, RestaurantActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 intent.putExtra("language", String.valueOf(this));
-                intent.putExtra("restaurant", RestaurantList.getRestaurants().indexOf(restaurant));
+                intent.putExtra("restaurant", restaurantList.getRestaurants().indexOf(restaurant));
                 startActivity(intent);
             }
         });

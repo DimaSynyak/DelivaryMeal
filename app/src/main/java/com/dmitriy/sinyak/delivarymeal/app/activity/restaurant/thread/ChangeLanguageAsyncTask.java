@@ -17,6 +17,7 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.filter.MealFilter;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.filter.RestaurantFilter;
+import com.dmitriy.sinyak.delivarymeal.app.activity.tools.Tools;
 
 import org.jsoup.Connection;
 import org.jsoup.nodes.Document;
@@ -49,11 +50,13 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
     private Garbage garbage;
     private MealFilter mealFilter;
     private RestaurantFilter restaurantFilter;
+    private RestaurantList restaurantList;
 
 
 
     public ChangeLanguageAsyncTask(AppCompatActivity activity) {
         this.activity = activity;
+        restaurantList = RestaurantList.getInstance();
     }
 
     @Override
@@ -137,7 +140,7 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
                     return null;
                 }
 
-                List<Restaurant> restaurants = RestaurantList.getRestaurants();
+                List<Restaurant> restaurants = restaurantList.getRestaurants();
                 int sizeRestaurants = restaurants.size();
                 int iter = 0;
 
@@ -167,7 +170,7 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
                     sizeRestaurants--;
                 }
 
-//                restaurant = RestaurantList.getRestaurant();
+                restaurant = restaurantList.getRestaurant();
 
                 if (restaurant == null){
                     count.complete();
@@ -191,9 +194,12 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
 
                 doc = response.parse();
 
-                mealFilter.init(doc);
-
-                mealFilter.filter(connection);
+                if (!mealFilter.isStateMealFilter()) {
+                    mealFilter.init(doc);
+                }
+                else {
+                    mealFilter.filter(connection);
+                }
                 response = connection.execute();
                 connection.cookies(response.cookies());
 
@@ -221,7 +227,7 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
 
                     Meal meal = new Meal();
 
-                    meal.setId(element1.getElementsByClass("add_to_cart_button").attr("data-product_id"));
+                    meal.setId(Tools.getNumInt(element1.getElementsByClass("add_to_cart_button").attr("data-product_id")));
                     meal.setName(element1.getElementsByClass("and-name").get(0).html());
                     meal.setComposition(element1.getElementsByClass("and-composition").get(0).html());
                     meal.setWeight(element1.getElementsByClass("pull-right").get(0).html());
@@ -231,12 +237,8 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
                     MealList.addMeal(meal);
                 }
 
-                for (String id : garbage.getListID()) {
-                    for (Meal meal : meals_copy) {
-                        if (meal.getId().equals(id)) {
-                            MealList.getMeal(id).setCountMeal(meal.getCountMeal());
-                        }
-                    }
+                for (Meal meal : garbage.getListOrderMeal()) {
+                    MealList.getMeal(meal.getId()).setCountMeal(meal.getCountMeal());
                 }
 
                 count.complete();
@@ -281,10 +283,14 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
 
         ((RestaurantActivity) activity).initFragment(restaurant);
 
-        SMCRestaurantActivity.getSmcRestaurantActivity().addFilterData();
+        if (!mealFilter.isStateMealFilter()) {
+            SMCRestaurantActivity.getSmcRestaurantActivity().addFilterData();
+        }
 
         mealBody = new MealBody(activity);
         mealBody.init();
+
+        mealFilter.setStateMealFilter(false);
     }
 
     public boolean isCancled() {

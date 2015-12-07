@@ -5,7 +5,6 @@ import android.app.ActionBar;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -32,7 +31,6 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.DelivaryD
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantHeadFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantMiniHeadFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantMiniMenuFragment;
-import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.fragments.MenuFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.menu.SMCRestaurantActivity;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Garbage;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
@@ -92,6 +90,7 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
     private AddressDataFragment addressDataFragment;
     private LanguagesFragmentOpacityLow languagesFragmentOpacityLow;
     private LanguagesTitle languagesTitle;
+    private RestaurantList restaurantList;
 
     private Typeface geometric;
     private Typeface arimo;
@@ -103,8 +102,6 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
 
     private boolean firstFlag = true;
     private boolean onResumeFlag;
-
-    private MenuFragment menuFragment;
 
 
     private FragmentTransaction ft;
@@ -126,6 +123,8 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         init(language.getLanguages());
         /*END INIT LANGUAGE*/
 
+        restaurantList = RestaurantList.getInstance();
+
         restaurantActivity = this;
         garbage = Garbage.getInstance();
         garbage.setActivity(this);
@@ -136,8 +135,8 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         garbageNum = (TextView) findViewById(R.id.garbageNum);
 
         scrollView = (ScrollView) findViewById(R.id.scrollView3);
-        restaurant = RestaurantList.getRestaurants().get((Integer) getIntent().getSerializableExtra("restaurant"));
-        positionRestaurant = RestaurantList.getRestaurants().indexOf(restaurant);
+        restaurant = restaurantList.getRestaurants().get((Integer) getIntent().getSerializableExtra("restaurant"));
+        positionRestaurant = restaurantList.getRestaurants().indexOf(restaurant);
 
         restaurantAsyncTask = null;
         restaurantAsyncTask = new RestaurantAsyncTask(this);
@@ -155,7 +154,7 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
 
 
         delivaryData = DelivaryData.getInstance();
-        restaurant = RestaurantList.getRestaurant();
+        restaurant = restaurantList.getRestaurant();
 
     }
 
@@ -453,15 +452,15 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
             }
         }
 
-        if (menuFragment != null && menuFragment.isOrderDataClickFlag()){
-            menuFragment.getOrderClick().callOnClick();
-        }
-        if (menuFragment != null && menuFragment.isFormDataClickFlag()){
-            menuFragment.getFormDataClick().callOnClick();
-        }
-        if (menuFragment != null && menuFragment.isPersonalCabinetClickFlag()){
-            menuFragment.getPersonalCabinet().callOnClick();
-        }
+//        if (menuFragment != null && menuFragment.isOrderDataClickFlag()){
+//            menuFragment.getOrderClick().callOnClick();
+//        }
+//        if (menuFragment != null && menuFragment.isFormDataClickFlag()){
+//            menuFragment.getFormDataClick().callOnClick();
+//        }
+//        if (menuFragment != null && menuFragment.isPersonalCabinetClickFlag()){
+//            menuFragment.getPersonalCabinet().callOnClick();
+//        }
 
 
         changeLocale = new ChangeLanguageAsyncTask(this);

@@ -23,9 +23,12 @@ public class MealFilter implements IFilter {
     private Language language;
     private Map<String, String> map;
     private List<FilterData> filterDataList;
+    private RestaurantList restaurantList;
 
     private static MealFilter mealFilter;
     private Restaurant restaurant;
+
+    private boolean stateMealFilter;
 
     public MealFilter() {
         this.language = Language.getInstance();
@@ -33,7 +36,8 @@ public class MealFilter implements IFilter {
         searchData = new FilterData();
         searchData.setText("");
         map = new HashMap<>();
-        restaurant = RestaurantList.getRestaurant();
+        restaurantList = RestaurantList.getInstance();
+        restaurant = restaurantList.getRestaurant();
     }
 
     public static MealFilter getInstance(){
@@ -98,25 +102,56 @@ public class MealFilter implements IFilter {
 
         map.clear();
 
-        connection.url("http://menu24.ee/wp-admin/admin-ajax.php");
+        switch(language.getLanguages()) {
+            case RU:{
+                connection.url("http://menu24.ee/wp-admin/admin-ajax.php?lang=ru");
+                break;
+            }
+            case EE:{
+                connection.url("http://menu24.ee/wp-admin/admin-ajax.php?lang=ee");
+                break;
+            }
+            case EN:{
+                connection.url("http://menu24.ee/wp-admin/admin-ajax.php?lang=en");
+                break;
+            }
+        }
+
         map.put("action", "get_food");
         map.put("search", searchData.getText());
         map.put("restaurant", restaurant.getName().toLowerCase());
         map.put("page", "1");
 
+        StringBuilder tmp = new StringBuilder();
+        boolean flag = false;
         for (FilterData filterData : filterDataList) {
 
-            if (filterData.getList() != null && filterData.getList().size() != 0){
+            if (filterData.getList() != null && filterData.getList().size() != 0){   // filter sliding list
                 for (FilterData fd :filterData.getList()) {
-                    if (fd.isStateUse() == true)
-                        map.put("foodCategories", fd.getName());
+                    if (fd.isStateUse() == true){
+                        if (flag){
+                            tmp.append(",");
+                        }
+                        tmp.append(fd.getName());
+                        flag = true;
+                    }
+
                 }
             }
 
-            if (filterData.isStateUse() == true && filterData.getName() != null && !filterData.getName().equals(""))
-                map.put("foodCategories", filterData.getName());
-            else if (filterData.isStateUse() == true)
+            if (filterData.isStateUse() == true && filterData.getName() != null && !filterData.getName().equals("")) { //filter which have not name and food categories
+                if (flag){
+                    tmp.append(",");
+                }
+
+                tmp.append(filterData.getName());
+                flag = true;
+            }
+            else if (filterData.isStateUse() == true) {
                 map.put(filterData.getId(), "true");
+            }
+
+            map.put("foodCategories", tmp.toString());
         }
 
 
@@ -137,7 +172,6 @@ public class MealFilter implements IFilter {
             }
             case EE:{
                 connection.url("http://menu24.ee/wp-admin/admin-ajax.php?lang=ee");
-                connection.data("lang", "ee");
                 break;
             }
             case EN:{
@@ -203,4 +237,20 @@ public class MealFilter implements IFilter {
         mealFilter = null;
     }
 
+
+    public static MealFilter getMealFilter() {
+        return mealFilter;
+    }
+
+    public static void setMealFilter(MealFilter mealFilter) {
+        MealFilter.mealFilter = mealFilter;
+    }
+
+    public boolean isStateMealFilter() {
+        return stateMealFilter;
+    }
+
+    public void setStateMealFilter(boolean stateMealFilter) {
+        this.stateMealFilter = stateMealFilter;
+    }
 }
