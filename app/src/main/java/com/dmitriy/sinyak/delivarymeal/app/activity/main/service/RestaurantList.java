@@ -11,6 +11,7 @@ public class RestaurantList {
     private static List<Restaurant> restaurants;
     private int positionRestaurant;
     private static RestaurantList restaurantList;
+    private Restaurant restaurant;
 
     public List<Restaurant> getRestaurants() {
         if (restaurants == null){
@@ -49,15 +50,6 @@ public class RestaurantList {
     }
 
     public Restaurant getRestaurant(){
-        Restaurant restaurant = null;
-        for (Restaurant rest:restaurants ){
-            int id = rest.getId();
-            if (positionRestaurant == id) {
-                restaurant = rest;
-                break;
-            }
-        }
-
         return restaurant;
     }
 
@@ -66,5 +58,10 @@ public class RestaurantList {
             return;
         }
         restaurants.clear();
+    }
+
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 }

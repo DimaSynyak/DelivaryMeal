@@ -75,11 +75,15 @@ public class Garbage {
 
     public void removeAll(){
         total = 0;
-        listOrderMeal.clear();
+        if (listOrderMeal != null)
+            listOrderMeal.clear();
     }
 
-    public static void clear(){
+    public void onDestroy(){
         garbage = null;
+
+        removeAll();
+        listOrderMeal = null;
     }
 
     public Set<Meal> getListOrderMeal() {
@@ -104,5 +108,9 @@ public class Garbage {
 
     public void setTotalCost(float totalCost) {
         this.totalCost = totalCost;
+    }
+
+    public void removeActivity(){
+        activity = null;
     }
 }

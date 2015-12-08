@@ -8,6 +8,7 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.body.RestaurantMe
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Meal;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.MealList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,11 +21,15 @@ public class MealBody {
     private static Integer count_food2;
     private AppCompatActivity activity;
     private FragmentTransaction ft;
+    private Thread initThread;
+    private List<Thread> updateThreadList;
+    private List<Meal> meals;
 
     private static MealBody mealBody;
 
     public MealBody(AppCompatActivity activity) {
         this.activity = activity;
+        updateThreadList = new ArrayList<>();
     }
 
     public static MealBody getInstance(AppCompatActivity activity){
@@ -37,14 +42,16 @@ public class MealBody {
 
     public void init(){
 
-        new Thread(new Runnable() {
+
+
+       initThread = new Thread(new Runnable() {
             @Override
             public void run() {
 
                 count_food = COUNT_FOOD;
                 count_food2 = COUNT_FOOD*2;
 
-                List<Meal> meals = MealList.getMeals();
+               meals = MealList.getMeals();
                 ft = activity.getSupportFragmentManager().beginTransaction();
 
                 if (count_food > meals.size())
@@ -59,12 +66,13 @@ public class MealBody {
                 count_food2 = count_food + 1;
                 MealList.startUploadPageAsycTask(activity);
             }
-        }).start();
+        });
+        initThread.start();
 
     }
 
     public void update(final Boolean[] threadRunState){
-        final List<Meal> meals = MealList.getMeals();
+       meals = MealList.getMeals();
 
         synchronized (count_food) {
 
@@ -75,7 +83,7 @@ public class MealBody {
             }
         }
 
-        new Thread(new Runnable() {
+        Thread updateThread = new Thread(new Runnable() {
 
             @Override
             public void run() {
@@ -103,6 +111,44 @@ public class MealBody {
                     threadRunState[0] = false;
                 }
             }
-        }).start();
+        });
+
+        updateThread.start();
+//        updateThread.setDaemon(true);
+        updateThreadList.add(updateThread);
     }
+
+    public void onDestroy(){
+        mealBody = null;
+
+        if (updateThreadList == null)
+            return;
+
+        for (Thread thread :updateThreadList){
+            if (!thread.isInterrupted()){
+                thread.interrupt();
+            }
+        }
+
+
+        updateThreadList.clear();
+        updateThreadList = null;
+        activity = null;
+    }
+
+    public void deleteAllFragments(){
+        List<Meal> meals = MealList.getMeals();
+        if (meals != null && meals.size() > 0) {
+            ft =  activity.getSupportFragmentManager().beginTransaction();
+            for (Meal meal : MealList.getMeals()) {
+                if (meal.getFragment() != null && meal.getFragment().isAdded())
+                    ft.remove(meal.getFragment());
+            }
+            ft.commit();
+
+
+            MealList.clear();
+        }
+    }
+
 }

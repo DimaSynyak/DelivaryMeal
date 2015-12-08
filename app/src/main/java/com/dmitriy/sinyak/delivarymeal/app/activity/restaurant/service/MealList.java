@@ -1,5 +1,6 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service;
 
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.UploadPageAsyncTask;
@@ -14,6 +15,7 @@ public class MealList {
     private static List<Meal> meals;
     private static boolean mealListCompleteFlag = true;
     private static UploadPageAsyncTask uploadPageAsyncTask;
+
 
     public synchronized static List<Meal> getMeals() {
         if (meals == null){
@@ -66,6 +68,12 @@ public class MealList {
 
     public static UploadPageAsyncTask getUploadPageAsyncTask(){
         return uploadPageAsyncTask;
+    }
+
+
+    public static void onDestroy(){
+        uploadPageAsyncTask.cancel(true);
+        uploadPageAsyncTask = null;
     }
 
 

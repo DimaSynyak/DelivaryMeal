@@ -20,6 +20,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
+import com.dmitriy.sinyak.delivarymeal.app.activity.lib.StateFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.RestaurantList;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.RestaurantActivity;
@@ -54,6 +55,8 @@ public class RestaurantFragment extends Fragment {
 
     private Bitmap cutImage;
 
+    private StateFragment stateFragment;
+
 
     public RestaurantFragment(){
         super();
@@ -70,6 +73,7 @@ public class RestaurantFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.restaurant_fragment, container, false);
+        stateFragment = StateFragment.ON_RESUME;
 
         Typeface geometric = Typeface.createFromAsset(getActivity().getAssets(), "fonts/geometric/geometric_706_black.ttf");
         Typeface arimo = Typeface.createFromAsset(getActivity().getAssets(), "fonts/arimo/Arimo_Regular.ttf");
@@ -124,8 +128,7 @@ public class RestaurantFragment extends Fragment {
                 restaurantList.setPositionRestaurant(restaurant.getId());
                 Intent intent = new Intent(activity, RestaurantActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                intent.putExtra("language", String.valueOf(this));
-                intent.putExtra("restaurant", restaurantList.getRestaurants().indexOf(restaurant));
+                restaurantList.setRestaurant(restaurant);
                 startActivity(intent);
             }
         });
@@ -171,8 +174,11 @@ public class RestaurantFragment extends Fragment {
                     is.close();
                     /**/
 
-//                    restaurant.setImgBitmap(cutImage);
                     if (cutImage != null) {
+                        synchronized (restaurant) {
+                            restaurant.setImgBitmap(cutImage);
+                        }
+
                         RestaurantFragment.this.getActivity().runOnUiThread(new Runnable() {
 
                             @Override
@@ -192,6 +198,7 @@ public class RestaurantFragment extends Fragment {
                             cutImage = null;
                         }
                     });
+
                 }
                 finally {
                     try {
@@ -224,8 +231,26 @@ public class RestaurantFragment extends Fragment {
             costMealText.setText(R.string.min_cost_order);
             costDeliverText.setText(R.string.cost_deliver);
             timeDeliverText.setText(R.string.time_deliver);
+
+            if (cutImage != null) {
+                avatar.setImageBitmap(cutImage);
+                cutImage = null;
+            }
         }
 
         firstFlag = true;
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
     }
 }

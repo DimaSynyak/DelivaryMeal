@@ -81,6 +81,9 @@ public class UploadPageAsyncTask extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... params) {
 
+        if (isCancelled())
+            return null;
+
         filter = MealFilter.getInstance();
 
         while (true) {
@@ -91,10 +94,13 @@ public class UploadPageAsyncTask extends AsyncTask<String, Void, String> {
 
                 while (true) {
 
+                    if (isCancelled())
+                        return null;
                     filter.filter(connection, Restaurant.getNumPage());
 
                     response = connection.execute();
-
+                    if (isCancelled())
+                        return null;
                     numMealBeforeUpload = MealList.getMeals().size();
 
                     Document doc = null;
@@ -147,6 +153,7 @@ public class UploadPageAsyncTask extends AsyncTask<String, Void, String> {
         super.onPostExecute(s);
 
         cancel(true);
+        activity = null;
     }
 
     public LoadPageFragment getLoadPageFragment() {

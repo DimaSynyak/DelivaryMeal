@@ -3,6 +3,7 @@ package com.dmitriy.sinyak.delivarymeal.app.activity.main.service;
 import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 
+import com.dmitriy.sinyak.delivarymeal.app.activity.main.fragments.AddressDataFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.ILanguageListener;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Language;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.IChange;
@@ -44,6 +45,7 @@ public class Restaurant {
     private String description;
     private String titleBranchOffices;
     private List<String> addressBranchOffices;
+    private List<AddressDataFragment> addressDataFragmentList;
 
     private String imgSRC;
     private Bitmap imgBitmap;
@@ -55,6 +57,7 @@ public class Restaurant {
     private List<String> reviewReviews;
     private List<String> reviewStars;
     private List<String> reviewTimes;
+
     private List<IChange> changes;
 
     static {
@@ -360,5 +363,42 @@ public class Restaurant {
 
     public static void setLoginState(boolean loginState) {
         Restaurant.loginState = loginState;
+    }
+
+    public List<AddressDataFragment> getAddressDataFragmentList() {
+        return addressDataFragmentList;
+    }
+
+    public void setAddressDataFragmentList(List<AddressDataFragment> addressDataFragmentList) {
+        this.addressDataFragmentList = addressDataFragmentList;
+    }
+
+    public void clearInfo(){
+        if (reviewNames != null)
+            reviewNames.clear();
+
+        if (reviewReviews != null)
+            reviewReviews.clear();
+
+        if (reviewStars != null)
+            reviewStars.clear();
+
+        if (reviewTimes != null)
+            reviewTimes.clear();
+
+        if (changes != null)
+            changes.clear();
+
+        if (workTimeFields != null)
+            workTimeFields.clear();
+
+        if (workTimesData != null)
+            workTimesData.clear();
+
+        if (addressBranchOffices != null)
+            addressBranchOffices.clear();
+
+        if (addressDataFragmentList != null)
+            addressDataFragmentList.clear();
     }
 }

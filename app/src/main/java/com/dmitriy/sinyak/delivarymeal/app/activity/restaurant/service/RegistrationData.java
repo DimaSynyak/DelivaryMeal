@@ -52,6 +52,10 @@ public class RegistrationData {
         iChangePersonalCabinetTypeListener.change();
     }
 
+    public void onDestroy(){
+        delivaryDataObj = null;
+    }
+
     public String getName() {
         return name;
     }

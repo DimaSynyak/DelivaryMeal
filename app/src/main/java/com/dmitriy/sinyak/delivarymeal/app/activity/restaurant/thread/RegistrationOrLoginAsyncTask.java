@@ -228,6 +228,8 @@ public class RegistrationOrLoginAsyncTask extends AsyncTask<String, String, Stri
         for (TextView text : ok) {
             text.setVisibility(TextView.VISIBLE);
         }
+
+        activity = null;
     }
 
 

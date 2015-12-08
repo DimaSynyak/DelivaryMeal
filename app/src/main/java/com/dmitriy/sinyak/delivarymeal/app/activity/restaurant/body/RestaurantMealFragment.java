@@ -58,6 +58,8 @@ public class RestaurantMealFragment extends Fragment {
     private RadioButton radioButton;
     List<RadioButton> radioButtonList;
 
+    private Thread thread;
+
     private int step;
 
     private AlertDialog alert;
@@ -315,7 +317,7 @@ public class RestaurantMealFragment extends Fragment {
 
 
 
-        new Thread(new Runnable() {
+        thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 URL imgURL = null;
@@ -359,25 +361,29 @@ public class RestaurantMealFragment extends Fragment {
                     /**/
 
                     if (cutImage != null) {
+                        if (RestaurantMealFragment.this.isAdded()) {
+                            RestaurantMealFragment.this.getActivity().runOnUiThread(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    img.setImageBitmap(RestaurantMealFragment.this.cutImage);
+                                    cutImage = null;
+                                }
+                            });
+                        }
+                    }
+                }
+                catch (Exception e){
+                    if (RestaurantMealFragment.this.isAdded()) {
                         RestaurantMealFragment.this.getActivity().runOnUiThread(new Runnable() {
 
                             @Override
                             public void run() {
-                                img.setImageBitmap(RestaurantMealFragment.this.cutImage);
+                                img.setImageBitmap(((BitmapDrawable) RestaurantMealFragment.this.getActivity().getResources().getDrawable(R.drawable.no_image)).getBitmap());
                                 cutImage = null;
                             }
                         });
                     }
-                }
-                catch (Exception e){
-                    RestaurantMealFragment.this.getActivity().runOnUiThread(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            img.setImageBitmap(((BitmapDrawable) RestaurantMealFragment.this.getActivity().getResources().getDrawable(R.drawable.no_image)).getBitmap());
-                            cutImage = null;
-                        }
-                    });
                 }
                 finally {
                     try {
@@ -388,7 +394,8 @@ public class RestaurantMealFragment extends Fragment {
                     }
                 }
             }
-        }).start();
+        });
+        thread.start();
 
         return view;
     }
@@ -405,5 +412,13 @@ public class RestaurantMealFragment extends Fragment {
 
     public void update(){
         countMeal.setText(String.valueOf(meal.getCountMeal()));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (thread != null){
+            thread.interrupt();
+        }
     }
 }

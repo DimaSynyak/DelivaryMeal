@@ -233,8 +233,18 @@ public class MealFilter implements IFilter {
 
     }
 
-    public static void destroy(){
+    public void destroy(){
         mealFilter = null;
+        searchData = null;
+
+        if (map != null) {
+            map.clear();
+            map = null;
+        }
+        if (filterDataList != null) {
+            filterDataList.clear();
+            filterDataList = null;
+        }
     }
 
 

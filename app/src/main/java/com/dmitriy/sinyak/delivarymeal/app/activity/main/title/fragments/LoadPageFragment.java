@@ -86,7 +86,6 @@ public class LoadPageFragment extends Fragment {
             }
         });
 
-        thread.setDaemon(true);
         thread.start();
         synchronized (count) {
             count.setStateLoadFragment(true);
@@ -118,5 +117,17 @@ public class LoadPageFragment extends Fragment {
 
     public void setThread(Thread thread) {
         this.thread = thread;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+//        if (thread != null){
+//            thread.interrupt();
+//            thread = null;
+//        }
+//
+//        count = null;
     }
 }

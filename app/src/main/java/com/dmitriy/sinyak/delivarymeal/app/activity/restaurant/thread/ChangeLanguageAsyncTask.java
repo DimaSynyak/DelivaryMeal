@@ -57,6 +57,7 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
     public ChangeLanguageAsyncTask(AppCompatActivity activity) {
         this.activity = activity;
         restaurantList = RestaurantList.getInstance();
+        mealBody = MealBody.getInstance(activity);
     }
 
     @Override
@@ -68,18 +69,7 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
         List<Meal> meals = MealList.getMeals();
         meals_copy = new ArrayList<>(meals);
 
-        if (meals != null && meals.size() > 0) {
-            ft =  activity.getSupportFragmentManager().beginTransaction();
-            for (Meal meal : MealList.getMeals()) {
-                if (meal.getFragment() != null && meal.getFragment().isAdded())
-                    ft.remove(meal.getFragment());
-            }
-            ft.commit();
-
-
-            MealList.clear();
-        }
-
+        mealBody.deleteAllFragments();
         ((RestaurantActivity) activity).removeFragment();
 
 
@@ -172,7 +162,7 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
 
                 restaurant = restaurantList.getRestaurant();
 
-                if (restaurant == null){
+                if (restaurant == null) {
                     count.complete();
                     count.complete();
                     count.complete();
@@ -196,15 +186,13 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
 
                 if (!mealFilter.isStateMealFilter()) {
                     mealFilter.init(doc);
-                }
-                else {
+                } else {
                     mealFilter.filter(connection);
                 }
                 response = connection.execute();
                 connection.cookies(response.cookies());
 
                 doc = response.parse();
-
 
 
                 count.complete();
@@ -221,8 +209,75 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
                 }
 
 
+ /*LOAD INFO*/
+                if (!mealFilter.isStateMealFilter()){
+                    restaurant.setSpecializationField(doc.getElementsByClass("spec").text());
+                    restaurant.setWorkDayField(doc.getElementsByClass("rab").text());
+
+                    List<String> list = new ArrayList<>();
+                    for (Element element : doc.getElementsByClass("vremya")) {
+                        list.add(element.text());
+                    }
+
+                    restaurant.setWorkTimeFields(list);
 
 
+                    Element specializationData = doc.getElementById("android-spec");
+                    if (specializationData != null)
+                        restaurant.setSpecializationData(specializationData.text());
+
+                    Element workDayData = doc.getElementById("android-workday");
+                    if (workDayData != null)
+                        restaurant.setWorkDayData(workDayData.text());
+
+                    list = new ArrayList<>();
+
+                    Element workTime1 = doc.getElementById("android-worktime");
+                    if (workTime1 != null) {
+                        list.add(workTime1.text());
+                    }
+
+                    Element workTime2 = doc.getElementById("android-worktime2");
+                    if (workTime2 != null) {
+                        list.add(workTime2.text());
+                    }
+
+                    restaurant.setWorkTimesData(list);
+
+                    Element desc = doc.getElementById("android-about");
+                    if (desc != null) {
+                        restaurant.setTitleDescription(desc.text());
+                    }
+                    StringBuilder str = new StringBuilder();
+
+                    Element content = doc.getElementById("android-content");
+
+                    if (content != null) {
+                        for (Element element : content.getElementsByTag("p")) {
+                            str.append(element.text());
+                            str.append(" ");
+                        }
+
+                        restaurant.setDescription(str.toString());
+                    }
+
+                    Element titleBranchOffices = doc.getElementById("android-title-branch");
+
+                    if (titleBranchOffices != null)
+                        restaurant.setTitleBranchOffices(titleBranchOffices.text());
+
+                    list = new ArrayList<>();
+
+                    Elements addressBranches = doc.getElementsByClass("adres").get(0).getElementsByTag("p");
+                    if (addressBranches != null) {
+                        for (Element element : doc.getElementsByClass("adres").get(0).getElementsByTag("p")) {
+                            list.add(element.text());
+                        }
+                        restaurant.setAddressBranchOffices(list);
+                    }
+
+                }
+ /* END LOAD INFO*/
                 for (Element element1 : elements) {
 
                     Meal meal = new Meal();
@@ -282,15 +337,17 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
             return;
 
         ((RestaurantActivity) activity).initFragment(restaurant);
+        ((RestaurantActivity) activity).updateInfo();
 
         if (!mealFilter.isStateMealFilter()) {
             SMCRestaurantActivity.getSmcRestaurantActivity().addFilterData();
         }
 
-        mealBody = new MealBody(activity);
         mealBody.init();
 
         mealFilter.setStateMealFilter(false);
+        activity = null;
+//        count = null;
     }
 
     public boolean isCancled() {

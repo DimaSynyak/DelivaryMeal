@@ -81,6 +81,7 @@ public class UploadReviews extends Thread {
                     ft.commit();
                 }
 
+                activity = null;
             } catch (IOException e) {
                 e.printStackTrace();
             }

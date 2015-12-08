@@ -19,6 +19,7 @@ public class LoadBarFragment extends Fragment {
     private TextView dynamicTextView;
     private int data;
     private boolean stateOnPause;
+    private Thread thread;
 
     public LoadBarFragment() {
         super();
@@ -41,7 +42,7 @@ public class LoadBarFragment extends Fragment {
     public void onStart() {
         super.onStart();
         data = 0;
-        Thread thread = new Thread(new Runnable() {
+        thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -108,5 +109,16 @@ public class LoadBarFragment extends Fragment {
     public void onResume() {
         super.onResume();
         stateOnPause = false;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+//        if (thread != null){
+//            thread.interrupt();
+//            thread = null;
+//        }
+//        count = null;
     }
 }

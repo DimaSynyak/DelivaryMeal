@@ -132,21 +132,6 @@ public class Meal {
         this.id = id;
     }
 
-//    @Override
-//    public boolean equals(Object o) {
-//        int id = null;
-//        if(o instanceof String) {
-//            id = (String) o;
-//        }
-//        else {
-//            return false;
-//        }
-//
-//        if (this.id == id)
-//            return true;
-//        else
-//            return false;
-//    }
 
 
     public synchronized List<Garnir> getGarnirs() {

@@ -202,5 +202,6 @@ public class MainAsyncTask extends AsyncTask<String, String, String>{
         activity.startActivity(intent);
         Restaurant.setConnection("http://menu24.ee/");
 //        activity.finish();
+        activity = null;
     }
 }

@@ -34,7 +34,6 @@
                 android:layout_height="38dp"
                 android:id="@+id/restaurantAvatar"
                 android:layout_weight="2"
-                android:src="@drawable/tanuki_avatar_mini"
                 android:layout_gravity="center"
                 android:layout_marginBottom="3dp" />
 
@@ -60,7 +59,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Тануки"
             android:id="@+id/restaurantTitle"
             android:textSize="21sp"
             android:textColor="#000000"

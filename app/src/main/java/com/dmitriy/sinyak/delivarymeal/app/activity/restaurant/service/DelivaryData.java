@@ -61,6 +61,11 @@ public class DelivaryData {
             return "самовывоз";
     }
 
+    public void onDestroy(){
+        delivaryDataObj = null;
+    }
+
+
     public boolean isDelivaryType(){
         return delivaryType;
     }

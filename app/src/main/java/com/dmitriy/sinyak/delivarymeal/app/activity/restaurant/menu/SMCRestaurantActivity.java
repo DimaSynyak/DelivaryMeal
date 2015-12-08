@@ -221,6 +221,8 @@ public class SMCRestaurantActivity {
         restaurant = restaurantList.getRestaurant();
     }
 
+
+
     public void initSlidingMenu(){
         geometric = Typeface.createFromAsset(activity.getAssets(), "fonts/geometric/geometric_706_black.ttf");
         arimo = Typeface.createFromAsset(activity.getAssets(), "fonts/arimo/Arimo_Regular.ttf");
@@ -1362,4 +1364,11 @@ public class SMCRestaurantActivity {
     public static void setSmcRestaurantActivity(SMCRestaurantActivity smcRestaurantActivity) {
         SMCRestaurantActivity.smcRestaurantActivity = smcRestaurantActivity;
     }
+
+    public void remove(){
+        activity = null;
+        smcRestaurantActivity = null;
+    }
+
+
 }

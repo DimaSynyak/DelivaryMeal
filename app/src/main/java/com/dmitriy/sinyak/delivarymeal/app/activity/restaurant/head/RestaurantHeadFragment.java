@@ -1,5 +1,7 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -12,6 +14,10 @@ import android.widget.*;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 /**
  * Created by 1 on 03.11.2015.
@@ -50,6 +56,7 @@ public class RestaurantHeadFragment extends Fragment {
     private LinearLayout infoLayout;
     private FrameLayout garbageLayout;
     private LinearLayout reviewContainer;
+    private Bitmap cutImage;
 
 
     public RestaurantHeadFragment(Restaurant restaurant) {
@@ -73,88 +80,88 @@ public class RestaurantHeadFragment extends Fragment {
         Typeface geometric = Typeface.createFromAsset(getActivity().getAssets(), "fonts/geometric/geometric_706_black.ttf");
         Typeface arimo = Typeface.createFromAsset(getActivity().getAssets(), "fonts/arimo/Arimo_Regular.ttf");
 
-
+        synchronized (restaurant) {
         /*Layout Fields*/
-        menuFrame = (FrameLayout) view.findViewById(R.id.menu);
-        menuFrame.setVisibility(FrameLayout.GONE);
+            menuFrame = (FrameLayout) view.findViewById(R.id.menu);
+            menuFrame.setVisibility(FrameLayout.GONE);
 
-        menuButton = (LinearLayout) view.findViewById(R.id.menu_button);
+            menuButton = (LinearLayout) view.findViewById(R.id.menu_button);
 
 
         /*Text Fields*/
-        reviewsText = (TextView) view.findViewById(R.id.reviews_text);
-        reviewsText.setTypeface(geometric);
-        reviewsText.setText(sReviews.getStringID());
+            reviewsText = (TextView) view.findViewById(R.id.reviews_text);
+            reviewsText.setTypeface(geometric);
+            reviewsText.setText(sReviews.getStringID());
 
-        infoText = (TextView) view.findViewById(R.id.info_text);
-        infoText.setTypeface(geometric);
-        infoText.setText(sInfo.getStringID());
+            infoText = (TextView) view.findViewById(R.id.info_text);
+            infoText.setTypeface(geometric);
+            infoText.setText(sInfo.getStringID());
 
-        name = (TextView) view.findViewById(R.id.restaurantName);
-        name.setText(restaurant.getName());
 
-        profile = (TextView) view.findViewById(R.id.restaurantProfile);
-        profile.setText(restaurant.getProfile());
+            name = (TextView) view.findViewById(R.id.restaurantName);
+            name.setText(restaurant.getName());
 
-        level = (TextView) view.findViewById(R.id.restaurantLevel);
-        level.setText(restaurant.getStars().toString());
+            profile = (TextView) view.findViewById(R.id.restaurantProfile);
+            profile.setText(restaurant.getProfile());
 
-        stars = (RatingBar) view.findViewById(R.id.ratingBar);
-        stars.setRating(restaurant.getStars());
-        stars.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
+            level = (TextView) view.findViewById(R.id.restaurantLevel);
+            level.setText(restaurant.getStars().toString());
+
+            stars = (RatingBar) view.findViewById(R.id.ratingBar);
+            stars.setRating(restaurant.getStars());
+            stars.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    return true;
+                }
+            });
+
+            costMeal = (TextView) view.findViewById(R.id.costMeal);
+            costMeal.setText(restaurant.getCostMeal());
+
+            costDeliver = (TextView) view.findViewById(R.id.costDeliver);
+            costDeliver.setText(restaurant.getCostDeliver());
+
+            timeDeliver = (TextView) view.findViewById(R.id.timeDeliver);
+            timeDeliver.setText(restaurant.getTimeDeliver());
+
+            img = (ImageView) view.findViewById(R.id.restaurantHeadAvatar);
+
+
+            if (restaurant.getImgBitmap() != null) {
+                img.setImageBitmap(restaurant.getImgBitmap());
             }
-        });
 
-        costMeal = (TextView) view.findViewById(R.id.costMeal);
-        costMeal.setText(restaurant.getCostMeal());
+            costMealText = (TextView) view.findViewById(R.id.costMealText);
+            costDeliverText = (TextView) view.findViewById(R.id.costDeliverText);
 
-        costDeliver = (TextView) view.findViewById(R.id.costDeliver);
-        costDeliver.setText(restaurant.getCostDeliver());
+            timeDeliverText = (TextView) view.findViewById(R.id.timeDeliverText);
 
-        timeDeliver = (TextView) view.findViewById(R.id.timeDeliver);
-        timeDeliver.setText(restaurant.getTimeDeliver());
-
-        img = (ImageView) view.findViewById(R.id.restaurantHeadAvatar);
+            menu = (TextView) view.findViewById(R.id.textView7);
+            menu.setText(sMenu.getStringID());
 
 
-        ImageView imageView = (ImageView) restaurant.getFragment().getView().findViewById(R.id.restaurantAvatar);
-        imageView.buildDrawingCache(true);
-        imageView.getDrawingCache(true);
+            name.setTypeface(geometric);
+            level.setTypeface(geometric);
+            costMeal.setTypeface(geometric);
+            costDeliver.setTypeface(geometric);
+            timeDeliver.setTypeface(geometric);
+            menu.setTypeface(geometric);
 
-        BitmapDrawable drawable = (BitmapDrawable)imageView.getDrawable();
-
-        img.setImageBitmap(drawable.getBitmap());
-
-        costMealText = (TextView) view.findViewById(R.id.costMealText);
-        costDeliverText = (TextView) view.findViewById(R.id.costDeliverText);
-
-        timeDeliverText = (TextView) view.findViewById(R.id.timeDeliverText);
-
-        menu = (TextView) view.findViewById(R.id.textView7);
-        menu.setText(sMenu.getStringID());
-
-
-        name.setTypeface(geometric);
-        level.setTypeface(geometric);
-        costMeal.setTypeface(geometric);
-        costDeliver.setTypeface(geometric);
-        timeDeliver.setTypeface(geometric);
-        menu.setTypeface(geometric);
-
-        profile.setTypeface(arimo);
-        costDeliverText.setTypeface(arimo);
-        costMealText.setTypeface(arimo);
-        timeDeliverText.setTypeface(arimo);
+            profile.setTypeface(arimo);
+            costDeliverText.setTypeface(arimo);
+            costMealText.setTypeface(arimo);
+            timeDeliverText.setTypeface(arimo);
 
         /*container*/
-        restaurantMenuContainer = (LinearLayout) getActivity().findViewById(R.id.restaurantMenuContainer);
-        infoLayout = (LinearLayout) getActivity().findViewById(R.id.info_layout);
-        garbageLayout = (FrameLayout) getActivity().findViewById(R.id.garbage_layout);
-        reviewContainer = (LinearLayout) getActivity().findViewById(R.id.reviews_container);
+            restaurantMenuContainer = (LinearLayout) getActivity().findViewById(R.id.restaurantMenuContainer);
+            infoLayout = (LinearLayout) getActivity().findViewById(R.id.info_layout);
+            garbageLayout = (FrameLayout) getActivity().findViewById(R.id.garbage_layout);
+            reviewContainer = (LinearLayout) getActivity().findViewById(R.id.reviews_container);
 
-        initListeners();
+            initListeners();
+            setContentOnDisplay();
+        }
+
         return view;
     }
 
@@ -256,6 +263,6 @@ public class RestaurantHeadFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        StateMenu.onDestroy();
+
     }
 }

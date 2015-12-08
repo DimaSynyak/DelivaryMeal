@@ -1,6 +1,7 @@
 package com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -16,6 +17,9 @@ import android.widget.*;
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.service.Restaurant;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -49,6 +53,7 @@ public class RestaurantMiniHeadFragment extends Fragment {
     private LinearLayout infoLayout;
     private FrameLayout garbageLayout;
     private LinearLayout reviewContainer;
+    private Bitmap cutImage;
 
     public RestaurantMiniHeadFragment(Restaurant restaurant) {
         super();
@@ -85,54 +90,54 @@ public class RestaurantMiniHeadFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.restaurant_mini_head_fragment, container, false);
+        View view = inflater.inflate(R.layout.restaurant_mini_head_fragment, container, false);
         Typeface geometric = Typeface.createFromAsset(getActivity().getAssets(), "fonts/geometric/geometric_706_black.ttf");
         Typeface arimo = Typeface.createFromAsset(getActivity().getAssets(), "fonts/arimo/Arimo_Regular.ttf");
 
-          /*Layout Fields*/
-        menuFrame = (FrameLayout) view.findViewById(R.id.menu);
-        menuFrame.setVisibility(FrameLayout.GONE);
+        synchronized (restaurant){
+            /*Layout Fields*/
+            menuFrame = (FrameLayout) view.findViewById(R.id.menu);
+            menuFrame.setVisibility(FrameLayout.GONE);
 
-        menuButton = (LinearLayout) view.findViewById(R.id.menu_button);
+            menuButton = (LinearLayout) view.findViewById(R.id.menu_button);
 
-        /*Text Fields*/
-        reviewsText = (TextView) view.findViewById(R.id.reviews_text);
-        reviewsText.setTypeface(geometric);
-        reviewsText.setText(sReviews.getStringID());
+            /*Text Fields*/
+            reviewsText = (TextView) view.findViewById(R.id.reviews_text);
+            reviewsText.setTypeface(geometric);
+            reviewsText.setText(sReviews.getStringID());
 
-        infoText = (TextView) view.findViewById(R.id.info_text);
-        infoText.setTypeface(geometric);
-        infoText.setText(sInfo.getStringID());
+            infoText = (TextView) view.findViewById(R.id.info_text);
+            infoText.setTypeface(geometric);
+            infoText.setText(sInfo.getStringID());
 
-        restaurantTitle = (TextView) view.findViewById(R.id.restaurantTitle);
-        restaurantTitle.setText(restaurant.getName());
+            restaurantTitle = (TextView) view.findViewById(R.id.restaurantTitle);
+            restaurantTitle.setText(restaurant.getName());
 
-        img = (ImageView) view.findViewById(R.id.restaurantAvatar);
+            img = (ImageView) view.findViewById(R.id.restaurantAvatar);
 
+            if (restaurant.getImgBitmap() != null) {
+                img.setImageBitmap(restaurant.getImgBitmap());
+            }
 
-        ImageView imageView = (ImageView) restaurant.getFragment().getView().findViewById(R.id.restaurantAvatar);
-        imageView.buildDrawingCache(true);
-        imageView.getDrawingCache(true);
+            menu = (TextView) view.findViewById(R.id.textView7);
 
-        BitmapDrawable drawable = (BitmapDrawable)imageView.getDrawable();
+            Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/geometric/geometric_706_black.ttf");
 
-        img.setImageBitmap(drawable.getBitmap());
+            restaurantTitle.setTypeface(typeface);
+            menu.setTypeface(typeface);
+            menu.setText(sMenu.getStringID());
 
-        menu = (TextView) view.findViewById(R.id.textView7);
+            /*container*/
+            restaurantMenuContainer = (LinearLayout) getActivity().findViewById(R.id.restaurantMenuContainer);
+            infoLayout = (LinearLayout) getActivity().findViewById(R.id.info_layout);
+            garbageLayout = (FrameLayout) getActivity().findViewById(R.id.garbage_layout);
+            reviewContainer = (LinearLayout) getActivity().findViewById(R.id.reviews_container);
 
-        Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/geometric/geometric_706_black.ttf");
+            initListeners();
 
-        restaurantTitle.setTypeface(typeface);
-        menu.setTypeface(typeface);
-        menu.setText(sMenu.getStringID());
+            setContentOnDisplay();
+        }
 
-         /*container*/
-        restaurantMenuContainer = (LinearLayout) getActivity().findViewById(R.id.restaurantMenuContainer);
-        infoLayout = (LinearLayout) getActivity().findViewById(R.id.info_layout);
-        garbageLayout = (FrameLayout) getActivity().findViewById(R.id.garbage_layout);
-        reviewContainer = (LinearLayout) getActivity().findViewById(R.id.reviews_container);
-
-        initListeners();
         return view;
     }
 
@@ -151,11 +156,6 @@ public class RestaurantMiniHeadFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-//        if (firstFlag){
-//            restaurantTitle.setText(restaurant.getName());
-//            menu.setText(R.string.menu);
-//        }
-//        firstFlag = true;
     }
 
     private void initListeners(){

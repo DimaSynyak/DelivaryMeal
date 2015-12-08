@@ -27,6 +27,7 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Language;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.Languages;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments.LanguagesFragmentOpacityLow;
 import com.dmitriy.sinyak.delivarymeal.app.activity.main.title.fragments.LanguagesTitle;
+import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.StateMenu;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.DelivaryData;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantHeadFragment;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.head.RestaurantMiniHeadFragment;
@@ -38,7 +39,6 @@ import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.Registrat
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.service.filter.MealFilter;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.ChangeLanguageAsyncTask;
 import com.dmitriy.sinyak.delivarymeal.app.activity.restaurant.thread.RestaurantAsyncTask;
-import com.dmitriy.sinyak.delivarymeal.app.activity.tools.Tools;
 import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove;
 
 import java.util.ArrayList;
@@ -105,6 +105,7 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
 
 
     private FragmentTransaction ft;
+    private MealFilter mealFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,8 +136,10 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         garbageNum = (TextView) findViewById(R.id.garbageNum);
 
         scrollView = (ScrollView) findViewById(R.id.scrollView3);
-        restaurant = restaurantList.getRestaurants().get((Integer) getIntent().getSerializableExtra("restaurant"));
-        positionRestaurant = restaurantList.getRestaurants().indexOf(restaurant);
+        restaurant = restaurantList.getRestaurant();
+
+        if (restaurant == null)
+            finish();
 
         restaurantAsyncTask = null;
         restaurantAsyncTask = new RestaurantAsyncTask(this);
@@ -220,12 +223,97 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         titleBranchOffices.setText(restaurant.getTitleBranchOffices());
 
         ft = getSupportFragmentManager().beginTransaction();
+
+        if (restaurant.getAddressDataFragmentList() == null){
+            restaurant.setAddressDataFragmentList(new ArrayList<AddressDataFragment>());
+        }
+
+        for (String branchesText : restaurant.getAddressBranchOffices()) {
+            AddressDataFragment addressDataFragment = new AddressDataFragment();
+            restaurant.getAddressDataFragmentList().add(addressDataFragment);
+            addressDataFragment.setAddressBranchesOfficesText(branchesText);
+            ft.add(R.id.address_data_container, addressDataFragment);
+        }
+        ft.commit();
+
+        infoLayout = (LinearLayout) findViewById(R.id.info_layout);
+        infoLayout.setVisibility(LinearLayout.GONE);
+    }
+
+
+    public void updateInfo(){
+        /*INFO LAYOUT*/
+
+        specializationField.setText(restaurant.getSpecializationField());
+
+
+        workDayField.setText(restaurant.getWorkDayField());
+
+
+        if (restaurant.getWorkTimeFields() != null && restaurant.getWorkTimeFields().size() > 0) {
+            workTimeField.setText(restaurant.getWorkTimeFields().get(0));
+        }
+
+        if (restaurant.getWorkTimeFields().size() > 1) {
+            workTimeField2.setText(restaurant.getWorkTimeFields().get(1));
+        }
+        else {
+            workTimeField2.setVisibility(TextView.GONE);
+        }
+
+        specializationData.setText(restaurant.getSpecializationData());
+
+
+        workDayData.setText(restaurant.getWorkDayData());
+
+
+        if (restaurant.getWorkTimesData() != null && restaurant.getWorkTimesData().size() > 0) {
+            workTimesData.setText(restaurant.getWorkTimesData().get(0));
+        }
+
+
+        if (restaurant.getWorkTimesData() != null && restaurant.getWorkTimesData().size() > 1){
+            workTimesData2.setText(restaurant.getWorkTimesData().get(1));
+        }
+        else {
+            workTimesData2.setVisibility(TextView.GONE);
+        }
+
+        titleDescription.setText(restaurant.getTitleDescription());
+
+        description.setText(restaurant.getDescription());
+
+        titleBranchOffices.setText(restaurant.getTitleBranchOffices());
+
+
+
+        /*remove fragment from place*/
+
+        ft = getSupportFragmentManager().beginTransaction();
+
+        if (restaurant.getAddressDataFragmentList() == null){
+            restaurant.setAddressDataFragmentList(new ArrayList<AddressDataFragment>());
+        }
+
+        for (AddressDataFragment addressDataFragment : restaurant.getAddressDataFragmentList()) {
+            ft.remove(addressDataFragment);
+        }
+        ft.commit();
+
+
+        /*add fragment on place*/
+
+        ft = getSupportFragmentManager().beginTransaction();
+
         for (String branchesText : restaurant.getAddressBranchOffices()) {
             AddressDataFragment addressDataFragment = new AddressDataFragment();
             addressDataFragment.setAddressBranchesOfficesText(branchesText);
             ft.add(R.id.address_data_container, addressDataFragment);
         }
         ft.commit();
+
+
+
 
         infoLayout = (LinearLayout) findViewById(R.id.info_layout);
         infoLayout.setVisibility(LinearLayout.GONE);
@@ -388,23 +476,6 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
     }
 
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        MealList.getMeals().clear();
-        garbage.clear();
-        MealFilter.destroy();
-
-
-        if (iDestroies == null)
-            return;
-        for (int i = 0; i < iDestroies.size(); i++) {
-            iDestroies.get(i).change();
-        }
-
-    }
-
-
     /***************Language***********************/
 
     public void init(Languages languages){
@@ -452,20 +523,9 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
             }
         }
 
-//        if (menuFragment != null && menuFragment.isOrderDataClickFlag()){
-//            menuFragment.getOrderClick().callOnClick();
-//        }
-//        if (menuFragment != null && menuFragment.isFormDataClickFlag()){
-//            menuFragment.getFormDataClick().callOnClick();
-//        }
-//        if (menuFragment != null && menuFragment.isPersonalCabinetClickFlag()){
-//            menuFragment.getPersonalCabinet().callOnClick();
-//        }
-
 
         changeLocale = new ChangeLanguageAsyncTask(this);
         Locale myLocale = null;
-        Tools tools = Tools.getInstance();
 
         oldLanguage = language.getLanguages();
         language.setLanguages(languages);
@@ -500,6 +560,7 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
 
 
         updateUI();
+
     }
 
     private void updateUI(){
@@ -616,8 +677,6 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
     }
 
 
-
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -643,5 +702,42 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         }
 
         RestaurantActivity.iDestroies.add(iDestroy);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        MealList.clear();
+        garbage.removeActivity();
+        garbage.onDestroy();
+        mealFilter = MealFilter.getInstance();
+        mealFilter.destroy();
+        StateMenu.onDestroy();
+        delivaryData = DelivaryData.getInstance();
+        delivaryData.onDestroy();
+        registrationData = RegistrationData.getInstance();
+        registrationData.onDestroy();
+        MealBody mealBody = MealBody.getInstance(this);
+        mealBody.deleteAllFragments();
+        mealBody.onDestroy();
+
+        SMCRestaurantActivity.getSmcRestaurantActivity().remove();
+
+        customViewAbove = null;
+
+       if (restaurant != null){
+           restaurant.clearInfo();
+       }
+
+        if (slidingMenuConfig != null)
+            slidingMenuConfig = null;
+
+        if (iDestroies == null)
+            return;
+        for (int i = 0; i < iDestroies.size(); i++) {
+            iDestroies.get(i).change();
+        }
+
     }
 }

@@ -46,8 +46,7 @@
                 android:layout_width="150dp"
                 android:layout_height="118dp"
                 android:id="@+id/restaurantHeadAvatar"
-                android:layout_marginRight="9dp"
-                android:src="@drawable/tanuki_avatar" />
+                android:layout_marginRight="9dp" />
 
             <LinearLayout
                 android:orientation="vertical"
@@ -58,7 +57,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Тануки"
                     android:id="@+id/restaurantName"
                     android:textSize="18sp"
                     android:layout_marginTop="2dp"
@@ -68,7 +66,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Китайская кухня"
                     android:id="@+id/restaurantProfile"
                     android:textSize="10sp"
                     android:textColor="#a1a1a1" />
@@ -104,7 +101,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="4.5"
                         android:id="@+id/restaurantLevel"
                         android:inputType="number"
                         android:textColor="#000000"
@@ -121,7 +117,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1000 $"
                         android:id="@+id/costMeal"
                         android:textSize="14sp"
                         android:textStyle="bold"
@@ -145,7 +140,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Бесплатно"
                         android:id="@+id/costDeliver"
                         android:layout_marginRight="2dp"
                         android:textSize="14sp"
@@ -168,7 +162,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="60 мин"
                         android:id="@+id/timeDeliver"
                         android:layout_marginRight="2dp"
                         android:textSize="14sp"

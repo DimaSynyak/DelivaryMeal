@@ -107,7 +107,7 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
 
                 Restaurant restaurant = restaurantList.getRestaurant();
 
-                /**/
+                /*LOAD INFO*/
                 restaurant.setSpecializationField(doc.getElementsByClass("spec").text());
                 restaurant.setWorkDayField(doc.getElementsByClass("rab").text());
 
@@ -157,7 +157,7 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
                     list.add(element.text());
                 }
                 restaurant.setAddressBranchOffices(list);
-                /**/
+                /* END LOAD INFO*/
 
                 if (elements.size() == 0) {
                     count.complete();
@@ -284,6 +284,7 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
         new UploadReviews(activity).start();
         MealList.startUploadPageAsycTask(activity);
         cancel(true);
+        activity = null;
     }
 
     public LoadPageFragment getLoadPageFragment() {

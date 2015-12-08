@@ -169,7 +169,7 @@ public class MainAsyncTask extends AsyncTask<String, Void, String> {
         ((MainActivity )activity).setSlidingMenuConfig(slidingMenuConfig);
 
 
-        restaurantBody = new RestaurantBody(((MainActivity )activity));
+        restaurantBody = RestaurantBody.getInstance(((MainActivity )activity));
         restaurantBody.init();
     }
 }
