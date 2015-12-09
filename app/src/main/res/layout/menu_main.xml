@@ -160,7 +160,7 @@
                 android:textColor="#000000" />
 
             <fragment tools:layout="@layout/menu_signature"
-                android:name="com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.SignatureFragment"
+                android:name="com.design.yogurt.app.main.menu.fragments.SignatureFragment"
                 android:layout_width="fill_parent" android:layout_height="wrap_content"
                 android:id="@+id/fragment" android:layout_gravity="bottom"/>
 

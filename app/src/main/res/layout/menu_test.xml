@@ -27,7 +27,7 @@ android:orientation="vertical"
 android:layout_width="fill_parent"
 android:layout_height="wrap_content" android:id="@+id/baseLayout">
 <fragment
-android:name="com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.SearchFragment"
+android:name="com.design.yogurt.app.main.menu.fragments.SearchFragment"
 android:layout_width="match_parent"
 android:layout_height="0dp"
 android:id="@+id/searchFrame"
@@ -38,7 +38,7 @@ android:id="@+id/countryFrame" android:layout_gravity="bottom"
 />
 
 <fragment
-android:name="com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.CountryButtonFragment"
+android:name="com.design.yogurt.app.main.menu.fragments.CountryButtonFragment"
 android:layout_width="match_parent"
 android:layout_height="wrap_content"
 android:id="@+id/countryLayout"
@@ -51,7 +51,7 @@ android:id="@+id/cityFrame"
 android:layout_gravity="bottom"/>
 
 
-<fragment android:name="com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.CityButtonFragment"
+<fragment android:name="com.design.yogurt.app.main.menu.fragments.CityButtonFragment"
 android:layout_width="match_parent"
 android:layout_height="wrap_content"
 android:id="@+id/cityLayout"
@@ -65,7 +65,7 @@ android:id="@+id/kitchenFrame"
 android:layout_gravity="bottom"/>
 
 
-<fragment android:name="com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.KitchenButtonFragment"
+<fragment android:name="com.design.yogurt.app.main.menu.fragments.KitchenButtonFragment"
 android:layout_width="match_parent"
 android:layout_height="wrap_content"
 android:id="@+id/kitchenLayout"
@@ -79,14 +79,14 @@ android:id="@+id/categoryFrame"
 android:layout_gravity="bottom"/>
 
 
-<fragment android:name="com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.CategoryButtonFragment"
+<fragment android:name="com.design.yogurt.app.main.menu.fragments.CategoryButtonFragment"
 android:layout_width="match_parent"
 android:layout_height="wrap_content"
 android:id="@+id/categoryLayout"
 android:layout_gravity="bottom"
 tools:layout="@layout/category_button"/>
 <fragment tools:layout="@layout/menu_signature"
-android:name="com.dmitriy.sinyak.delivarymeal.app.activity.main.menu.fragments.SignatureFragment"
+android:name="com.design.yogurt.app.main.menu.fragments.SignatureFragment"
 android:layout_width="fill_parent" android:layout_height="wrap_content"
 android:id="@+id/fragment" android:layout_gravity="bottom"/>
 
