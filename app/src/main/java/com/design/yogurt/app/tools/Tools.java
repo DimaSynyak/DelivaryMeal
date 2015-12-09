@@ -75,6 +75,16 @@ public class Tools {
         return String.valueOf(temp);
     }
 
+    public static String getCutting(String str){
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (int i = 2; i < str.length() - 2; i++) {
+            stringBuilder.append(str.charAt(i));
+        }
+//        System.out.println(stringBuilder);
+        return stringBuilder.toString();
+    }
+
     public static int getVariationId(String str){
         StringBuilder builder = new StringBuilder();
         int i = 0;

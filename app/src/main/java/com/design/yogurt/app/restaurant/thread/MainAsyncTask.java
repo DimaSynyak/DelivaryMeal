@@ -12,6 +12,7 @@ import com.design.yogurt.app.restaurant.service.DelivaryData;
 import com.design.yogurt.app.restaurant.service.Garnir;
 import com.design.yogurt.app.restaurant.service.Meal;
 import com.design.yogurt.app.restaurant.service.MealList;
+import com.design.yogurt.app.tools.Tools;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -20,8 +21,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.List;
-
-import example.Tools;
 
 /**
  * Created by 1 on 23.11.2015.

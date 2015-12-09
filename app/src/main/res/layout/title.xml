@@ -28,10 +28,10 @@
         android:onClick="onClick" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="45dp"
+        android:layout_height="50dp"
         android:id="@+id/language_image"
         android:layout_weight="1"
-        android:src="@drawable/language_ru" />
+        android:background="@drawable/language_ru" />
 
 </LinearLayout>

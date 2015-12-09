@@ -1,4 +1,4 @@
-package com.design.yogurt.app.main.menu.fragments;
+package com.design.yogurt.app.restaurant.service.filter;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
-import com.design.yogurt.app.restaurant.service.filter.FilterData;
 
 /**
  * Created by dmitriy on 12/4/15.

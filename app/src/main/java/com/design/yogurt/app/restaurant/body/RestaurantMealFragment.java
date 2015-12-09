@@ -21,6 +21,7 @@ import android.widget.RadioButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.design.yogurt.app.restaurant.service.MealList;
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.design.yogurt.app.restaurant.service.Garbage;
 import com.design.yogurt.app.restaurant.menu.fragments.OrderFragment;
@@ -76,6 +77,7 @@ public class RestaurantMealFragment extends Fragment {
         this.meal = meal;
         meal.setFragment(this);
         garbage = Garbage.getInstance();
+
     }
 
 
@@ -87,6 +89,7 @@ public class RestaurantMealFragment extends Fragment {
 
         Typeface geometric = Typeface.createFromAsset(getActivity().getAssets(), "fonts/geometric/geometric_706_black.ttf");
         Typeface arimo = Typeface.createFromAsset(getActivity().getAssets(), "fonts/arimo/Arimo_Regular.ttf");
+
 
         name = (TextView) view.findViewById(R.id.restaurantName);
         name.setTypeface(arimo);
@@ -264,28 +267,34 @@ public class RestaurantMealFragment extends Fragment {
                        alert.show();
                        break;
                    }
-                   case 1:{
+                   case 1: {
 
                        meal.add();
                        countMeal.setText(String.valueOf(meal.getCountMeal()));
                        garbage.update();
 
-//                       if (menuFragment != null) {
-//                           if (menuFragment.isAdded()) {
-//                               if (menuFragment.isOrderDataClickFlag()) {
-//                                   if (meal.getCountMeal() > 1) {
-//                                       orderFragment = meal.getOrderFragment();
-//                                       TextView countMeal = (TextView) orderFragment.getView().findViewById(R.id.countMeal);
-//                                       countMeal.setText(String.valueOf(meal.getCountMeal()));
-//                                   } else {
-//                                       ft = getActivity().getSupportFragmentManager().beginTransaction();
-//                                       ft.add(R.id.orderDataContainer, new OrderFragment(meal));
-//                                       ft.commit();
-//                                   }
-//                               }
-//
-//                           }
-//                       }
+                       if (meal.getOrderFragment() == null) {
+                           ft = getActivity().getSupportFragmentManager().beginTransaction();
+
+                           OrderFragment orderFragment = new OrderFragment();
+                           orderFragment.init(meal);
+                           ft.add(R.id.orderDataContainer, orderFragment);
+
+                           ft.commit();
+                       }
+                       else {
+                           OrderFragment orderFragment = meal.getOrderFragment();
+                           final TextView count = (TextView) orderFragment.getView().findViewById(R.id.countMeal);
+                           if (orderFragment.isAdded()) {
+                               orderFragment.getActivity().runOnUiThread(new Runnable() {
+                                   @Override
+                                   public void run() {
+                                       count.setText(String.valueOf(meal.getCountMeal()));
+                                   }
+                               });
+                           }
+                       }
+
                        break;
                    }
                }

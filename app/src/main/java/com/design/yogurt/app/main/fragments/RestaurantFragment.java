@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.design.yogurt.app.main.title.Language;
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.design.yogurt.app.lib.StateFragment;
 import com.design.yogurt.app.main.service.Restaurant;
@@ -48,6 +49,7 @@ public class RestaurantFragment extends Fragment {
     private TextView costMealText;
     private TextView costDeliverText;
     private TextView timeDeliverText;
+    private Language language;
 
     private Bitmap cutImage;
 
@@ -59,6 +61,7 @@ public class RestaurantFragment extends Fragment {
         this.restaurant = restaurant;
         restaurantList = RestaurantList.getInstance();
         restaurant.setFragment(this);
+        language = Language.getInstance();
     }
 
 
@@ -121,6 +124,10 @@ public class RestaurantFragment extends Fragment {
             public void onClick(View v) {
                 restaurantList.setPositionRestaurant(restaurant.getId());
                 Intent intent = new Intent(activity, RestaurantActivity.class);
+
+                intent.putExtra("language", language.getLanguages());
+
+
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 restaurantList.setRestaurant(restaurant);
                 startActivity(intent);

@@ -21,7 +21,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
-import com.design.yogurt.app.main.menu.fragments.FilterFragment;
+import com.design.yogurt.app.restaurant.service.filter.FilterFragment;
 import com.design.yogurt.app.main.service.Restaurant;
 import com.design.yogurt.app.main.service.RestaurantList;
 import com.design.yogurt.app.main.title.Language;
@@ -33,7 +33,6 @@ import com.design.yogurt.app.restaurant.service.Garbage;
 import com.design.yogurt.app.restaurant.service.IChangeNumFlatListener;
 import com.design.yogurt.app.restaurant.service.IChangePersonalCabinetTypeListener;
 import com.design.yogurt.app.restaurant.service.IChangeStateLogoutListener;
-import com.design.yogurt.app.restaurant.service.Meal;
 import com.design.yogurt.app.restaurant.service.MealList;
 import com.design.yogurt.app.restaurant.service.RegistrationData;
 import com.design.yogurt.app.restaurant.service.filter.FilterData;
@@ -239,6 +238,15 @@ public class SMCRestaurantActivity {
         menu.setMenu(R.layout.menu);
 
 
+
+        TextView plus = (TextView) activity.findViewById(R.id.plus);
+        plus.setTypeface(geometric);
+        plus.setVisibility(View.VISIBLE);
+
+        TextView addDeliver = (TextView) activity.findViewById(R.id.add_deliver);
+        addDeliver.setTypeface(geometric);
+        addDeliver.setVisibility(View.VISIBLE);
+        addDeliver.setText(restaurant.getCostDeliver());
 
         /****************************************************/
         /*RegistrationData*/
@@ -520,6 +528,8 @@ public class SMCRestaurantActivity {
         baseLayout.setVisibility(LinearLayout.VISIBLE);
         garbageLayout.setVisibility(LinearLayout.GONE);
 
+        LinearLayout orderContainer = (LinearLayout) activity.findViewById(R.id.orderDataContainer);
+        orderContainer.setVisibility(View.GONE);
        initListeners();
     }
 
@@ -558,24 +568,38 @@ public class SMCRestaurantActivity {
         });
 
         deliveryBTN.setOnClickListener(new View.OnClickListener() {
+
+            TextView plus = (TextView) activity.findViewById(R.id.plus);
+            TextView addDeliver = (TextView) activity.findViewById(R.id.add_deliver);
+
             @Override
             public void onClick(View v) {
+
                 deliveryData.setDelivaryType(true);
                 delivery.setChecked(true);
                 nonDelivery.setChecked(false);
+                plus.setVisibility(View.VISIBLE);
+                addDeliver.setVisibility(View.VISIBLE);
 
                 street.setVisibility(LinearLayout.VISIBLE);
                 numHouse.setVisibility(LinearLayout.VISIBLE);
                 numFlat.setVisibility(LinearLayout.VISIBLE);
+
             }
         });
 
         nonDeliveryBTN.setOnClickListener(new View.OnClickListener() {
+
+            TextView plus = (TextView) activity.findViewById(R.id.plus);
+            TextView addDeliver = (TextView) activity.findViewById(R.id.add_deliver);
+
             @Override
             public void onClick(View v) {
                 deliveryData.setDelivaryType(false);
                 delivery.setChecked(false);
                 nonDelivery.setChecked(true);
+                plus.setVisibility(View.GONE);
+                addDeliver.setVisibility(View.GONE);
 
                 street.setVisibility(LinearLayout.GONE);
                 numHouse.setVisibility(LinearLayout.GONE);
@@ -605,13 +629,15 @@ public class SMCRestaurantActivity {
         });
 
         personalCabinet.setOnClickListener(new View.OnClickListener() {
+
+            LinearLayout orderContainer = (LinearLayout) activity.findViewById(R.id.orderDataContainer);
+
             @Override
             public void onClick(View v) {
                 if (orderDataClickFlag){
-                    removeOrderFragment();
+                    orderContainer.setVisibility(View.GONE);
                     total.setVisibility(LinearLayout.GONE);
                     paymentMethod.setVisibility(LinearLayout.GONE);
-//                    pay.setVisibility(LinearLayout.GONE);
                     orderDataClickFlag = false;
                 }
 
@@ -632,13 +658,15 @@ public class SMCRestaurantActivity {
         });
 
         formDataClick.setOnClickListener(new View.OnClickListener() {
+
+            LinearLayout orderContainer = (LinearLayout) activity.findViewById(R.id.orderDataContainer);
+
             @Override
             public void onClick(View v) {
                 if (orderDataClickFlag){
-                    removeOrderFragment();
+                    orderContainer.setVisibility(View.GONE);
                     total.setVisibility(LinearLayout.GONE);
                     paymentMethod.setVisibility(LinearLayout.GONE);
-//                    pay.setVisibility(LinearLayout.GONE);
                     orderDataClickFlag = false;
                 }
 
@@ -658,7 +686,13 @@ public class SMCRestaurantActivity {
             }
         });
 
+
+
+
         orderClick.setOnClickListener(new View.OnClickListener() {
+
+            LinearLayout orderContainer = (LinearLayout) activity.findViewById(R.id.orderDataContainer);
+
             @Override
             public void onClick(View v) {
                 if (formDataClickFlag){
@@ -672,20 +706,16 @@ public class SMCRestaurantActivity {
                 }
 
                 if (orderDataClickFlag){
-                    removeOrderFragment();
+                    orderContainer.setVisibility(View.GONE);
                     orderDataClickFlag = false;
                     total.setVisibility(LinearLayout.GONE);
                     paymentMethod.setVisibility(LinearLayout.GONE);
-//                    pay.setVisibility(LinearLayout.GONE);
                 }
                 else {
-                    if (!addOrderFragment())
-                        return;
-
+                    orderContainer.setVisibility(View.VISIBLE);
                     orderDataClickFlag = true;
                     total.setVisibility(LinearLayout.VISIBLE);
                     paymentMethod.setVisibility(LinearLayout.VISIBLE);
-//                    pay.setVisibility(LinearLayout.VISIBLE);
                 }
             }
         });
@@ -1206,36 +1236,6 @@ public class SMCRestaurantActivity {
 
     private void addPersonalCabinet(){
         personalCabinetForm.setVisibility(LinearLayout.VISIBLE);
-    }
-
-    private boolean addOrderFragment(){
-
-        if (!MealList.isMealListCompleteFlag())
-            return false;
-
-        ft = activity.getSupportFragmentManager().beginTransaction();
-
-        for (Meal meal : garbage.getListOrderMeal()) {
-
-            OrderFragment orderFragment = new OrderFragment();
-            orderFragment.init(meal);
-            ft.add(R.id.orderDataContainer, new OrderFragment());
-        }
-
-        ft.commit();
-        return true;
-    }
-
-    private void removeOrderFragment(){
-        ft = activity.getSupportFragmentManager().beginTransaction();
-        for (Meal meal : garbage.getListOrderMeal()) {
-            if (meal.getOrderFragment() == null)
-                continue;
-
-            ft.remove(meal.getOrderFragment());
-            meal.setOrderFragment(null);
-        }
-        ft.commit();
     }
 
     public boolean isOrderDataClickFlag() {

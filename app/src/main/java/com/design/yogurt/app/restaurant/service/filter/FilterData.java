@@ -1,9 +1,6 @@
 package com.design.yogurt.app.restaurant.service.filter;
 
 
-import com.design.yogurt.app.main.menu.fragments.FilterFragment;
-import com.design.yogurt.app.main.menu.fragments.FilterItemFragment;
-
 import java.util.List;
 
 /**

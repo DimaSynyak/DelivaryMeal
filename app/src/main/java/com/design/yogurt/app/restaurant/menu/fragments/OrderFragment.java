@@ -73,18 +73,22 @@ public class OrderFragment extends Fragment {
             public void onClick(View v) {
 
                 meal.remove();
+
+                total.setText(garbage.getTotalCostStr());
+                meal.getFragment().update();//Update count meal on meal_fragment
+                garbage.update();
+
+
                 if (meal.getCountMeal() == 0) {
                     ft = getActivity().getSupportFragmentManager().beginTransaction();
                     ft.remove(OrderFragment.this);
                     ft.commit();
+                    meal.setOrderFragment(null);
                 }
                 else {
                     countMeal.setText(String.valueOf(meal.getCountMeal()));
                 }
 
-                total.setText(garbage.getTotalCostStr());
-                meal.getFragment().update();//Update count meal on meal_fragment
-                garbage.update();
             }
         });
 

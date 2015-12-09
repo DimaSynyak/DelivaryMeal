@@ -10,17 +10,17 @@ public class RegistrationData {
 
     private IChangeNumFlatListener iChangeNumFlatListener;
 
-    private String name;
-    private String city;
-    private String numStreet;
-    private String numHouse;
-    private String numFlat;
+    private String name = "";
+    private String city = "";
+    private String numStreet = "";
+    private String numHouse = "";
+    private String numFlat = "";
     private String email;
-    private String numPhone;
-    private String country;
-    private String index;
-    private String password;
-    private String confirmPassword;
+    private String numPhone = "";
+    private String country = "";
+    private String index = "";
+    private String password = "";
+    private String confirmPassword = "";
 
     private boolean stateLogin;
     private String logoutLink;

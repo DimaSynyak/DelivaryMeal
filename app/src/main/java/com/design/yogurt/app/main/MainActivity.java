@@ -40,10 +40,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private LanguagesFragmentOpacityLow languagesFragmentOpacityLow;
     private LanguagesTitle languagesTitle;
 
-
-
-
-
     public static MainActivity getInstance() {
         return mainActivity;
     }
@@ -81,15 +77,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             switch (languages) {
                 case RU: {
-                    ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_ru);
+                    ((ImageView) findViewById(R.id.language_image)).setBackgroundResource(R.drawable.language_ru);
                     break;
                 }
                 case EE: {
-                    ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_ee);
+                    ((ImageView) findViewById(R.id.language_image)).setBackgroundResource(R.drawable.language_ee);
                     break;
                 }
                 case EN: {
-                    ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_en);
+                    ((ImageView) findViewById(R.id.language_image)).setBackgroundResource(R.drawable.language_en);
                 }
             }
         }
@@ -116,19 +112,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (language.getLanguages()){
             case RU:{
-                ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_ru);
+                ((ImageView) findViewById(R.id.language_image)).setBackgroundResource(R.drawable.language_ru);
                 myLocale = new Locale("ru");
 
                 break;
             }
             case EE:{
-                ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_ee);
+                ((ImageView) findViewById(R.id.language_image)).setBackgroundResource(R.drawable.language_ee);
                 myLocale = new Locale("et");
 
                 break;
             }
             case EN:{
-                ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_en);
+                ((ImageView) findViewById(R.id.language_image)).setBackgroundResource(R.drawable.language_en);
                 myLocale = new Locale("en");
 
                 break;
@@ -201,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (languages){
             case RU:{
-                ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_ru);
+                ((ImageView) findViewById(R.id.language_image)).setBackgroundResource(R.drawable.language_ru);
                 myLocale = new Locale("ru");
                 changeLocale = getChangeLocale();
                 changeLocale.setFlagChangeLocale(true);
@@ -209,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             }
             case EE:{
-                ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_ee);
+                ((ImageView) findViewById(R.id.language_image)).setBackgroundResource(R.drawable.language_ee);
                 myLocale = new Locale("et");
                 changeLocale = getChangeLocale();
                 changeLocale.setFlagChangeLocale(true);
@@ -217,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             }
             case EN:{
-                ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_en);
+                ((ImageView) findViewById(R.id.language_image)).setBackgroundResource(R.drawable.language_en);
                 myLocale = new Locale("en");
                 changeLocale = getChangeLocale();
                 changeLocale.setFlagChangeLocale(true);
@@ -256,15 +252,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (language.getLanguages()){
             case RU:{
-                ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_ru);
+                ((ImageView) findViewById(R.id.language_image)).setBackgroundResource(R.drawable.language_ru);
                 break;
             }
             case EE:{
-                ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_ee);
+                ((ImageView) findViewById(R.id.language_image)).setBackgroundResource(R.drawable.language_ee);
                 break;
             }
             case EN:{
-                ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_en);
+                ((ImageView) findViewById(R.id.language_image)).setBackgroundResource(R.drawable.language_en);
                 break;
             }
             default: return;

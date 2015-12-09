@@ -3,6 +3,8 @@ package com.design.yogurt.app.restaurant.thread;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.TextView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.design.yogurt.app.main.service.Restaurant;
@@ -63,7 +65,8 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-
+        TextView searchButton = (TextView) activity.findViewById(R.id.search_button);
+        searchButton.setVisibility(View.GONE);
         connection = Restaurant.getConnection();
 
         List<Meal> meals = MealList.getMeals();
@@ -84,8 +87,11 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... params) {
 
-        restaurantFilter = RestaurantFilter.getInstance();
+        restaurantList = RestaurantList.getInstance();
+//        restaurantFilter = RestaurantFilter.getInstance();
         mealFilter = MealFilter.getInstance();
+
+        restaurant = restaurantList.getRestaurant();
 
         garbage = Garbage.getInstance();
         Document doc = null;
@@ -106,90 +112,90 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
 
             try {
                 MealList.setMealListCompleteFlag(false);
-                connection.url(params[0]);
-//                restaurantFilter.filter(connection);
-                connection.request().data().clear();
+//                connection.url(params[0]);
+//                connection.request().data().clear();
+//
+//                response = connection.execute();
+//                connection.cookies(response.cookies());
+//
+//                doc = response.parse();
+//                count.complete();
+//                elements = doc.getElementsByClass("food-item");
+//
+//                if (elements.size() == 0) {
+//                    count.complete();
+//                    count.complete();
+//                    count.complete();
+//
+//
+//                    synchronized (count) {
+//                        while (!count.isStateData()) {
+//                            count.wait(100);
+//                        }
+//                    }
+//                    return null;
+//                }
+//
+//                List<Restaurant> restaurants = restaurantList.getRestaurants();
+//                int sizeRestaurants = restaurants.size();
+//                int iter = 0;
+//
+//                for (Element element : elements) {
+//                    if (sizeRestaurants <= 0)
+//                        break;
+//
+//                    Restaurant restaurant = restaurants.get(iter);
+//
+//                    restaurant.setId(Integer.parseInt(element.attr("data-id")));
+//                    restaurant.setCostMeal(element.getElementsByClass("and-cost-mil").get(0).html());
+//                    restaurant.setCostDeliver(element.getElementsByClass("and-cost-deliver").get(0).html());
+//                    restaurant.setTimeDeliver(element.getElementsByClass("and-time-deliver").get(0).html());
+//
+//                    restaurant.setCostMealStatic(activity.getResources().getString(R.string.min_cost_order));
+//                    restaurant.setCostDeliverStatic(activity.getResources().getString(R.string.cost_deliver));
+//                    restaurant.setTimeDeliverStatic(activity.getResources().getString(R.string.time_deliver));
+//
+//                    restaurant.setImgSRC(element.getElementsByTag("img").get(0).attr("src"));
+//                    restaurant.setName(element.getElementsByClass("and-name").html());
+//                    restaurant.setProfile(element.getElementsByClass("and-profile").html());
+//                    restaurant.setStars(element.getElementsByClass("star").get(0).getElementsByTag("span").attr("style"));
+//                    restaurant.setMenuLink(element.getElementsByClass("food-img").get(0).getElementsByTag("a").attr("href"));
+//
+//
+//                    iter++;
+//                    sizeRestaurants--;
+//                }
+//
+//                restaurant = restaurantList.getRestaurant();
+//
+//                if (restaurant == null) {
+//                    count.complete();
+//                    count.complete();
+//                    count.complete();
+//
+//                    synchronized (count) {
+//                        while (!count.isStateData()) {
+//                            count.wait(100);
+//                        }
+//                    }
+//                    return null;
+//                }
 
-                response = connection.execute();
-                connection.cookies(response.cookies());
+
+                count.complete();
+//
+//                connection.url(restaurant.getMenuLink());
+//                response = connection.execute();
+//                connection.cookies(response.cookies());
 
                 doc = response.parse();
-                count.complete();
-                elements = doc.getElementsByClass("food-item");
 
-                if (elements.size() == 0) {
-                    count.complete();
-                    count.complete();
-                    count.complete();
-
-
-                    synchronized (count) {
-                        while (!count.isStateData()) {
-                            count.wait(100);
-                        }
-                    }
-                    return null;
-                }
-
-                List<Restaurant> restaurants = restaurantList.getRestaurants();
-                int sizeRestaurants = restaurants.size();
-                int iter = 0;
-
-                for (Element element : elements) {
-                    if (sizeRestaurants <= 0)
-                        break;
-
-                    Restaurant restaurant = restaurants.get(iter);
-
-                    restaurant.setId(Integer.parseInt(element.attr("data-id")));
-                    restaurant.setCostMeal(element.getElementsByClass("and-cost-mil").get(0).html());
-                    restaurant.setCostDeliver(element.getElementsByClass("and-cost-deliver").get(0).html());
-                    restaurant.setTimeDeliver(element.getElementsByClass("and-time-deliver").get(0).html());
-
-                    restaurant.setCostMealStatic(activity.getResources().getString(R.string.min_cost_order));
-                    restaurant.setCostDeliverStatic(activity.getResources().getString(R.string.cost_deliver));
-                    restaurant.setTimeDeliverStatic(activity.getResources().getString(R.string.time_deliver));
-
-                    restaurant.setImgSRC(element.getElementsByTag("img").get(0).attr("src"));
-                    restaurant.setName(element.getElementsByClass("and-name").html());
-                    restaurant.setProfile(element.getElementsByClass("and-profile").html());
-                    restaurant.setStars(element.getElementsByClass("star").get(0).getElementsByTag("span").attr("style"));
-                    restaurant.setMenuLink(element.getElementsByClass("food-img").get(0).getElementsByTag("a").attr("href"));
-
-
-                    iter++;
-                    sizeRestaurants--;
-                }
-
-                restaurant = restaurantList.getRestaurant();
-
-                if (restaurant == null) {
-                    count.complete();
-                    count.complete();
-                    count.complete();
-
-                    synchronized (count) {
-                        while (!count.isStateData()) {
-                            count.wait(100);
-                        }
-                    }
-                    return null;
-                }
-
-
-                count.complete();
-
-                connection.url(restaurant.getMenuLink());
-                response = connection.execute();
-                connection.cookies(response.cookies());
-
-                doc = response.parse();
-
-                if (!mealFilter.isStateMealFilter()) {
+//                if (!mealFilter.isStateMealFilter()) {
                     mealFilter.init(doc);
-                } else {
+//                } else {
                     mealFilter.filter(connection);
-                }
+//                }
+
                 response = connection.execute();
                 connection.cookies(response.cookies());
 
@@ -200,6 +206,7 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
                 elements = doc.getElementsByClass("item-food");
 
                 if ((elements.size() == 0)) {
+                    count.complete();
                     count.complete();
                     synchronized (count) {
                         while (!count.isStateData()) {
@@ -298,6 +305,7 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
                 }
 
                 count.complete();
+                count.complete();
                 synchronized (count) {
                     while (!count.isStateData()) {
                         count.wait(100);
@@ -347,6 +355,10 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
         mealBody.init();
 
         mealFilter.setStateMealFilter(false);
+
+        TextView searchButton = (TextView) activity.findViewById(R.id.search_button);
+        searchButton.setVisibility(View.VISIBLE);
+
         activity = null;
 //        count = null;
     }

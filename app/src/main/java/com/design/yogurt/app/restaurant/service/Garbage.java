@@ -1,5 +1,6 @@
 package com.design.yogurt.app.restaurant.service;
 
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
@@ -42,6 +43,7 @@ public class Garbage {
                 totalCostStr.setText(getTotalCostStr());
             }
         });
+
     }
 
     public AppCompatActivity getActivity() {
@@ -58,8 +60,8 @@ public class Garbage {
 
     public void add(Meal meal) {
         listOrderMeal.add(meal);
-        total++;
-        totalCost += Tools.getNum(meal.getCost());
+        total++;                                    //all count order meal
+        totalCost += Tools.getNum(meal.getCost());  //all cost order meal
     }
 
     public void remove(Meal meal){

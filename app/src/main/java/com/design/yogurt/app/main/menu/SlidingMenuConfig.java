@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.design.yogurt.app.main.MainActivity;
-import com.design.yogurt.app.main.menu.fragments.FilterFragment;
-import com.design.yogurt.app.main.menu.fragments.FilterItemFragment;
+import com.design.yogurt.app.restaurant.service.filter.FilterFragment;
+import com.design.yogurt.app.restaurant.service.filter.FilterItemFragment;
 import com.design.yogurt.app.main.thread.ChangeLocale;
 import com.design.yogurt.app.main.title.Language;
 import com.design.yogurt.app.restaurant.service.filter.FilterData;

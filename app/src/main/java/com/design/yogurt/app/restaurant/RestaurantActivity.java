@@ -117,9 +117,26 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         arimo = Typeface.createFromAsset(getAssets(), "fonts/arimo/Arimo_Regular.ttf");
 
          /*INIT LANGUAGE*/
-        language = Language.getInstance();
-        languagesTitle = language.init(R.id.restaurantLanguageContainer);
-        init(language.getLanguages());
+        ImageView languageImage = (ImageView) findViewById(R.id.language_image);
+
+        Languages languages = (Languages) getIntent().getSerializableExtra("language");
+        switch (languages){
+            case RU:{
+                languageImage.setBackgroundResource(R.drawable.language_ru);
+                languageImage.setImageResource(R.color.opacity);
+                break;
+            }
+            case EE:{
+                languageImage.setBackgroundResource(R.drawable.language_ee);
+                languageImage.setImageResource(R.color.opacity);
+                break;
+            }
+            case EN:{
+                languageImage.setBackgroundResource(R.drawable.language_en);
+                languageImage.setImageResource(R.color.opacity);
+                break;
+            }
+        }
         /*END INIT LANGUAGE*/
 
         restaurantList = RestaurantList.getInstance();

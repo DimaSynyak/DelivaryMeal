@@ -3,6 +3,8 @@ package com.design.yogurt.app.main.thread;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.TextView;
 
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.design.yogurt.app.main.RestaurantBody;
@@ -49,6 +51,9 @@ public class ChangeLocale extends AsyncTask<String, Void, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+
+        TextView searchButton = (TextView) activity.findViewById(R.id.search_button);
+        searchButton.setVisibility(View.GONE);
 
         connection = Restaurant.getConnection();
 
@@ -190,8 +195,12 @@ public class ChangeLocale extends AsyncTask<String, Void, String> {
             flagChangeLocale = false;
         }
 
+        TextView searchButton = (TextView) activity.findViewById(R.id.search_button);
+        searchButton.setVisibility(View.VISIBLE);
+
         isCancled = true;
         cancel(true);
+        activity = null;
     }
 
     public boolean isCancled() {

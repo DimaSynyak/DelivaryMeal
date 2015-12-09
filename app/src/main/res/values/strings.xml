@@ -83,4 +83,6 @@
     <string name="info">ИНФО</string>
     <string name="reviews">ОТЗЫВЫ</string>
 
+    <color name="opacity">#aafda94d</color>
+
 </resources>
