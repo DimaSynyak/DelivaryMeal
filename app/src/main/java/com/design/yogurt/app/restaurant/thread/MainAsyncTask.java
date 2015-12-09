@@ -91,6 +91,7 @@ public class MainAsyncTask extends AsyncTask<String, String, String>{
                                 .data("product_id", String.valueOf(meal.getId()))
                                 .method(Connection.Method.POST);
                         response = connection.execute();
+
                         connection.cookies(response.cookies());
                     }
                 }
@@ -128,9 +129,30 @@ public class MainAsyncTask extends AsyncTask<String, String, String>{
             numberProgressBar.levelComplete();
             Restaurant.set_wpnonce(_wpnonce);
 
+            connection.url("http://menu24.ee/cart/?wc-ajax=update_shipping_method&lang=ru");
+
+
+            if (delivaryData.isDelivaryType()) {
+                connection.request().data().clear();
+                connection.data("shipping_method[]", "restaurants_shipping_method");
+                connection.method(Connection.Method.POST);
+
+                response = connection.execute();
+                connection.cookies(response.cookies());
+
+            }
+            else {
+                connection.request().data().clear();
+                connection.data("shipping_method[]", "local_pickup");
+                connection.method(Connection.Method.POST);
+            }
+
+            response = connection.execute();
+            connection.cookies(response.cookies());
+
+            /****************connection*****************/
             connection.url("http://menu24.ee/checkout/");
-
-
+            connection.request().data().clear();
 
             connection.data("billing_delivery", delivaryData.getDelivaryType());
             connection.data("billing_first_name", delivaryData.getYourName());
@@ -159,9 +181,6 @@ public class MainAsyncTask extends AsyncTask<String, String, String>{
             connection.cookies(response.cookies());
 
             connection = Jsoup.connect(String.valueOf(connection.response().url()));
-
-
-//            connection.url(connection.response().url());
 
             response = connection.execute();
 

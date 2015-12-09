@@ -188,7 +188,25 @@ public class RegistrationOrLoginAsyncTask extends AsyncTask<String, String, Stri
                     }
 
 
+                    /*UPDATE GARBAGE*/
+                    connection.url("http://menu24.ee/wp-admin/admin-ajax.php?lang=ee");
+                    connection.request().data().clear();
+                    connection.data("action", "product_update");
+                    connection.method(Connection.Method.POST);
+                    response = connection.execute();
+                    connection.cookies(response.cookies());
 
+                    Document document = response.parse();
+                    Elements as = document.select("a.remove");
+                    if (as != null){
+                        for (Element a : as){
+                            if (a != null){
+                                connection.url(a.attr("href"));
+                                response = connection.execute();
+                                connection.cookies(response.cookies());
+                            }
+                        }
+                    }
 
                     registrationData.setLogoutLink(logout.attr("href"));
 

@@ -857,6 +857,7 @@ public class SMCRestaurantActivity {
             @Override
             public void onClick(View v) {
                 updateRegisterData();
+                delivaryData.setDelivaryType(true);
 
                 RegistrationOrLoginAsyncTask registrationOrLoginAsyncTask = new RegistrationOrLoginAsyncTask((AppCompatActivity) activity, okRegFormButton, pay);
                 registrationOrLoginAsyncTask.setContainerId(R.id.container_id);

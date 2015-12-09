@@ -3,6 +3,7 @@ package com.design.yogurt.app.restaurant;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
+import com.design.yogurt.app.restaurant.service.Garbage;
 import com.dmitriy.sinyak.delivarymeal.app.R;
 import com.design.yogurt.app.restaurant.body.RestaurantMealFragment;
 import com.design.yogurt.app.restaurant.service.Meal;
@@ -87,6 +88,8 @@ public class MealBody {
 
         Thread updateThread = new Thread(new Runnable() {
 
+            private Garbage garbage = Garbage.getInstance();
+
             @Override
             public void run() {
                 synchronized (count_food) {
@@ -97,8 +100,17 @@ public class MealBody {
 
                     ft = activity.getSupportFragmentManager().beginTransaction();
 
+
                     RestaurantMealFragment restaurantMealFragment = null;
                     for (int i = count_food; i < count_food2; i++) {
+
+                        for (Meal meal : garbage.getListOrderMeal()) {
+                            Meal ml = meals.get(i);
+                            if (ml.getId() == meal.getId()) {
+                                ml.setCountMeal(meal.getCountMeal());
+                            }
+                        }
+
                         restaurantMealFragment = new RestaurantMealFragment();
                         restaurantMealFragment.init(meals.get(i));
                         ft.add(R.id.restaurantMenuContainer, restaurantMealFragment);
