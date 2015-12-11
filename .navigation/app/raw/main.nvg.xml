@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<navigationModel
+  ns = "http://schemas.android.com?import=com.android.tools.idea.editors.navigation.model.*">
+  <locations  
+    class = "java.util.ArrayList">
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "ee.menu24.deliverymeal.app.restaurant.RestaurantActivity"/>
+      <point      
+        x = "952"      
+        y = "1336"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "ee.menu24.deliverymeal.app.main.MainActivity"/>
+      <point      
+        x = "364"      
+        y = "1332"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "ee.menu24.deliverymeal.app.activity.payment.PaymentActivity"/>
+      <point      
+        x = "2232"      
+        y = "280"/>
+    </statePointEntry>
+  </locations>
+</navigationModel>

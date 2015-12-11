@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="176dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/main_mini_menu_background"
+    android:gravity="center_vertical|center_horizontal"
+    android:layout_marginLeft="1dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView5"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        android:fontFamily="@string/geometric_706_black"
+        android:text="ИНФО"
+        android:layout_marginBottom="15dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView6"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        android:fontFamily="@string/geometric_706_black"
+        android:text="ОТЗЫВЫ"
+        android:layout_marginBottom="15dp" />
+</LinearLayout>
