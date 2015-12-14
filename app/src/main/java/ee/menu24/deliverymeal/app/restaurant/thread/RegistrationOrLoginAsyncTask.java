@@ -266,6 +266,7 @@ public class RegistrationOrLoginAsyncTask extends AsyncTask<String, String, Stri
         EditText officeNumRegData = (EditText) activity.findViewById(R.id.flat_num_reg_form);
         officeNumRegData.setText(registrationData.getNumFlat());
 
+        registrationData = null;
         activity = null;
     }
 

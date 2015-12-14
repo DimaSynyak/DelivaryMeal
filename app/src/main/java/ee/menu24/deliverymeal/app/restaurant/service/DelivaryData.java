@@ -67,6 +67,7 @@ public class DelivaryData {
 
     public void onDestroy(){
         delivaryDataObj = null;
+        changeDateListener = null;
     }
 
 

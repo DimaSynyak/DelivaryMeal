@@ -19,10 +19,6 @@ import ee.menu24.deliverymeal.app.main.service.Restaurant;
  * Created by 1 on 03.11.2015.
  */
 public class RestaurantMiniHeadFragment extends Fragment {
-    private FragmentTransaction ft;
-    private AppCompatActivity activity;
-    private RestaurantMiniHeadFragment restaurantMiniHeadFragment;
-    private RestaurantHeadFragment restaurantHeadFragment;
     private Restaurant restaurant;
 
     private TextView infoText;
@@ -62,22 +58,7 @@ public class RestaurantMiniHeadFragment extends Fragment {
             sReviews = StateMenu.getInstanceByStringName("reviews");
         }
     }
-//    public void init(AppCompatActivity activity,Restaurant restaurant) {
-//        this.activity = activity;
-//        restaurantMiniHeadFragment = this;
-//        this.restaurant = restaurant;
-//
-//        if (StateMenu.stateMenus == null || StateMenu.stateMenus.size() == 0) {
-//            sMenu = new StateMenu(EStateMenu.MENU, R.string.menu, "menu");
-//            sInfo = new StateMenu(EStateMenu.INFO, R.string.info, "info");
-//            sReviews = new StateMenu(EStateMenu.REVIEWS, R.string.reviews, "reviews");
-//        }
-//        else {
-//            sMenu = StateMenu.getInstanceByStringName("menu");
-//            sInfo = StateMenu.getInstanceByStringName("info");
-//            sReviews = StateMenu.getInstanceByStringName("reviews");
-//        }
-//    }
+
 
     @Nullable
     @Override
@@ -133,9 +114,6 @@ public class RestaurantMiniHeadFragment extends Fragment {
         return view;
     }
 
-    public void setRestaurantHeadFragment(RestaurantHeadFragment restaurantHeadFragment) {
-        this.restaurantHeadFragment = restaurantHeadFragment;
-    }
 
     public Restaurant getRestaurant() {
         return restaurant;
@@ -224,5 +202,12 @@ public class RestaurantMiniHeadFragment extends Fragment {
                 break;
             }
         }
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
     }
 }

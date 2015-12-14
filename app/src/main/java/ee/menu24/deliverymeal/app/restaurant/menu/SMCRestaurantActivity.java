@@ -637,15 +637,10 @@ public class SMCRestaurantActivity {
 
         personalCabinet.setOnClickListener(new View.OnClickListener() {
 
-            LinearLayout orderContainer = (LinearLayout) activity.findViewById(R.id.orderDataContainer);
-
             @Override
             public void onClick(View v) {
                 if (orderDataClickFlag){
-                    orderContainer.setVisibility(View.GONE);
-                    total.setVisibility(LinearLayout.GONE);
-                    paymentMethod.setVisibility(LinearLayout.GONE);
-                    orderDataClickFlag = false;
+                    goneOrderData();
                 }
 
                 if (formDataClickFlag){
@@ -666,15 +661,10 @@ public class SMCRestaurantActivity {
 
         formDataClick.setOnClickListener(new View.OnClickListener() {
 
-            LinearLayout orderContainer = (LinearLayout) activity.findViewById(R.id.orderDataContainer);
-
             @Override
             public void onClick(View v) {
                 if (orderDataClickFlag){
-                    orderContainer.setVisibility(View.GONE);
-                    total.setVisibility(LinearLayout.GONE);
-                    paymentMethod.setVisibility(LinearLayout.GONE);
-                    orderDataClickFlag = false;
+                    goneOrderData();
                 }
 
                 if (personalCabinetFlag){
@@ -698,8 +688,6 @@ public class SMCRestaurantActivity {
 
         orderClick.setOnClickListener(new View.OnClickListener() {
 
-            LinearLayout orderContainer = (LinearLayout) activity.findViewById(R.id.orderDataContainer);
-
             @Override
             public void onClick(View v) {
                 if (formDataClickFlag){
@@ -713,16 +701,10 @@ public class SMCRestaurantActivity {
                 }
 
                 if (orderDataClickFlag){
-                    orderContainer.setVisibility(View.GONE);
-                    orderDataClickFlag = false;
-                    total.setVisibility(LinearLayout.GONE);
-                    paymentMethod.setVisibility(LinearLayout.GONE);
+                    goneOrderData();
                 }
                 else {
-                    orderContainer.setVisibility(View.VISIBLE);
-                    orderDataClickFlag = true;
-                    total.setVisibility(LinearLayout.VISIBLE);
-                    paymentMethod.setVisibility(LinearLayout.VISIBLE);
+                    visibleOrderData();
                 }
             }
         });
@@ -941,6 +923,23 @@ public class SMCRestaurantActivity {
         });
         /*********************************************/
 
+    }
+
+
+    public void goneOrderData(){
+        LinearLayout orderContainer = (LinearLayout) activity.findViewById(R.id.orderDataContainer);
+        orderContainer.setVisibility(View.GONE);
+        orderDataClickFlag = false;
+        total.setVisibility(LinearLayout.GONE);
+        paymentMethod.setVisibility(LinearLayout.GONE);
+    }
+
+    public void visibleOrderData(){
+        LinearLayout orderContainer = (LinearLayout) activity.findViewById(R.id.orderDataContainer);
+        orderContainer.setVisibility(View.VISIBLE);
+        orderDataClickFlag = true;
+        total.setVisibility(LinearLayout.VISIBLE);
+        paymentMethod.setVisibility(LinearLayout.VISIBLE);
     }
 
     public void addFilterData(){
@@ -1376,6 +1375,7 @@ public class SMCRestaurantActivity {
     }
 
     public void remove(){
+        registrationData  = null;
         activity = null;
         smcRestaurantActivity = null;
     }

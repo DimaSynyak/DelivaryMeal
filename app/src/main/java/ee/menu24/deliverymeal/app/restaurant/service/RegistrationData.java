@@ -5,10 +5,7 @@ package ee.menu24.deliverymeal.app.restaurant.service;
  */
 public class RegistrationData {
 
-    private boolean personalCabinetType;
-    private IChangePersonalCabinetTypeListener iChangePersonalCabinetTypeListener;
 
-    private IChangeNumFlatListener iChangeNumFlatListener;
 
     private String name = "";
     private String city = "";
@@ -25,7 +22,9 @@ public class RegistrationData {
     private boolean stateLogin;
     private String logoutLink;
     private IChangeStateLogoutListener iChangeStateLogoutListener;
-
+    private boolean personalCabinetType;
+    private IChangePersonalCabinetTypeListener iChangePersonalCabinetTypeListener;
+    private IChangeNumFlatListener iChangeNumFlatListener;
 
     private ChangeDateListener changeDateListener;
 
@@ -53,6 +52,12 @@ public class RegistrationData {
     }
 
     public void onDestroy(){
+
+        personalCabinetType = false;
+        iChangePersonalCabinetTypeListener = null;
+        iChangeNumFlatListener = null;
+        iChangeStateLogoutListener = null;
+        changeDateListener = null;
         delivaryDataObj = null;
     }
 

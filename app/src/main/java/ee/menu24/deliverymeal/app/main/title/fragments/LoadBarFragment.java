@@ -46,15 +46,16 @@ public class LoadBarFragment extends Fragment {
                     while(true) {
 
                         synchronized (count) {
+                            if (!stateOnPause) {
+                                LoadBarFragment.this.getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
 
-                            LoadBarFragment.this.getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (stateOnPause)
-                                        return;
-                                    dynamicTextView.setText(String.valueOf(data));
-                                }
-                            });
+                                        dynamicTextView.setText(String.valueOf(data));
+
+                                    }
+                                });
+                            }
 
                             data++;
 
@@ -77,7 +78,12 @@ public class LoadBarFragment extends Fragment {
 
                     }
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    System.err.println(e);
+                    return;
+                }
+                catch (Exception e){
+                    System.err.println(e);
+                    return;
                 }
             }
         });
@@ -92,7 +98,7 @@ public class LoadBarFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        count = null;
+//        count = null;
     }
 
 
@@ -112,10 +118,10 @@ public class LoadBarFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
 
-//        if (thread != null){
-//            thread.interrupt();
-//            thread = null;
-//        }
+        if (thread != null){
+            thread.interrupt();
+            thread = null;
+        }
 //        count = null;
     }
 }

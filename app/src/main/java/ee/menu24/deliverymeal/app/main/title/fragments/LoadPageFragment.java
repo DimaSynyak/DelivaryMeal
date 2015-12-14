@@ -47,15 +47,15 @@ public class LoadPageFragment extends Fragment {
                     while(true) {
 
                         synchronized (count) {
+                            if (!stateOnPause) {
+                                LoadPageFragment.this.getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
 
-                            LoadPageFragment.this.getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (stateOnPause)
-                                        return;
-                                    dynamicTextView.setText(String.valueOf(data));
-                                }
-                            });
+                                        dynamicTextView.setText(String.valueOf(data));
+                                    }
+                                });
+                            }
 
                             data++;
 
@@ -78,7 +78,11 @@ public class LoadPageFragment extends Fragment {
 
                     }
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    return;
+                }
+                finally {
+                    count = null;
+                    return;
                 }
             }
         });
@@ -93,7 +97,7 @@ public class LoadPageFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        count = null;
+//        count = null;
     }
 
     @Override
@@ -108,6 +112,8 @@ public class LoadPageFragment extends Fragment {
         stateOnPause = false;
     }
 
+
+
     public Thread getThread() {
         return thread;
     }
@@ -120,11 +126,11 @@ public class LoadPageFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
 
-//        if (thread != null){
-//            thread.interrupt();
-//            thread = null;
-//        }
-//
+        if (thread != null){
+            thread.interrupt();
+            thread = null;
+        }
+
 //        count = null;
     }
 }

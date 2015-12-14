@@ -129,37 +129,37 @@ public class MealBody {
         });
 
         updateThread.start();
-//        updateThread.setDaemon(true);
         updateThreadList.add(updateThread);
     }
 
     public void onDestroy(){
-        mealBody = null;
 
-        if (updateThreadList == null)
-            return;
-
-        for (Thread thread :updateThreadList){
-            if (!thread.isInterrupted()){
-                thread.interrupt();
+        if (updateThreadList != null) {
+            for (Thread thread : updateThreadList) {
+                if (!thread.isInterrupted()) {
+                    thread.interrupt();
+                }
             }
         }
-
 
         updateThreadList.clear();
         updateThreadList = null;
         activity = null;
+        mealBody = null;
     }
 
     public void deleteAllFragments(){
         List<Meal> meals = MealList.getMeals();
         if (meals != null && meals.size() > 0) {
-            ft =  activity.getSupportFragmentManager().beginTransaction();
+
             for (Meal meal : MealList.getMeals()) {
-                if (meal.getFragment() != null && meal.getFragment().isAdded())
+                if (meal.getFragment() != null && meal.getFragment().isAdded()) {
+                    ft =  activity.getSupportFragmentManager().beginTransaction();
                     ft.remove(meal.getFragment());
+                    ft.commit();
+                }
             }
-            ft.commit();
+
 
 
             MealList.clear();

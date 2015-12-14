@@ -84,5 +84,6 @@
     <string name="reviews">ОТЗЫВЫ</string>
 
     <color name="opacity">#aafda94d</color>
+    <color name="slow_gray">#f1f1f1</color>
 
 </resources>

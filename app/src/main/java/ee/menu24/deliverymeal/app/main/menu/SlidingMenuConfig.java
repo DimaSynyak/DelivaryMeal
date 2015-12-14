@@ -1,11 +1,13 @@
 package ee.menu24.deliverymeal.app.main.menu;
 
 import android.graphics.Typeface;
+import android.media.Image;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -52,8 +54,9 @@ public class SlidingMenuConfig {
         Typeface geometric = Typeface.createFromAsset(activity.getAssets(), "fonts/geometric/geometric_706_black.ttf");
         Typeface arimo = Typeface.createFromAsset(activity.getAssets(), "fonts/arimo/Arimo_Regular.ttf");
 
-        SlidingMenu menu = new SlidingMenu(activity);
+        final SlidingMenu menu = new SlidingMenu(activity);
         MainActivity.setCustomViewAbove(menu.getmViewAbove());
+
         menu.setMode(SlidingMenu.LEFT);
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
         menu.setShadowWidthRes(R.dimen.shadow_width);
@@ -62,6 +65,8 @@ public class SlidingMenuConfig {
         menu.setFadeDegree(0.35f);
         menu.attachToActivity(activity, SlidingMenu.SLIDING_CONTENT);
         menu.setMenu(R.layout.menu_main);
+
+
 
         categoryLayout = (LinearLayout) activity.findViewById(R.id.category_layout);
         criteriaLayout = (LinearLayout) activity.findViewById(R.id.criteria_layout);

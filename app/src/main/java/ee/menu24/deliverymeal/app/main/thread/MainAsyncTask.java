@@ -132,7 +132,15 @@ public class MainAsyncTask extends AsyncTask<String, Void, String> {
                         count.wait(100);
                     }
                 }
-                return null;
+
+                while(true){
+                    if (activity == null)
+                        return null;
+
+                    if (((MainActivity )activity).hasWindowFocus()){
+                        return "good";
+                    }
+                }
             } catch (IOException e) {
                 try {
                     TimeUnit.MILLISECONDS.sleep(2000);
@@ -150,17 +158,24 @@ public class MainAsyncTask extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
 
-        ft = ((MainActivity )activity).getSupportFragmentManager().beginTransaction();
-        ft.remove(loadBarFragment);
-        ft.commit();
-        ((MainActivity )activity).getActionBarActivity().show();
 
-        slidingMenuConfig = new SlidingMenuConfig(((MainActivity )activity));
-        slidingMenuConfig.initSlidingMenu();
-        ((MainActivity )activity).setSlidingMenuConfig(slidingMenuConfig);
+        if("good".equals(s)) {
+            ft = ((MainActivity) activity).getSupportFragmentManager().beginTransaction();
+            ft.remove(loadBarFragment);
+            ft.commit();
+            ((MainActivity) activity).getActionBarActivity().show();
+
+            slidingMenuConfig = new SlidingMenuConfig(((MainActivity) activity));
+            slidingMenuConfig.initSlidingMenu();
+
+            ((MainActivity) activity).setSlidingMenuConfig(slidingMenuConfig);
 
 
-        restaurantBody = RestaurantBody.getInstance(((MainActivity )activity));
-        restaurantBody.init();
+            restaurantBody = RestaurantBody.getInstance(((MainActivity) activity));
+            restaurantBody.init();
+        }
+        else{
+            System.exit(0);
+        }
     }
 }

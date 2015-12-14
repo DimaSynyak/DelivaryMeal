@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import ee.menu24.deliverymeal.app.IActivity;
 import ee.menu24.deliverymeal.app.R;
+import ee.menu24.deliverymeal.app.main.menu.ICustomAboveView;
 import ee.menu24.deliverymeal.app.main.menu.SlidingMenuConfig;
 import ee.menu24.deliverymeal.app.main.service.Restaurant;
 import ee.menu24.deliverymeal.app.main.thread.ChangeLocale;
@@ -24,6 +25,7 @@ import ee.menu24.deliverymeal.app.main.title.fragments.LanguagesTitle;
 import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove;
 
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, IActivity {
 
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static MainActivity mainActivity;
     private SlidingMenuConfig slidingMenuConfig;
     private ChangeLocale changeLocale;
+    private Thread th;
 
     private FragmentTransaction ft;
     private LanguagesFragmentOpacityLow languagesFragmentOpacityLow;
@@ -67,6 +70,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Restaurant.setConnection(language.getURL());
         new MainAsyncTask(this).execute(language.getURL());
+
+
+        th = new Thread(new Runnable() {
+            ImageView menuButton = (ImageView) MainActivity.this.findViewById(R.id.menuClick);
+            @Override
+            public void run() {
+
+                while (true) {
+                    if (customViewAbove != null){
+                        if (customViewAbove.getCurrentItem() == 1) {
+                            MainActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    menuButton.setImageResource(R.drawable.lines);
+                                }
+                            });
+
+                        } else {
+                            MainActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    menuButton.setImageResource(R.drawable.cross);
+                                }
+                            });
+                        }
+                    }
+
+                    try {
+                        TimeUnit.MILLISECONDS.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        th.start();
     }
 
     /**************************/
@@ -289,5 +329,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void setSlidingMenuConfig(SlidingMenuConfig slidingMenuConfig) {
         this.slidingMenuConfig = slidingMenuConfig;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        th.interrupt();
+        th = null;
+
+
+        System.exit(0);
     }
 }

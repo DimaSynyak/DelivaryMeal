@@ -43,6 +43,7 @@ import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by 1 on 02.11.2015.
@@ -89,6 +90,7 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
     private LanguagesFragmentOpacityLow languagesFragmentOpacityLow;
     private LanguagesTitle languagesTitle;
     private RestaurantList restaurantList;
+    private Thread restaurantThread;
 
     private Typeface geometric;
     private Typeface arimo;
@@ -100,6 +102,8 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
 
     private boolean firstFlag = true;
     private boolean onResumeFlag;
+
+    private Thread th;
 
 
     private FragmentTransaction ft;
@@ -157,8 +161,11 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
             finish();
 
         restaurantAsyncTask = null;
-        restaurantAsyncTask = new RestaurantAsyncTask(this);
-        restaurantAsyncTask.execute(restaurant.getMenuLink());
+        RestaurantAsyncTask restaurantAsyncTask = new RestaurantAsyncTask(this);
+        restaurantThread = new Thread(restaurantAsyncTask);
+        restaurantThread.setName("RestaurantActivity #2 restaurantAsyncTask");
+        restaurantThread.start();
+
 
 
         initFragment(restaurant);
@@ -174,6 +181,44 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         delivaryData = DelivaryData.getInstance();
         restaurant = restaurantList.getRestaurant();
 
+
+        th = new Thread(new Runnable() {
+            ImageView menuButton = (ImageView) RestaurantActivity.this.findViewById(R.id.menuClick);
+            @Override
+            public void run() {
+
+                while (true) {
+                    if (customViewAbove != null){
+                        if (customViewAbove.getCurrentItem() == 1) {
+                            restaurantActivity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    menuButton.setImageResource(R.drawable.lines);
+                                }
+                            });
+
+                        } else {
+                            restaurantActivity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    menuButton.setImageResource(R.drawable.cross);
+                                }
+                            });
+                        }
+                    }
+
+                    try {
+                        TimeUnit.MILLISECONDS.sleep(500);
+                    } catch (InterruptedException e) {
+                        restaurantActivity = null;
+                        return;
+                    }
+                }
+            }
+        });
+
+        th.setName("RestaurantActivity Thread #1");
+        th.start();
     }
 
     public void initInfo(){
@@ -338,24 +383,19 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.menuClick:{
-                if (customViewAbove.getCurrentItem() == 1){
-                    customViewAbove.setCurrentItem(0);
-                }
-                else {
-                    customViewAbove.setCurrentItem(1);
-                }
+                if (customViewAbove != null)
+                    if (customViewAbove.getCurrentItem() == 1){
+                        customViewAbove.setCurrentItem(0);
+                    }
+                    else {
+                        customViewAbove.setCurrentItem(1);
+                    }
                 break;
             }
             case R.id.imageView3:{
                 if (changeLocale != null){
                    if (!changeLocale.isCancelled())
                        return;
-                }
-
-                if (restaurantAsyncTask != null){
-                    restaurantAsyncTask.getLoadPageFragment().getThread().interrupt();
-                    restaurantAsyncTask.cancel(true);
-                    restaurantAsyncTask = null;
                 }
 
                 finish();
@@ -532,8 +572,8 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
                 return;
         }
 
-        if (restaurantAsyncTask != null){
-            if (!restaurantAsyncTask.isCancelled()){
+        if (restaurantThread != null){
+            if (!restaurantThread.isInterrupted()){
                 return;
             }
         }
@@ -703,6 +743,18 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         garbageNum.setText(String.valueOf(garbage.getTotal()));
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        System.out.println(1);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        System.out.println(2);
+    }
+
     public boolean isGarbageFlag() {
         return garbageFlag;
     }
@@ -719,40 +771,68 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         RestaurantActivity.iDestroies.add(iDestroy);
     }
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
+
+        registrationData = RegistrationData.getInstance();
+        registrationData.onDestroy();
+
+
+        if (restaurantAsyncTask != null){
+            restaurantAsyncTask.removeActivity();
+            restaurantAsyncTask = null;
+        }
+
+        if (restaurantThread != null) {
+            restaurantThread.interrupt();
+            restaurantThread = null;
+        }
+
+        if (th != null) {
+            th.interrupt();
+            th = null;
+        }
+
         MealList.clear();
-        garbage.removeActivity();
-        garbage.onDestroy();
+        MealList.onDestroy();
+        if (garbage != null) {
+            garbage.removeActivity();
+            garbage.onDestroy();
+        }
+
         mealFilter = MealFilter.getInstance();
         mealFilter.destroy();
+
         StateMenu.onDestroy();
         delivaryData = DelivaryData.getInstance();
         delivaryData.onDestroy();
-//        registrationData = RegistrationData.getInstance();
-//        registrationData.onDestroy();
+
         MealBody mealBody = MealBody.getInstance(this);
         mealBody.deleteAllFragments();
         mealBody.onDestroy();
 
-        SMCRestaurantActivity.getSmcRestaurantActivity().remove();
+        if(SMCRestaurantActivity.getSmcRestaurantActivity() != null)
+            SMCRestaurantActivity.getSmcRestaurantActivity().remove();
 
         customViewAbove = null;
 
-       if (restaurant != null){
-           restaurant.clearInfo();
-       }
+        if (restaurant != null){
+            restaurant.clearInfo();
+        }
 
         if (slidingMenuConfig != null)
             slidingMenuConfig = null;
 
-        if (iDestroies == null)
-            return;
-        for (int i = 0; i < iDestroies.size(); i++) {
-            iDestroies.get(i).change();
-        }
+        if (iDestroies != null) {
+            for (int i = 0; i < iDestroies.size(); i++) {
+                iDestroies.get(i).change();
+            }
 
+            iDestroies.clear();
+            iDestroies = null;
+        }
     }
 }

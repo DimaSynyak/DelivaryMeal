@@ -82,10 +82,9 @@ public class Garbage {
     }
 
     public void onDestroy(){
-        garbage = null;
-
         removeAll();
         listOrderMeal = null;
+        garbage = null;
     }
 
     public Set<Meal> getListOrderMeal() {

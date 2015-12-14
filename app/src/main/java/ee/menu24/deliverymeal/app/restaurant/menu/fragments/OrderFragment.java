@@ -2,16 +2,22 @@ package ee.menu24.deliverymeal.app.restaurant.menu.fragments;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.concurrent.TimeUnit;
+
 import ee.menu24.deliverymeal.app.R;
+import ee.menu24.deliverymeal.app.restaurant.menu.SMCRestaurantActivity;
 import ee.menu24.deliverymeal.app.restaurant.service.Garbage;
 import ee.menu24.deliverymeal.app.restaurant.service.Meal;
 
@@ -69,8 +75,19 @@ public class OrderFragment extends Fragment {
 
         miniMealBTN = (LinearLayout) view.findViewById(R.id.miniMealBTN);
         miniMealBTN.setOnClickListener(new View.OnClickListener() {
+
+            SMCRestaurantActivity smcRestaurantActivity = SMCRestaurantActivity.getSmcRestaurantActivity();
+
             @Override
             public void onClick(View v) {
+                getActivity().runOnUiThread(new Runnable() {
+                    RelativeLayout garbageAnimation = (RelativeLayout) getActivity().findViewById(R.id.garbage_animation);
+
+                    @Override
+                    public void run() {
+                        garbageAnimation.setVisibility(View.VISIBLE);
+                    }
+                });
 
                 meal.remove();
 
@@ -84,11 +101,26 @@ public class OrderFragment extends Fragment {
                     ft.remove(OrderFragment.this);
                     ft.commit();
                     meal.setOrderFragment(null);
+
+
                 }
                 else {
                     countMeal.setText(String.valueOf(meal.getCountMeal()));
                 }
 
+                if (garbage.getTotal() < 1 ){
+                    smcRestaurantActivity.goneOrderData();
+                }
+
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    RelativeLayout garbageAnimation = (RelativeLayout) getActivity().findViewById(R.id.garbage_animation);
+
+                    @Override
+                    public void run() {
+                        garbageAnimation.setVisibility(View.INVISIBLE);
+                    }
+                }, 500);
             }
         });
 

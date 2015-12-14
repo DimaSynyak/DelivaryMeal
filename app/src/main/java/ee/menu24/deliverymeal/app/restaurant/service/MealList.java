@@ -50,6 +50,7 @@ public class MealList {
         if (meals == null)
             return;
         meals.clear();
+        meals = null;
     }
 
     public static boolean isMealListCompleteFlag() {
@@ -71,8 +72,10 @@ public class MealList {
 
 
     public static void onDestroy(){
-        uploadPageAsyncTask.cancel(true);
-        uploadPageAsyncTask = null;
+        if (uploadPageAsyncTask != null) {
+            uploadPageAsyncTask.cancel(true);
+            uploadPageAsyncTask = null;
+        }
     }
 
 

@@ -38,7 +38,7 @@
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="135dp"
                 android:orientation="horizontal"
                 android:layout_gravity="center"
                 android:id="@+id/restaurantLayout1">
@@ -46,19 +46,21 @@
                 android:layout_width="150dp"
                 android:layout_height="118dp"
                 android:id="@+id/restaurantHeadAvatar"
-                android:layout_marginRight="9dp" />
+                android:layout_marginRight="9dp"
+                android:layout_gravity="center_vertical" />
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
-                android:layout_height="135dp"
-                android:paddingRight="5dp">
+                android:layout_height="wrap_content"
+                android:paddingRight="5dp"
+                android:layout_gravity="center_vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/restaurantName"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:layout_marginTop="2dp"
                     android:textColor="#000000"
                     android:visibility="visible" />
@@ -247,14 +249,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="ИНФО"
-                    android:id="@+id/info_text" android:textColor="#000000" android:textSize="18sp"
-                    android:padding="5dp" android:gravity="center_horizontal" android:clickable="true"/>
+                    android:id="@+id/info_text" android:textColor="#000000" android:textSize="14sp"
+                    android:padding="10dp" android:gravity="center_horizontal" android:clickable="true"/>
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="ОТЗЫВЫ"
-                    android:id="@+id/reviews_text" android:textColor="#000000" android:textSize="18sp"
-                    android:padding="5dp" android:gravity="center_horizontal" android:clickable="true"/>
+                    android:id="@+id/reviews_text" android:textColor="#000000" android:textSize="14sp"
+                    android:padding="10dp" android:gravity="center_horizontal" android:clickable="true"/>
         </LinearLayout>
     </FrameLayout>
 

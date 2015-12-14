@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
@@ -15,9 +16,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -33,6 +36,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by 1 on 03.11.2015.
@@ -174,7 +178,7 @@ public class RestaurantMealFragment extends Fragment {
                 textView = new TextView(getActivity());
 
                 if (stateBackgroundColor){
-                    horizontalLayout.setBackgroundColor(Color.WHITE);
+                    horizontalLayout.setBackgroundColor(R.color.slow_gray);
                     stateBackgroundColor = false;
                 } else {
                     horizontalLayout.setBackgroundColor(Color.GRAY);
@@ -187,7 +191,7 @@ public class RestaurantMealFragment extends Fragment {
                 textView.setLayoutParams(new LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT));
-                textView.setGravity(TextView.TEXT_ALIGNMENT_CENTER);
+                textView.setGravity(Gravity.CENTER_VERTICAL);
                 textView.setText(garnir.getGarnirName());
 
                 horizontalLayout.setClickable(true);
@@ -195,12 +199,12 @@ public class RestaurantMealFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
 
-                        for (Garnir garnir1 :meal.getGarnirs()){
-                            if (garnir1.getHorizontalLayout().equals(v)){
+                        for (Garnir garnir1 : meal.getGarnirs()) {
+                            if (garnir1.getHorizontalLayout().equals(v)) {
                                 meal.addGarnir(garnir1);
 
-                                for (RadioButton radioButton : radioButtonList){
-                                    if (radioButton.isChecked()){
+                                for (RadioButton radioButton : radioButtonList) {
+                                    if (radioButton.isChecked()) {
                                         radioButton.setChecked(false);
                                         break;
                                     }
@@ -215,6 +219,7 @@ public class RestaurantMealFragment extends Fragment {
                     }
                 });
 
+                horizontalLayout.setGravity(Gravity.CENTER_VERTICAL);
                 horizontalLayout.addView(radioButton);
                 horizontalLayout.addView(textView);
                 garnirContainer.addView(horizontalLayout);
@@ -268,6 +273,14 @@ public class RestaurantMealFragment extends Fragment {
                    }
                    case 1: {
 
+                       getActivity().runOnUiThread(new Runnable() {
+                           RelativeLayout garbageAnimation = (RelativeLayout) getActivity().findViewById(R.id.garbage_animation);
+                           @Override
+                           public void run() {
+                               garbageAnimation.setVisibility(View.VISIBLE);
+                           }
+                       });
+
                        meal.add();
                        countMeal.setText(String.valueOf(meal.getCountMeal()));
                        garbage.update();
@@ -293,6 +306,15 @@ public class RestaurantMealFragment extends Fragment {
                                });
                            }
                        }
+
+                       final Handler handler = new Handler();
+                       handler.postDelayed(new Runnable() {
+                           RelativeLayout garbageAnimation = (RelativeLayout) getActivity().findViewById(R.id.garbage_animation);
+                           @Override
+                           public void run() {
+                               garbageAnimation.setVisibility(View.INVISIBLE);
+                           }
+                       }, 500);
 
                        break;
                    }

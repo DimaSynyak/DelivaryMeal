@@ -108,45 +108,39 @@
                         android:fontFamily="@string/arimo_regular"
                         android:textSize="15sp"
                         android:background="#fda94d"
-                        android:paddingTop="2dp"
-                        android:paddingBottom="2dp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
                         android:paddingLeft="20dp"
                         android:paddingRight="20dp"
                         android:layout_gravity="center_horizontal|bottom"
-                        android:layout_marginTop="5dp"
                         android:textColor="#000000" />
 
                 </LinearLayout>
 
-                <FrameLayout
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:layout_gravity="bottom|center"
+                    android:layout_marginBottom="1dp">
 
-                    <LinearLayout
-                        android:orientation="horizontal"
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingTop="3dp"
-                        android:paddingBottom="3dp"
-                        android:layout_gravity="bottom"
-                        android:layout_marginBottom="6dp">
+                        android:id="@+id/textView11"
+                        android:textColor="#000000"
+                        android:textSize="13sp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/textView11"
-                            android:textColor="#000000"
-                            android:textSize="13sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/count"
-                            android:id="@+id/textView12"
-                            android:textColor="#000000"
-                            android:textSize="13sp" />
-                    </LinearLayout>
-                </FrameLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/count"
+                        android:id="@+id/textView12"
+                        android:textColor="#000000"
+                        android:textSize="13sp" />
+                </LinearLayout>
 
             </LinearLayout>
 

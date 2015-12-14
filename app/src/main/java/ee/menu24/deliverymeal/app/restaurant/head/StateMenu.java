@@ -54,7 +54,9 @@ public class StateMenu {
     }
 
     public static void onDestroy(){
-        stateMenus.clear();
+        if (stateMenus != null) {
+            stateMenus.clear();
+        }
     }
 
 }

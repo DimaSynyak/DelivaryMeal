@@ -1,8 +1,7 @@
 package ee.menu24.deliverymeal.app.restaurant.thread;
 
-
-import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
@@ -28,7 +27,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -36,35 +34,46 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by 1 on 11.11.2015.
  */
-public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
+public class RestaurantAsyncTask implements Runnable {
 
     private FragmentTransaction ft;
-    private Thread th;
-    private Fragment fragment;
     private Count count;
     private AppCompatActivity activity;
     private LoadPageFragment loadPageFragment;
     private SMCRestaurantActivity slidingMenuConfig;
     private MealBody mealBody;
-    private URL imgURL;
     private RestaurantList restaurantList;
 
     private Connection connection;
     private Connection.Response response;
     private IFilter filter;
+    private Restaurant restaurant;
 
     public RestaurantAsyncTask() {
         super();
     }
 
     public RestaurantAsyncTask(AppCompatActivity activity) {
+        this();
         this.activity = activity;
         restaurantList = RestaurantList.getInstance();
+        restaurant = restaurantList.getRestaurant();
+    }
+
+    public void removeActivity(){
+        activity = null;
+    }
+
+    public LoadPageFragment getLoadPageFragment() {
+        return loadPageFragment;
+    }
+
+    public void setLoadPageFragment(LoadPageFragment loadPageFragment) {
+        this.loadPageFragment = loadPageFragment;
     }
 
     @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
+    public void run() {
 
         connection  = Restaurant.getConnection();
 
@@ -75,11 +84,9 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
         ft = activity.getSupportFragmentManager().beginTransaction();
         ft.add(R.id.restaurantPercentContainer, loadPageFragment);
         ft.commit();
-    }
 
-    @Override
-    protected String doInBackground(String... params) {
 
+        /********************************/
         filter = MealFilter.getInstance();
 
         synchronized (count) {
@@ -95,7 +102,7 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
         count.complete();
         while (true) {
             try {
-                connection.url(params[0]);
+                connection.url(restaurant.getMenuLink());
                 response = connection.execute();
                 connection.cookies(response.cookies());
 
@@ -115,7 +122,7 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
 
                 List<String> list = new ArrayList<>();
                 for (Element element : doc.getElementsByClass("vremya")) {
-                        list.add(element.text());
+                    list.add(element.text());
                 }
 
                 restaurant.setWorkTimeFields(list);
@@ -127,12 +134,22 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
 
                 Element workTime1 = doc.getElementById("android-worktime");
                 if (workTime1 != null) {
-                    list.add(workTime1.text());
+
+                    String str = workTime1.html();
+                    str = Tools.changeStroke(str, "<sup>", ":");
+                    str = Tools.changeStroke(str, "</sup>", "");
+
+                    list.add(str);
                 }
 
                 Element workTime2 = doc.getElementById("android-worktime2");
                 if (workTime2 != null) {
-                    list.add(workTime2.text());
+
+                    String str = workTime2.html();
+                    str = Tools.changeStroke(str, "<sup>", ":");
+                    str = Tools.changeStroke(str, "</sup>", "");
+
+                    list.add(str);
                 }
 
                 restaurant.setWorkTimesData(list);
@@ -171,7 +188,7 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
                             count.wait(100);
                         }
                     }
-                    return null; //WARNING change (pick out) ui
+                    break; //WARNING change (pick out) ui
                 }
 
 
@@ -200,17 +217,17 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
 
                             temp = element.select("form[data-product_id =" + meal.getId() + " ]").attr("data-product_variations");
                         variation_id = Tools.getVariationId(temp);
-                            for (Element element1 : option) {
-                                if (flag){
-                                    Garnir garnir = new Garnir();
-                                    garnir.setGarnirName(element1.text());
-                                    garnir.setGarnirValue(element1.attr("value"));
-                                    garnir.setGarnirId(variation_id);
-                                    variation_id++;
-                                    garnirs.add(garnir);
-                                }
-                                flag = true;
+                        for (Element element1 : option) {
+                            if (flag){
+                                Garnir garnir = new Garnir();
+                                garnir.setGarnirName(element1.text());
+                                garnir.setGarnirValue(element1.attr("value"));
+                                garnir.setGarnirId(variation_id);
+                                variation_id++;
+                                garnirs.add(garnir);
                             }
+                            flag = true;
+                        }
                     }
 
                     meal.setGarnirs(garnirs);
@@ -230,7 +247,7 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
                             count.wait(100);
                         }
                     }
-                    return null;
+                    break;
                 }
 
                 for (Element element : elements){
@@ -252,8 +269,8 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
                         count.wait(100);
                     }
                 }
-                return null;
 
+                break;
             }catch(IOException e){
                 try {
                     TimeUnit.MILLISECONDS.sleep(2000);
@@ -261,39 +278,53 @@ public class RestaurantAsyncTask extends AsyncTask<String, Void, String> {
                     e1.printStackTrace();
                 }
             }catch(InterruptedException e){
-                return null;
+                activity.finish();
+                activity = null;
+                return;
+            }
+            catch (Exception e){
+                activity.finish();
+                activity = null;
+                return;
             }
         }
+        /*******************************************/
 
-    }
 
-    @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
+        while(true){
+            if (activity == null)
+                return;
 
-        ft = activity.getSupportFragmentManager().beginTransaction();
-        ft.remove(loadPageFragment);
-        ft.commit();
+            if (!activity.hasWindowFocus()){
+                activity.finish();
+                activity = null;
+                return;
+            }
+            else {
+                break;
+            }
+        }
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
 
-        slidingMenuConfig = new SMCRestaurantActivity(activity);
-        slidingMenuConfig.initSlidingMenu();
-        ((RestaurantActivity) activity).setSlidingMenuConfig(slidingMenuConfig);
+                ft = activity.getSupportFragmentManager().beginTransaction();
+                ft.remove(loadPageFragment);
+                ft.commit();
 
-        mealBody = new MealBody(activity);
-        mealBody.init();
+                slidingMenuConfig = new SMCRestaurantActivity(activity);
+                slidingMenuConfig.initSlidingMenu();
+                ((RestaurantActivity) activity).setSlidingMenuConfig(slidingMenuConfig);
 
-        ((RestaurantActivity) activity).initInfo();
-        new UploadReviews(activity).start();
-        MealList.startUploadPageAsycTask(activity);
-        cancel(true);
-        activity = null;
-    }
+                mealBody = new MealBody(activity);
+                mealBody.init();
 
-    public LoadPageFragment getLoadPageFragment() {
-        return loadPageFragment;
-    }
+                ((RestaurantActivity) activity).initInfo();
+                new UploadReviews(activity).start();
+                MealList.startUploadPageAsycTask(activity);
+                activity = null;
+            }
+        });
 
-    public void setLoadPageFragment(LoadPageFragment loadPageFragment) {
-        this.loadPageFragment = loadPageFragment;
     }
 }

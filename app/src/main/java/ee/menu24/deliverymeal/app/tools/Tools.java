@@ -87,6 +87,27 @@ public class Tools {
         return tmp.toString();
     }
 
+    /*
+    * change element other element
+    * */
+    public static String changeStroke(String text, String element, String onElement){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(text);
+
+            while (text.contains(element)){
+                int start = text.indexOf(element);
+                int end = start + element.length();
+
+                stringBuilder = new StringBuilder();
+                stringBuilder.append(text.substring(0, start));
+                stringBuilder.append(onElement);
+                stringBuilder.append(text.substring(end, text.length()));
+                text = stringBuilder.toString();
+            }
+
+        return stringBuilder.toString();
+    }
+
     public static int getVariationId(String str){
         StringBuilder builder = new StringBuilder();
         int i = 0;
