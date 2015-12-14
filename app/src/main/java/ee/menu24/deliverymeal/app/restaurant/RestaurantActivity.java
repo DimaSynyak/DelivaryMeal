@@ -36,7 +36,7 @@ import ee.menu24.deliverymeal.app.restaurant.service.Garbage;
 import ee.menu24.deliverymeal.app.restaurant.service.MealList;
 import ee.menu24.deliverymeal.app.restaurant.service.RegistrationData;
 import ee.menu24.deliverymeal.app.restaurant.service.filter.MealFilter;
-import ee.menu24.deliverymeal.app.restaurant.thread.ChangeLanguageAsyncTask;
+import ee.menu24.deliverymeal.app.restaurant.thread.SearchThread;
 import ee.menu24.deliverymeal.app.restaurant.thread.RestaurantAsyncTask;
 import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove;
 
@@ -65,8 +65,10 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
     private Languages oldLanguage;
     private RegistrationData registrationData;
 
+    private Thread searchThreadContainer;
+
     private int positionRestaurant;
-    private ChangeLanguageAsyncTask changeLocale;
+    private SearchThread changeLocale;
     private DisplayMetrics metrics;
     private ImageView garbageButton;
     private TextView garbageNum;
@@ -393,8 +395,8 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
                 break;
             }
             case R.id.imageView3:{
-                if (changeLocale != null){
-                   if (!changeLocale.isCancelled())
+                if (searchThreadContainer != null){
+                   if (!searchThreadContainer.isInterrupted())
                        return;
                 }
 
@@ -567,8 +569,8 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
             return;
         }
 
-        if (changeLocale != null){
-            if (!changeLocale.isCancelled())
+        if (searchThreadContainer != null){
+            if (!searchThreadContainer.isInterrupted())
                 return;
         }
 
@@ -579,7 +581,10 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         }
 
 
-        changeLocale = new ChangeLanguageAsyncTask(this);
+        changeLocale = new SearchThread(this);
+        searchThreadContainer = new Thread(changeLocale);
+        searchThreadContainer.setName("search_Thread_Container");
+
         Locale myLocale = null;
 
         oldLanguage = language.getLanguages();
@@ -589,19 +594,19 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
             case RU:{
                 ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_ru);
                 myLocale = new Locale("ru");
-                changeLocale.execute(language.getURL());
+                searchThreadContainer.start();
                 break;
             }
             case EE:{
                 ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_ee);
                 myLocale = new Locale("et");
-                changeLocale.execute(language.getURL());
+                searchThreadContainer.start();
                 break;
             }
             case EN:{
                 ((ImageView) findViewById(R.id.language_image)).setImageResource(R.drawable.language_en);
                 myLocale = new Locale("en");
-                changeLocale.execute(language.getURL());
+                searchThreadContainer.start();
                 break;
             }
             default:
@@ -818,6 +823,17 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
             SMCRestaurantActivity.getSmcRestaurantActivity().remove();
 
         customViewAbove = null;
+
+        if (searchThreadContainer != null) {
+            searchThreadContainer.interrupt();
+            searchThreadContainer = null;
+        }
+
+        if (changeLocale != null) {
+            changeLocale.setLoadPageFragment(null);
+            changeLocale.setActivity(null);
+            changeLocale = null;
+        }
 
         if (restaurant != null){
             restaurant.clearInfo();

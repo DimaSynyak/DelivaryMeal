@@ -37,10 +37,12 @@ import ee.menu24.deliverymeal.app.restaurant.service.MealList;
 import ee.menu24.deliverymeal.app.restaurant.service.RegistrationData;
 import ee.menu24.deliverymeal.app.restaurant.service.filter.FilterData;
 import ee.menu24.deliverymeal.app.restaurant.service.filter.MealFilter;
-import ee.menu24.deliverymeal.app.restaurant.thread.ChangeLanguageAsyncTask;
+import ee.menu24.deliverymeal.app.restaurant.thread.SearchThread;
 import ee.menu24.deliverymeal.app.restaurant.thread.PaymentAsyncTask;
 import ee.menu24.deliverymeal.app.restaurant.thread.RegistrationOrLoginAsyncTask;
 import ee.menu24.deliverymeal.app.restaurant.thread.UploadPageAsyncTask;
+
+import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 
@@ -200,7 +202,8 @@ public class SMCRestaurantActivity {
 
     private OrderFragment orderFragment;
 
-    private ChangeLanguageAsyncTask changeLanguageAsyncTask;
+    private SearchThread searchThread;
+    private Thread searchThreadContainer;
 
     private Restaurant restaurant;
 
@@ -508,15 +511,22 @@ public class SMCRestaurantActivity {
         editText = (EditText) activity.findViewById(R.id.editText);
 
         searchButton.setOnClickListener(new View.OnClickListener() {
+
+            private CustomViewAbove customViewAbove;
+
             @Override
             public void onClick(View v) {
+
+                customViewAbove = RestaurantActivity.getCustomViewAbove();
+                if(customViewAbove != null)
+                    customViewAbove.setCurrentItem(1);
 
                 MealFilter.getSearchData().setText(String.valueOf(editText.getText()));
                 MealFilter.getSearchData().setStateUse(true);
 
-                if (changeLanguageAsyncTask != null && !changeLanguageAsyncTask.isCancelled()) {
-                    changeLanguageAsyncTask.setIsCancled(true);
-                    changeLanguageAsyncTask.cancel(true);
+                if (searchThreadContainer != null && !searchThreadContainer.isInterrupted()) {
+                    searchThreadContainer.interrupt();
+                    searchThreadContainer = null;
                 }
 
                 UploadPageAsyncTask uploadPageAsyncTask = MealList.getUploadPageAsyncTask();
@@ -524,10 +534,15 @@ public class SMCRestaurantActivity {
                     uploadPageAsyncTask.cancel(true);
                 }
 
+
                 MealFilter mealFilter = MealFilter.getInstance();
                 mealFilter.setStateMealFilter(true);
-                changeLanguageAsyncTask = new ChangeLanguageAsyncTask(((AppCompatActivity) activity));
-                changeLanguageAsyncTask.execute(language.getURL());
+
+
+                searchThread = new SearchThread(((AppCompatActivity) activity));
+                searchThreadContainer = new Thread(searchThread);
+                searchThreadContainer.setName("search_thread_container #2");
+                searchThreadContainer.start();
             }
         });
 
@@ -1375,6 +1390,18 @@ public class SMCRestaurantActivity {
     }
 
     public void remove(){
+
+        if (searchThreadContainer != null){
+            searchThreadContainer.interrupt();
+            searchThreadContainer = null;
+        }
+
+        if (searchThread != null){
+            searchThread.setLoadPageFragment(null);
+            searchThread.setActivity(null);
+            searchThread = null;
+        }
+
         registrationData  = null;
         activity = null;
         smcRestaurantActivity = null;

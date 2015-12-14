@@ -24,6 +24,7 @@ public class Restaurant {
 
     private  int id;
     private String name;
+    private String nameForFilter;
     private String profile; //sostav edi
     private String stars;
     private String costMeal;
@@ -400,5 +401,13 @@ public class Restaurant {
 
         if (addressDataFragmentList != null)
             addressDataFragmentList.clear();
+    }
+
+    public String getNameForFilter() {
+        return nameForFilter;
+    }
+
+    public void setNameForFilter(String nameForFilter) {
+        this.nameForFilter = nameForFilter;
     }
 }

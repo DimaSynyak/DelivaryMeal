@@ -106,8 +106,7 @@ public class RestaurantMealFragment extends Fragment {
         weight.setText(meal.getWeight());
 
         composition = (TextView) view.findViewById(R.id.restaurantProfile);
-        composition.setTypeface(arimo);
-//        composition.setText(meal.getComposition());
+        composition.setTypeface(geometric);
 
 
         costMeal = (TextView) view.findViewById(R.id.costMeal);
@@ -178,15 +177,15 @@ public class RestaurantMealFragment extends Fragment {
                 textView = new TextView(getActivity());
 
                 if (stateBackgroundColor){
-                    horizontalLayout.setBackgroundColor(R.color.slow_gray);
+                    horizontalLayout.setBackgroundColor(Color.parseColor("#f1f1f1"));
                     stateBackgroundColor = false;
                 } else {
-                    horizontalLayout.setBackgroundColor(Color.GRAY);
+                    horizontalLayout.setBackgroundColor(Color.WHITE);
                     stateBackgroundColor = true;
                 }
                 textView.setTypeface(arimo);
                 textView.setTextSize(metrics.density * 10);
-                textView.setPadding(10, 10, 10, 10);
+//                textView.setPadding(2, 2, 2, 2);
                 textView.setTextColor(Color.BLACK);
                 textView.setLayoutParams(new LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,

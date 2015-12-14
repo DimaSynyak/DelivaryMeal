@@ -162,7 +162,8 @@
                 android:paddingBottom="2dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:background="#fda94d" />
+                android:background="#fda94d"
+                android:layout_marginTop="20dp" />
 
             <fragment tools:layout="@layout/menu_signature"
                 android:name="ee.menu24.deliverymeal.app.main.menu.fragments.SignatureFragment"

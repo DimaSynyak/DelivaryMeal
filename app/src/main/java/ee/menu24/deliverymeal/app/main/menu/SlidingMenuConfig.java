@@ -13,12 +13,15 @@ import android.widget.TextView;
 
 import ee.menu24.deliverymeal.app.R;
 import ee.menu24.deliverymeal.app.main.MainActivity;
+import ee.menu24.deliverymeal.app.restaurant.RestaurantActivity;
 import ee.menu24.deliverymeal.app.restaurant.service.filter.FilterFragment;
 import ee.menu24.deliverymeal.app.restaurant.service.filter.FilterItemFragment;
 import ee.menu24.deliverymeal.app.main.thread.ChangeLocale;
 import ee.menu24.deliverymeal.app.main.title.Language;
 import ee.menu24.deliverymeal.app.restaurant.service.filter.FilterData;
 import ee.menu24.deliverymeal.app.restaurant.service.filter.RestaurantFilter;
+
+import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import java.util.List;
@@ -86,8 +89,13 @@ public class SlidingMenuConfig {
         searchButton.setTypeface(geometric);
 
         searchButton.setOnClickListener(new View.OnClickListener() {
+            private CustomViewAbove customViewAbove;
             @Override
             public void onClick(View v) {
+
+                customViewAbove = MainActivity.getCustomViewAbove();
+                if(customViewAbove != null)
+                    customViewAbove.setCurrentItem(1);
 
                 RestaurantFilter.getSearchData().setText(String.valueOf(editText.getText()));
                 RestaurantFilter.getSearchData().setStateUse(true);

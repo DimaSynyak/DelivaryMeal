@@ -1,6 +1,5 @@
 package ee.menu24.deliverymeal.app.restaurant.thread;
 
-import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -10,11 +9,13 @@ import ee.menu24.deliverymeal.app.R;
 import ee.menu24.deliverymeal.app.main.service.Restaurant;
 import ee.menu24.deliverymeal.app.main.service.RestaurantList;
 import ee.menu24.deliverymeal.app.main.thread.Count;
+import ee.menu24.deliverymeal.app.main.title.Language;
 import ee.menu24.deliverymeal.app.main.title.fragments.LoadPageFragment;
 import ee.menu24.deliverymeal.app.restaurant.menu.SMCRestaurantActivity;
 import ee.menu24.deliverymeal.app.restaurant.service.Garbage;
 import ee.menu24.deliverymeal.app.restaurant.MealBody;
 import ee.menu24.deliverymeal.app.restaurant.RestaurantActivity;
+import ee.menu24.deliverymeal.app.restaurant.service.Garnir;
 import ee.menu24.deliverymeal.app.restaurant.service.Meal;
 import ee.menu24.deliverymeal.app.restaurant.service.MealList;
 import ee.menu24.deliverymeal.app.restaurant.service.filter.MealFilter;
@@ -35,7 +36,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by 1 on 11.11.2015.
  */
-public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
+public class SearchThread implements Runnable {
 
     private FragmentTransaction ft;
     private Count count;
@@ -43,8 +44,7 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
     private LoadPageFragment loadPageFragment;
     private MealBody mealBody;
     private Restaurant restaurant;
-
-    private boolean isCancled;
+    private Language language;
 
     private Connection connection;
     private Connection.Response response;
@@ -56,17 +56,49 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
 
 
 
-    public ChangeLanguageAsyncTask(AppCompatActivity activity) {
+    public SearchThread(AppCompatActivity activity) {
         this.activity = activity;
         restaurantList = RestaurantList.getInstance();
         mealBody = MealBody.getInstance(activity);
+        language = Language.getInstance();
+    }
+
+    public LoadPageFragment getLoadPageFragment() {
+        return loadPageFragment;
+    }
+
+    public void setLoadPageFragment(LoadPageFragment loadPageFragment) {
+        this.loadPageFragment = loadPageFragment;
+    }
+
+    public void setActivity(AppCompatActivity activity){
+        this.activity = activity;
     }
 
     @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        TextView searchButton = (TextView) activity.findViewById(R.id.search_button);
-        searchButton.setVisibility(View.GONE);
+    public void run() {
+
+        while(true){
+            if (activity == null)
+                return;
+
+            if (!activity.hasWindowFocus()){
+                activity.finish();
+                activity = null;
+                return;
+            }
+            else {
+                break;
+            }
+        }
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView searchButton = (TextView) activity.findViewById(R.id.search_button);
+                searchButton.setVisibility(View.GONE);
+            }
+        });
+
         connection = Restaurant.getConnection();
 
         List<Meal> meals = MealList.getMeals();
@@ -75,17 +107,22 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
         mealBody.deleteAllFragments();
         ((RestaurantActivity) activity).removeFragment();
 
-
         count = new Count(5);
         loadPageFragment = new LoadPageFragment();
         loadPageFragment.setCount(count);
-        ft = activity.getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.restaurantPercentContainer, loadPageFragment);
-        ft.commit();
-    }
 
-    @Override
-    protected String doInBackground(String... params) {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ft = activity.getSupportFragmentManager().beginTransaction();
+                ft.add(R.id.restaurantPercentContainer, loadPageFragment);
+                ft.commit();
+            }
+        });
+
+
+
+/*********************************************************************/
 
         restaurantList = RestaurantList.getInstance();
         mealFilter = MealFilter.getInstance();
@@ -101,7 +138,7 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
                 try {
                     count.wait();
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    break;
                 }
             }
         }
@@ -130,19 +167,48 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
                             count.wait(100);
                         }
                     }
-                    return null;
+                    break;
                 }
 
-                for (Element element1 : elements) {
+                for (Element element : elements) {
 
                     Meal meal = new Meal();
 
-                    meal.setId(Tools.getNumInt(element1.getElementsByClass("add_to_cart_button").attr("data-product_id")));
-                    meal.setName(element1.getElementsByClass("and-name").get(0).html());
-                    meal.setComposition(element1.getElementsByClass("and-composition").get(0).html());
-                    meal.setWeight(element1.getElementsByClass("pull-right").get(0).html());
-                    meal.setCost(element1.getElementsByClass("as").get(0).html());
-                    meal.setImgURL(element1.getElementsByClass("item-img").get(0).getElementsByTag("img").attr("src"));
+                    meal.setId(Tools.getNumInt(element.attr("id")));
+                    meal.setName(element.getElementsByClass("and-name").text());
+                    meal.setComposition(element.getElementsByClass("and-composition").text());
+                    meal.setWeight(element.getElementsByClass("pull-right").text());
+                    meal.setCost(element.getElementsByClass("as").get(0).text());
+                    meal.setImgURL(element.getElementsByTag("img").attr("src"));
+
+                    List<Garnir> garnirs = new ArrayList<>();
+
+                    String temp = null;
+                    int variation_id = 0;
+                    Element pa_garnish = element.getElementById("pa_garnish");
+                    if (pa_garnish != null) {
+                        Elements option = pa_garnish.getElementsByTag("option");
+
+                        boolean flag = false;
+                        if (option != null)
+
+                            temp = element.select("form[data-product_id =" + meal.getId() + " ]").attr("data-product_variations");
+                        variation_id = Tools.getVariationId(temp);
+                        for (Element element1 : option) {
+                            if (flag){
+                                Garnir garnir = new Garnir();
+                                garnir.setGarnirName(element1.text());
+                                garnir.setGarnirValue(element1.attr("value"));
+                                garnir.setGarnirId(variation_id);
+                                variation_id++;
+                                garnirs.add(garnir);
+                            }
+                            flag = true;
+                        }
+                    }
+
+                    meal.setGarnirs(garnirs);
+                    // TODO: 02.12.2015 add id garnir
 
                     MealList.addMeal(meal);
                 }
@@ -161,39 +227,59 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
                         count.wait(100);
                     }
                 }
-                return "good";
+                break;
             } catch (MalformedURLException e) {
-                return null;
+                System.out.println(1);
+                break;
             } catch (IOException e) {
                 try {
                     TimeUnit.MILLISECONDS.sleep(2000);
                 } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                    return null;
+                    System.out.println(2);
+                    break;
                 }
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                System.out.println(3);
+                break;
             }
             finally {
                 MealList.setMealListCompleteFlag(true);
             }
         }
-    }
-
-    @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
 
 
-        ft = activity.getSupportFragmentManager().beginTransaction();
-        ft.remove(loadPageFragment);
-        ft.commit();
+        /***************************************************/
 
-        isCancled = true;
-        cancel(true);
 
-        if (restaurant == null)
+        while(true){
+            if (activity == null)
+                return;
+
+            if (!activity.hasWindowFocus()){
+                activity.finish();
+                activity = null;
+                return;
+            }
+            else {
+                break;
+            }
+        }
+
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ft = activity.getSupportFragmentManager().beginTransaction();
+                ft.remove(loadPageFragment);
+                ft.commit();
+            }
+        });
+
+
+        if (restaurant == null) {
+            activity.finish();
+            activity = null;
             return;
+        }
 
         ((RestaurantActivity) activity).initFragment(restaurant);
         ((RestaurantActivity) activity).updateInfo();
@@ -205,27 +291,14 @@ public class ChangeLanguageAsyncTask extends AsyncTask<String, Void, String> {
         mealBody.init();
 
         mealFilter.setStateMealFilter(false);
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView searchButton = (TextView) activity.findViewById(R.id.search_button);
+                searchButton.setVisibility(View.VISIBLE);
 
-        TextView searchButton = (TextView) activity.findViewById(R.id.search_button);
-        searchButton.setVisibility(View.VISIBLE);
-
-        activity = null;
-//        count = null;
-    }
-
-    public boolean isCancled() {
-        return isCancled;
-    }
-
-    public void setIsCancled(boolean isCancled) {
-        this.isCancled = isCancled;
-    }
-
-    public LoadPageFragment getLoadPageFragment() {
-        return loadPageFragment;
-    }
-
-    public void setLoadPageFragment(LoadPageFragment loadPageFragment) {
-        this.loadPageFragment = loadPageFragment;
+                activity = null;
+            }
+        });
     }
 }

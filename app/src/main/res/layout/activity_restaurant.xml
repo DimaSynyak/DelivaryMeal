@@ -60,7 +60,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/specialization_data"
-                        android:paddingLeft="25dp"
+                        android:paddingLeft="10dp"
                         android:textSize="12sp"
                         android:textColor="#000000" />
                 </LinearLayout>
@@ -88,7 +88,7 @@
                         android:id="@+id/work_day_data"
                         android:textSize="12sp"
                         android:textColor="#000000"
-                        android:paddingLeft="25dp" />
+                        android:paddingLeft="10dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -114,7 +114,7 @@
                         android:id="@+id/work_time_data"
                         android:textSize="12sp"
                         android:textColor="#000000"
-                        android:paddingLeft="25dp" />
+                        android:paddingLeft="10dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -140,7 +140,7 @@
                         android:id="@+id/work_time_data2"
                         android:textSize="12sp"
                         android:textColor="#000000"
-                        android:paddingLeft="25dp" />
+                        android:paddingLeft="10dp" />
                 </LinearLayout>
 
                 <TextView

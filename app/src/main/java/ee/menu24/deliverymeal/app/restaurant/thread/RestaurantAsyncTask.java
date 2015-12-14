@@ -112,6 +112,16 @@ public class RestaurantAsyncTask implements Runnable {
                 filter.init(doc);
 
                 count.complete();
+
+                /*GET RESTAURANT NAME FOR FILTER*/
+                Element nameForFilter = doc.getElementById("restaurant");
+                if (nameForFilter != null){
+                    restaurant.setNameForFilter(nameForFilter.val());
+                }
+                /********************************/
+
+
+
                 Elements elements = doc.getElementsByClass("item-food");
 
                 Restaurant restaurant = restaurantList.getRestaurant();
@@ -199,7 +209,7 @@ public class RestaurantAsyncTask implements Runnable {
 
                     meal.setId(Tools.getNumInt(element.attr("id")));
                     meal.setName(element.getElementsByClass("and-name").get(0).html());
-                    meal.setComposition(element.getElementsByClass("and-composition").get(0).html());
+                    meal.setComposition(element.getElementsByClass("and-composition").text());
                     meal.setWeight(element.getElementsByClass("pull-right").get(0).html());
                     meal.setCost(element.getElementsByClass("as").get(0).html());
                     meal.setImgURL(element.getElementsByTag("img").attr("src"));

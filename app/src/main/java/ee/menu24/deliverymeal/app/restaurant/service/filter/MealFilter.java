@@ -119,7 +119,7 @@ public class MealFilter implements IFilter {
 
         map.put("action", "get_food");
         map.put("search", searchData.getText());
-        map.put("restaurant", restaurant.getName().toLowerCase());
+        map.put("restaurant", restaurant.getNameForFilter().toLowerCase());
         map.put("page", "1");
 
         StringBuilder tmp = new StringBuilder();
