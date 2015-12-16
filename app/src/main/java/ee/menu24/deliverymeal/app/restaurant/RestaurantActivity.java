@@ -43,6 +43,7 @@ import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -305,80 +306,85 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
 
     public void updateInfo(){
         /*INFO LAYOUT*/
-
-        specializationField.setText(restaurant.getSpecializationField());
-
-
-        workDayField.setText(restaurant.getWorkDayField());
-
-
-        if (restaurant.getWorkTimeFields() != null && restaurant.getWorkTimeFields().size() > 0) {
-            workTimeField.setText(restaurant.getWorkTimeFields().get(0));
-        }
-
-        if (restaurant.getWorkTimeFields().size() > 1) {
-            workTimeField2.setText(restaurant.getWorkTimeFields().get(1));
-        }
-        else {
-            workTimeField2.setVisibility(TextView.GONE);
-        }
-
-        specializationData.setText(restaurant.getSpecializationData());
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                specializationField.setText(restaurant.getSpecializationField());
 
 
-        workDayData.setText(restaurant.getWorkDayData());
+                workDayField.setText(restaurant.getWorkDayField());
 
 
-        if (restaurant.getWorkTimesData() != null && restaurant.getWorkTimesData().size() > 0) {
-            workTimesData.setText(restaurant.getWorkTimesData().get(0));
-        }
+                if (restaurant.getWorkTimeFields() != null && restaurant.getWorkTimeFields().size() > 0) {
+                    workTimeField.setText(restaurant.getWorkTimeFields().get(0));
+                }
+
+                if (restaurant.getWorkTimeFields().size() > 1) {
+                    workTimeField2.setText(restaurant.getWorkTimeFields().get(1));
+                }
+                else {
+                    workTimeField2.setVisibility(TextView.GONE);
+                }
+
+                specializationData.setText(restaurant.getSpecializationData());
 
 
-        if (restaurant.getWorkTimesData() != null && restaurant.getWorkTimesData().size() > 1){
-            workTimesData2.setText(restaurant.getWorkTimesData().get(1));
-        }
-        else {
-            workTimesData2.setVisibility(TextView.GONE);
-        }
-
-        titleDescription.setText(restaurant.getTitleDescription());
-
-        description.setText(restaurant.getDescription());
-
-        titleBranchOffices.setText(restaurant.getTitleBranchOffices());
+                workDayData.setText(restaurant.getWorkDayData());
 
 
-
-        /*remove fragment from place*/
-
-        ft = getSupportFragmentManager().beginTransaction();
-
-        if (restaurant.getAddressDataFragmentList() == null){
-            restaurant.setAddressDataFragmentList(new ArrayList<AddressDataFragment>());
-        }
-
-        for (AddressDataFragment addressDataFragment : restaurant.getAddressDataFragmentList()) {
-            ft.remove(addressDataFragment);
-        }
-        ft.commit();
+                if (restaurant.getWorkTimesData() != null && restaurant.getWorkTimesData().size() > 0) {
+                    workTimesData.setText(restaurant.getWorkTimesData().get(0));
+                }
 
 
-        /*add fragment on place*/
+                if (restaurant.getWorkTimesData() != null && restaurant.getWorkTimesData().size() > 1){
+                    workTimesData2.setText(restaurant.getWorkTimesData().get(1));
+                }
+                else {
+                    workTimesData2.setVisibility(TextView.GONE);
+                }
 
-        ft = getSupportFragmentManager().beginTransaction();
+                titleDescription.setText(restaurant.getTitleDescription());
 
-        for (String branchesText : restaurant.getAddressBranchOffices()) {
-            AddressDataFragment addressDataFragment = new AddressDataFragment();
-            addressDataFragment.setAddressBranchesOfficesText(branchesText);
-            ft.add(R.id.address_data_container, addressDataFragment);
-        }
-        ft.commit();
+                description.setText(restaurant.getDescription());
+
+                titleBranchOffices.setText(restaurant.getTitleBranchOffices());
 
 
 
+                /*remove fragment from place*/
 
-        infoLayout = (LinearLayout) findViewById(R.id.info_layout);
-        infoLayout.setVisibility(LinearLayout.GONE);
+                ft = getSupportFragmentManager().beginTransaction();
+
+                if (restaurant.getAddressDataFragmentList() == null){
+                    restaurant.setAddressDataFragmentList(new ArrayList<AddressDataFragment>());
+                }
+
+                for (AddressDataFragment addressDataFragment : restaurant.getAddressDataFragmentList()) {
+                    ft.remove(addressDataFragment);
+                }
+                ft.commit();
+
+
+                /*add fragment on place*/
+
+                ft = getSupportFragmentManager().beginTransaction();
+
+                for (String branchesText : restaurant.getAddressBranchOffices()) {
+                    AddressDataFragment addressDataFragment = new AddressDataFragment();
+                    addressDataFragment.setAddressBranchesOfficesText(branchesText);
+                    ft.add(R.id.address_data_container, addressDataFragment);
+                }
+                ft.commit();
+
+
+
+
+                infoLayout = (LinearLayout) findViewById(R.id.info_layout);
+                infoLayout.setVisibility(LinearLayout.GONE);
+            }
+        });
+
     }
 
     @Override
@@ -411,6 +417,17 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
                 ft.setCustomAnimations(R.anim.abc_slide_in_top, R.anim.abc_slide_out_bottom);
                 ft.add(R.id.restaurantHeadContainer, restaurantHeadFragment);
                 ft.commit();
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (scrollView != null) {
+                            ((MarginLayoutParams) scrollView.getLayoutParams()).setMargins(0, (int) (180 * metrics.density), 0, 0);
+                        }
+                    }
+                });
+
+
                 firstFlag = true;
                 break;
             }

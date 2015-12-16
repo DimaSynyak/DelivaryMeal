@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/composition"
                 android:id="@+id/restaurantProfile"
-                android:textSize="20sp"
+                android:textSize="13sp"
                 android:fontFamily="@string/arimo_regular"
                 android:paddingTop="4dp"
                 android:paddingBottom="4dp"

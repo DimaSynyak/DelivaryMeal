@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -991,8 +992,8 @@ public class SMCRestaurantActivity {
                 TextView textView = new TextView(activity);
                 textView.setTypeface(geometric);
                 textView.setTextColor(Color.BLACK);
-                textView.setPadding(35, 25, 10, 10);
-                textView.setTextSize(dpToPx(9));
+                textView.setPadding((int) dpToPx(35), (int) dpToPx(9), (int) dpToPx(10), (int) dpToPx(6));
+                textView.setTextSize(dpToPx(12));
                 textView.setText(filterData.getText());
                 textView.setLayoutParams(new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
@@ -1003,10 +1004,10 @@ public class SMCRestaurantActivity {
                 ImageView arrow = new ImageView(activity);
                 arrow.setImageDrawable(activity.getResources().getDrawable(R.drawable.arrow));
                 arrow.setLayoutParams(new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
+                        (int) dpToPx(10),
+                        (int) dpToPx(10)
                 ));
-                arrow.setPadding(10,25,30,10);
+                arrow.setPadding((int) dpToPx(10), (int) dpToPx(9), (int) dpToPx(30), (int) dpToPx(6));
 
 
                 final LinearLayout containerLayout = new LinearLayout(activity);
@@ -1046,9 +1047,9 @@ public class SMCRestaurantActivity {
                     tv.setTypeface(geometric);
                     tv.setText(fd.getText());
                     tv.setClickable(true);
-                    tv.setTextSize(dpToPx(8));
+                    tv.setTextSize(dpToPx(12));
                     tv.setTextColor(Color.BLACK);
-                    tv.setPadding(55, 5, 0, 10);
+                    tv.setPadding((int) dpToPx(55), (int) dpToPx(5), 0, (int) dpToPx(5));
                     tv.setOnClickListener(new View.OnClickListener() {
 
                         @Override
@@ -1086,8 +1087,8 @@ public class SMCRestaurantActivity {
                 TextView textView = new TextView(activity);
                 textView.setTypeface(geometric);
                 textView.setTextColor(Color.BLACK);
-                textView.setPadding(35, 25, 10, 10);
-                textView.setTextSize(dpToPx(9));
+                textView.setPadding((int) dpToPx(35), (int) dpToPx(9), (int) dpToPx(10), (int) dpToPx(6));
+                textView.setTextSize(dpToPx(12));
                 textView.setText(filterData.getText());
                 textView.setLayoutParams(new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
@@ -1140,8 +1141,8 @@ public class SMCRestaurantActivity {
                 TextView textView = new TextView(activity);
                 textView.setTypeface(geometric);
                 textView.setTextColor(Color.BLACK);
-                textView.setPadding(35, 25, 10, 10);
-                textView.setTextSize(dpToPx(9));
+                textView.setPadding((int) dpToPx(35), (int) dpToPx(9), (int) dpToPx(10), (int) dpToPx(6));
+                textView.setTextSize(dpToPx(12));
                 textView.setText(filterData.getText());
                 textView.setLayoutParams(new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
@@ -1182,7 +1183,15 @@ public class SMCRestaurantActivity {
 
     public float dpToPx(float dp) {
         DisplayMetrics  displayMetrics = activity.getResources().getDisplayMetrics();
-        return  (int)((dp * displayMetrics.density) + 0.5);
+        Log.d("dpToPx ----------------------->  densityDpi:  --->", String.valueOf(displayMetrics.densityDpi));
+        Log.d("dpToPx ----------------------->  density:  --->", String.valueOf(displayMetrics.density));
+        Log.d("dpToPx ----------------------->  xdpi:  --->", String.valueOf(displayMetrics.xdpi));
+        Log.d("dpToPx ----------------------->  ydpi:  --->", String.valueOf(displayMetrics.ydpi));
+        int k = 160;
+        if (displayMetrics.density > 1){
+            k = 260;
+        }
+        return  (int)((dp * displayMetrics.densityDpi)/k + 0.5);
     }
 
     public String updateDate(){

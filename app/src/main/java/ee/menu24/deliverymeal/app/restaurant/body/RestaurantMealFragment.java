@@ -97,9 +97,11 @@ public class RestaurantMealFragment extends Fragment {
         name = (TextView) view.findViewById(R.id.restaurantName);
         name.setTypeface(arimo);
         name.setText(meal.getName());
-        if (meal.getName().length() > 13){
-            name.setTextSize(metrics.density * 8);
-        }
+
+        /*resize text if length > max*/
+//        if (meal.getName().length() > 13){
+//            name.setTextSize(metrics.density * 8);
+//        }
 
         weight = (TextView) view.findViewById(R.id.costText);
         weight.setTypeface(arimo);

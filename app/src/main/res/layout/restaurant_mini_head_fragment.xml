@@ -33,36 +33,38 @@
                 android:layout_width="50dp"
                 android:layout_height="38dp"
                 android:id="@+id/restaurantAvatar"
-                android:layout_weight="2"
                 android:layout_gravity="center"
-                android:layout_marginBottom="3dp" />
+                android:layout_marginBottom="3dp"
+                android:layout_weight="1" />
 
-            <TextView
+            <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView10"
-                android:layout_weight="10"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:layout_weight="10">
+
+                <TextView
+                    android:layout_width="160dp"
+                    android:layout_height="19.5dp"
+                    android:id="@+id/restaurantTitle"
+                    android:textSize="15sp"
+                    android:textColor="#000000"
+                    android:layout_gravity="center"
+                    android:gravity="center" />
+            </FrameLayout>
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="10dp"
                 android:id="@+id/fullRestaurantImg"
                 android:clickable="true"
-                android:layout_weight="3"
+                android:layout_weight="6"
                 android:src="@drawable/arrow_down"
                 android:layout_gravity="center"
                 android:onClick="onClick" />
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/restaurantTitle"
-            android:textSize="21sp"
-            android:textColor="#000000"
-            android:layout_gravity="center" />
     </FrameLayout>
 
     <FrameLayout
@@ -93,12 +95,12 @@
                 android:text="МЕНЮ"
                 android:id="@+id/textView7"
                 android:layout_gravity="center"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="#000000" />
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="10dp"
                 android:id="@+id/imageView2"
                 android:layout_gravity="center"
                 android:src="@drawable/arrow_down"
@@ -117,17 +119,17 @@
 </LinearLayout>
 
     <FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                 android:layout_marginTop="60dp" android:id="@+id/menu">
-        <ImageView android:layout_width="176dp" android:layout_height="wrap_content" android:id="@+id/imageView7"
+                 android:layout_marginTop="50dp" android:id="@+id/menu">
+        <ImageView android:layout_width="146.8dp" android:layout_height="wrap_content" android:id="@+id/imageView7"
                    android:background="#00ffffff" android:layout_gravity="center_horizontal"
                    android:src="@drawable/main_mini_menu_background" android:layout_marginLeft="0.75dp"/>
         <LinearLayout android:orientation="vertical" android:layout_width="160dp" android:layout_height="wrap_content"
                       android:layout_gravity="center">
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="ИНФО"
-                      android:id="@+id/info_text" android:textColor="#000000" android:textSize="14sp"
+                      android:id="@+id/info_text" android:textColor="#000000" android:textSize="12sp"
                       android:padding="10dp" android:gravity="center_horizontal" android:clickable="true"/>
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="ОТЗЫВЫ"
-                      android:id="@+id/reviews_text" android:textColor="#000000" android:textSize="14sp"
+                      android:id="@+id/reviews_text" android:textColor="#000000" android:textSize="12sp"
                       android:padding="10dp" android:gravity="center_horizontal" android:clickable="true"/>
         </LinearLayout>
     </FrameLayout>

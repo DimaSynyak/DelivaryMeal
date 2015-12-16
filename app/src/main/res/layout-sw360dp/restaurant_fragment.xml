@@ -3,153 +3,165 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/restaurantFragment"
                 android:orientation="horizontal"
-    android:paddingLeft="19dp"
     android:clickable="true"
-    android:paddingTop="40dp">
-
-    <ImageView
-        android:layout_width="150dp"
-        android:layout_height="118dp"
-        android:id="@+id/restaurantAvatar"
-        android:layout_marginRight="9dp" />
+    android:background="#ffffff"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp">
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="135dp"
-        android:paddingRight="5dp">
+        android:paddingLeft="19dp"
+        android:background="#f1f1f1">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Тануки"
-            android:id="@+id/restaurantName"
-            android:textSize="18sp"
-            android:fontFamily="@string/geometric_706_black"
-            android:layout_marginTop="2dp"
-            android:textColor="#000000" />
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="118dp"
+            android:id="@+id/restaurantAvatar"
+            android:layout_marginRight="9dp"
+            android:layout_gravity="center_vertical" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Китайская кухня"
-            android:id="@+id/restaurantProfile"
-            android:textSize="10sp"
-            android:fontFamily="@string/arimo_regular"
-            android:textColor="#a1a1a1" />
-
-        <FrameLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:paddingRight="10dp">
+            android:paddingRight="5dp"
+            android:layout_gravity="center_vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="22dp"
+                android:text="Тануки"
+                android:id="@+id/restaurantName"
+                android:textSize="18sp"
+                android:fontFamily="@string/geometric_706_black"
+                android:layout_marginTop="2dp"
+                android:textColor="#000000" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Китайская кухня"
+                android:id="@+id/restaurantProfile"
+                android:textSize="10sp"
+                android:fontFamily="@string/arimo_regular"
+                android:textColor="#a1a1a1" />
 
             <FrameLayout
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:padding="0dp"
-                android:scaleY="0.8"
-                android:scaleX="0.8"
-                android:layout_marginLeft="-15dp">
+                android:paddingRight="10dp">
 
-                <RatingBar
+                <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/ratingBar"
-                    android:numStars="5"
-                    style="@style/CustomRatingBar"
-                    android:rating="1.5"
-                    android:stepSize="0.1"
-                    android:layout_gravity="left"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:clickable="false"/>
+                    android:padding="0dp"
+                    android:scaleY="0.8"
+                    android:scaleX="0.8"
+                    android:layout_marginLeft="-15dp">
+
+                    <RatingBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/ratingBar"
+                        android:numStars="5"
+                        style="@style/CustomRatingBar"
+                        android:rating="1.5"
+                        android:stepSize="0.1"
+                        android:layout_gravity="left"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:clickable="false"/>
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4.5"
+                    android:id="@+id/restaurantLevel"
+                    android:inputType="number"
+                    android:textColor="#000000"
+                    android:textSize="21sp"
+                    android:layout_gravity="right" />
+
             </FrameLayout>
 
-            <TextView
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="4.5"
-                android:id="@+id/restaurantLevel"
-                android:inputType="number"
-                android:textColor="#000000"
-                android:textSize="21sp"
-                android:layout_gravity="right" />
+                android:layout_height="wrap_content">
 
-        </FrameLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1000 $"
+                    android:id="@+id/costMeal"
+                    android:fontFamily="@string/geometric_706_black"
+                    android:textSize="14sp"
+                    android:layout_marginRight="2dp"
+                    android:textColor="#000000" />
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/min_cost_order"
+                    android:id="@+id/costMealText"
+                    android:fontFamily="@string/arimo_regular"
+                    android:textSize="10sp"
+                    android:textColor="#a1a1a1" />
+            </LinearLayout>
 
-            <TextView
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1000 $"
-                android:id="@+id/costMeal"
-                android:fontFamily="@string/geometric_706_black"
-                android:textSize="14sp"
-                android:layout_marginRight="2dp"
-                android:textColor="#000000" />
+                android:layout_height="wrap_content">
 
-            <TextView
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Бесплатно"
+                    android:id="@+id/costDeliver"
+                    android:layout_marginRight="2dp"
+                    android:fontFamily="@string/geometric_706_black"
+                    android:textSize="14sp"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cost_deliver"
+                    android:id="@+id/costDeliverText"
+                    android:textSize="10sp"
+                    android:fontFamily="@string/arimo_regular"
+                    android:textColor="#a1a1a1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/min_cost_order"
-                android:id="@+id/costMealText"
-                android:fontFamily="@string/arimo_regular"
-                android:textSize="10sp"
-                android:textColor="#a1a1a1" />
-        </LinearLayout>
+                android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="60 мин"
+                    android:id="@+id/timeDeliver"
+                    android:layout_marginRight="2dp"
+                    android:fontFamily="@string/geometric_706_black"
+                    android:textSize="14sp"
+                    android:textColor="#000000" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Бесплатно"
-                android:id="@+id/costDeliver"
-                android:layout_marginRight="2dp"
-                android:fontFamily="@string/geometric_706_black"
-                android:textSize="14sp"
-                android:textColor="#000000" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/cost_deliver"
-                android:id="@+id/costDeliverText"
-                android:textSize="10sp"
-                android:fontFamily="@string/arimo_regular"
-                android:textColor="#a1a1a1" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="60 мин"
-                android:id="@+id/timeDeliver"
-                android:layout_marginRight="2dp"
-                android:fontFamily="@string/geometric_706_black"
-                android:textSize="14sp"
-                android:textColor="#000000" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/time_deliver"
-                android:id="@+id/timeDeliverText"
-                android:textSize="10sp"
-                android:fontFamily="@string/arimo_regular"
-                android:textColor="#a1a1a1" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/time_deliver"
+                    android:id="@+id/timeDeliverText"
+                    android:textSize="10sp"
+                    android:fontFamily="@string/arimo_regular"
+                    android:textColor="#a1a1a1" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
 </LinearLayout>

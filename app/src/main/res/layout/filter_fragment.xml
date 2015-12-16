@@ -14,13 +14,13 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/asian"
         android:id="@+id/text"
-        android:textSize="13sp"
-        android:layout_margin="5dp" />
+        android:textSize="9sp"
+        android:layout_margin="3dp" />
 
     <ImageView
-        android:layout_width="13dp"
-        android:layout_height="13dp"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
         android:id="@+id/imageView"
         android:src="@drawable/cross1"
-        android:layout_margin="7dp" />
+        android:layout_margin="4dp" />
 </LinearLayout>

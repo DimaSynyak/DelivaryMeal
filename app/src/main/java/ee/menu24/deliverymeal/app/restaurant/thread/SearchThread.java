@@ -282,6 +282,7 @@ public class SearchThread implements Runnable {
         }
 
         ((RestaurantActivity) activity).initFragment(restaurant);
+
         ((RestaurantActivity) activity).updateInfo();
 
         if (!mealFilter.isStateMealFilter()) {
