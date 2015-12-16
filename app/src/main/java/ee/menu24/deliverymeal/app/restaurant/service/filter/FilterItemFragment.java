@@ -79,6 +79,18 @@ public class FilterItemFragment extends Fragment {
 
 
 
+    public void update(){
+        if(isAdded()){
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (filterData != null) {
+                        textView.setText(filterData.getText());
+                    }
+                }
+            });
+        }
+    }
 
     public FilterItemFragment() {
         filterFragment = new FilterFragment();

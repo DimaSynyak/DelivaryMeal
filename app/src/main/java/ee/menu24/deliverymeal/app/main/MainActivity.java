@@ -37,7 +37,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static MainActivity mainActivity;
     private SlidingMenuConfig slidingMenuConfig;
     private ChangeLocale changeLocale;
+    private Thread changeLocalThread;
     private Thread th;
+    private Thread updateSearchFragmentThread;
 
     private FragmentTransaction ft;
     private LanguagesFragmentOpacityLow languagesFragmentOpacityLow;
@@ -138,49 +140,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-
-
-
     public void setLanguage(Language language) {
         this.language = language;
     }
 
-    public void updateLanguage(){
-
-        ChangeLocale changeLocale = null;
-        Locale myLocale = null;
-
-        switch (language.getLanguages()){
-            case RU:{
-                ((ImageView) findViewById(R.id.language_image)).setBackgroundResource(R.drawable.language_ru);
-                myLocale = new Locale("ru");
-
-                break;
-            }
-            case EE:{
-                ((ImageView) findViewById(R.id.language_image)).setBackgroundResource(R.drawable.language_ee);
-                myLocale = new Locale("et");
-
-                break;
-            }
-            case EN:{
-                ((ImageView) findViewById(R.id.language_image)).setBackgroundResource(R.drawable.language_en);
-                myLocale = new Locale("en");
-
-                break;
-            }
-            default: return;
-        }
-        Locale.setDefault(myLocale);
-        android.content.res.Configuration config = new android.content.res.Configuration();
-        config.locale = myLocale;
-        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-    }
     /***************************/
-
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -226,12 +190,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if (changeLocale != null){
-            if (!changeLocale.isCancled())
+            if (!changeLocale.isCancle()) {
                 return;
+            }
         }
 
+        SlidingMenuConfig slidingMenuConfig = SlidingMenuConfig.getSlidingMenuConfig();
+        if (slidingMenuConfig != null){
+            slidingMenuConfig.removeFilterData();
+        }
+        else {
+            return;
+        }
 
         changeLocale = null;
+        if (changeLocalThread != null) {
+            changeLocalThread.interrupt();
+            changeLocalThread = null;
+        }
         Locale myLocale = null;
 
 
@@ -239,25 +215,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case RU:{
                 ((ImageView) findViewById(R.id.language_image)).setBackgroundResource(R.drawable.language_ru);
                 myLocale = new Locale("ru");
-                changeLocale = getChangeLocale();
+                changeLocale = new ChangeLocale(MainActivity.this);
                 changeLocale.setFlagChangeLocale(true);
-                changeLocale.execute(Language.RESTAURANTS_URL_RU);
+                changeLocale.setUrl(Language.RESTAURANTS_URL_RU);
+                changeLocalThread = new Thread(changeLocale);
+                changeLocalThread.start();
                 break;
             }
             case EE:{
                 ((ImageView) findViewById(R.id.language_image)).setBackgroundResource(R.drawable.language_ee);
                 myLocale = new Locale("et");
-                changeLocale = getChangeLocale();
+                changeLocale = new ChangeLocale(MainActivity.this);
                 changeLocale.setFlagChangeLocale(true);
-                changeLocale.execute(Language.RESTAURANTS_URL_EE);
+                changeLocale.setUrl(Language.RESTAURANTS_URL_EE);
+                changeLocalThread = new Thread(changeLocale);
+                changeLocalThread.start();
                 break;
             }
             case EN:{
                 ((ImageView) findViewById(R.id.language_image)).setBackgroundResource(R.drawable.language_en);
                 myLocale = new Locale("en");
-                changeLocale = getChangeLocale();
+                changeLocale = new ChangeLocale(MainActivity.this);
                 changeLocale.setFlagChangeLocale(true);
-                changeLocale.execute(Language.RESTAURANTS_URL_EN);
+                changeLocale.setUrl(Language.RESTAURANTS_URL_EN);
+                changeLocalThread = new Thread(changeLocale);
+                changeLocalThread.start();
                 break;
             }
             default: return;
@@ -271,6 +253,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         language.setLanguages(languages);
 
         updateUI();
+
     }
 
 
@@ -316,11 +299,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Restaurant.setConnection(language.getURL());
         }
         firstFlag = true;
-    }
-
-    public ChangeLocale getChangeLocale(){
-        changeLocale = new ChangeLocale(this);
-        return changeLocale;
     }
 
     public android.support.v7.app.ActionBar getActionBarActivity() {

@@ -1,6 +1,5 @@
 package ee.menu24.deliverymeal.app.main.thread;
 
-import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -27,10 +26,11 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by 1 on 12.11.2015.
  */
-public class ChangeLocale extends AsyncTask<String, Void, String> {
+public class ChangeLocale implements Runnable {
     private FragmentTransaction ft;
     private Count count;
     private boolean flagChangeLocale;
+    private String url;
 
     private AppCompatActivity activity;
     private LoadPageFragment loadPageFragment;
@@ -38,7 +38,7 @@ public class ChangeLocale extends AsyncTask<String, Void, String> {
     private IFilter filter;
     private RestaurantList restaurantList;
 
-    private boolean isCancled;
+    private boolean cancle;
 
     private Connection connection;
     private Connection.Response response;
@@ -48,12 +48,56 @@ public class ChangeLocale extends AsyncTask<String, Void, String> {
         restaurantList = RestaurantList.getInstance();
     }
 
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
 
-        TextView searchButton = (TextView) activity.findViewById(R.id.search_button);
-        searchButton.setVisibility(View.GONE);
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public LoadPageFragment getLoadPageFragment() {
+        return loadPageFragment;
+    }
+
+    public void setLoadPageFragment(LoadPageFragment loadPageFragment) {
+        this.loadPageFragment = loadPageFragment;
+    }
+
+    public boolean isFlagChangeLocale() {
+        return flagChangeLocale;
+    }
+
+    public void setFlagChangeLocale(boolean flagChangeLocale) {
+        this.flagChangeLocale = flagChangeLocale;
+    }
+
+    @Override
+    public void run() {
+
+        while(true){
+            if (activity == null)
+                return;
+
+            if (!activity.hasWindowFocus()){
+                activity.finish();
+                activity = null;
+                return;
+            }
+            else {
+                break;
+            }
+        }
+
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView searchButton = (TextView) activity.findViewById(R.id.search_button);
+                searchButton.setVisibility(View.GONE);
+            }
+        });
+
 
         connection = Restaurant.getConnection();
 
@@ -72,17 +116,24 @@ public class ChangeLocale extends AsyncTask<String, Void, String> {
         count = new Count(5);
         loadPageFragment = new LoadPageFragment();
         loadPageFragment.setCount(count);
-        ft = activity.getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.languageContainer, loadPageFragment);
-        ft.commit();
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ft = activity.getSupportFragmentManager().beginTransaction();
+                ft.add(R.id.languageContainer, loadPageFragment);
+                ft.commit();
 
-        if (flagChangeLocale) {
-            SlidingMenuConfig.getSlidingMenuConfig().removeFilterData();
-        }
-    }
+                if (flagChangeLocale) {
+                    SlidingMenuConfig.getSlidingMenuConfig().removeFilterData();
+                }
+            }
+        });
 
-    @Override
-    protected String doInBackground(String... params) {
+
+
+
+
+        /*************************************************/
 
         filter = RestaurantFilter.getInstance();
 
@@ -102,7 +153,7 @@ public class ChangeLocale extends AsyncTask<String, Void, String> {
 
 
                 if (flagChangeLocale) {
-                    connection.url(params[0]);
+                    connection.url(url);
                 }
                 else {
                     filter.filter(connection);
@@ -130,7 +181,7 @@ public class ChangeLocale extends AsyncTask<String, Void, String> {
                             count.wait(100);
                         }
                     }
-                    return  null;
+                   break;
                 }
 
                 count.complete();
@@ -165,7 +216,7 @@ public class ChangeLocale extends AsyncTask<String, Void, String> {
                         count.wait(100);
                     }
                 }
-                return null;
+                break;
             } catch (IOException e) {
                 try {
                     TimeUnit.MILLISECONDS.sleep(2000);
@@ -173,57 +224,63 @@ public class ChangeLocale extends AsyncTask<String, Void, String> {
                     e1.printStackTrace();
                 }
             } catch (InterruptedException e) {
-                return null;
+                break;
+            } catch (Exception e){
+              break;
             }
         }
 
-    }
 
-    @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
 
-        ft = activity.getSupportFragmentManager().beginTransaction();
-        ft.remove(loadPageFragment);
-        ft.commit();
+        /***********************************************/
 
-        restaurantBody = RestaurantBody.getInstance(activity);
-        restaurantBody.init();
 
-        if (flagChangeLocale) {
-            SlidingMenuConfig.getSlidingMenuConfig().addFilterData();
-            flagChangeLocale = false;
+        while(true){
+            if (activity == null)
+                return;
+
+            if (!activity.hasWindowFocus()){
+                activity.finish();
+                activity = null;
+                return;
+            }
+            else {
+                break;
+            }
         }
 
-        TextView searchButton = (TextView) activity.findViewById(R.id.search_button);
-        searchButton.setVisibility(View.VISIBLE);
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ft = activity.getSupportFragmentManager().beginTransaction();
+                ft.remove(loadPageFragment);
+                ft.commit();
 
-        isCancled = true;
-        cancel(true);
-        activity = null;
+                restaurantBody = RestaurantBody.getInstance(activity);
+                restaurantBody.init();
+
+                if (flagChangeLocale) {
+                    SlidingMenuConfig.getSlidingMenuConfig().addFilterData();
+                    flagChangeLocale = false;
+                }
+
+
+                TextView searchButton = (TextView) activity.findViewById(R.id.search_button);
+                searchButton.setVisibility(View.VISIBLE);
+
+                activity = null;
+            }
+        });
+
+        cancle = true;
+
     }
 
-    public boolean isCancled() {
-        return isCancled;
+    public boolean isCancle() {
+        return cancle;
     }
 
-    public void setIsCancled(boolean isCancled) {
-        this.isCancled = isCancled;
-    }
-
-    public LoadPageFragment getLoadPageFragment() {
-        return loadPageFragment;
-    }
-
-    public void setLoadPageFragment(LoadPageFragment loadPageFragment) {
-        this.loadPageFragment = loadPageFragment;
-    }
-
-    public boolean isFlagChangeLocale() {
-        return flagChangeLocale;
-    }
-
-    public void setFlagChangeLocale(boolean flagChangeLocale) {
-        this.flagChangeLocale = flagChangeLocale;
+    public void setCancle(boolean cancle) {
+        this.cancle = cancle;
     }
 }

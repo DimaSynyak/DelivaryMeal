@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="C:\project\DeliveryMeal\lib\SlidingMenu\assets"/></dataSet><dataSet config="release"><source path="C:\project\DeliveryMeal\lib\SlidingMenu\src\release\assets"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="/home/dmitriy/work_projects/15_12_2015/DeliveryMeal/lib/SlidingMenu/assets"/></dataSet><dataSet config="release"><source path="/home/dmitriy/work_projects/15_12_2015/DeliveryMeal/lib/SlidingMenu/src/release/assets"/></dataSet></merger>

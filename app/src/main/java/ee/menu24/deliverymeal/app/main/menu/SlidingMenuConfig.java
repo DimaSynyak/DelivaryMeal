@@ -41,6 +41,9 @@ public class SlidingMenuConfig {
     private LinearLayout criteriaContainer;
     private EditText editText;
 
+    private Thread changeLocalThread;
+    private ChangeLocale changeLocale;
+
     private static SlidingMenuConfig slidingMenuConfig;
 
     private Language language;
@@ -100,7 +103,16 @@ public class SlidingMenuConfig {
                 RestaurantFilter.getSearchData().setText(String.valueOf(editText.getText()));
                 RestaurantFilter.getSearchData().setStateUse(true);
 
-                new ChangeLocale(((AppCompatActivity)activity)).execute(language.getURL());
+                if (changeLocalThread != null){
+                    changeLocalThread.interrupt();
+                    changeLocalThread = null;
+                }
+
+                changeLocale = new ChangeLocale(((AppCompatActivity)activity));
+                changeLocale.setUrl(language.getURL());
+
+                changeLocalThread = new Thread(changeLocale);
+                changeLocalThread.start();
             }
         });
 
@@ -190,6 +202,7 @@ public class SlidingMenuConfig {
             }
 
         }
+
 
 
         dataList = filter.getCriteriaList();
