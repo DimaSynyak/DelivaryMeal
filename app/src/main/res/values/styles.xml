@@ -13,6 +13,9 @@
         <!-- Support library compatibility -->
         <item name="actionBarStyle">@style/MyActionBar</item>
         <item name="actionBarTabTextStyle">@style/MyActionBarTabText</item>
+
+        <item name="android:datePickerStyle">@style/MyDatePicker</item>
+        <item name="android:timePickerStyle">@style/MyTimePicker</item>
     </style>
 
     <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
@@ -29,5 +32,14 @@
 
     <style name="MyActionBarTabText" parent="@style/Widget.AppCompat.ActionBar.TabText">
         <item name="android:textColor">@color/primary_blue</item>
+    </style>
+
+
+    <style name="MyDatePicker" parent="android:Widget.Material.DatePicker">
+        <item name="android:datePickerMode">spinner</item>
+    </style>
+
+    <style name="MyTimePicker" parent="android:Widget.Material.TimePicker">
+        <item name="android:timePickerMode">spinner</item>
     </style>
 </resources>

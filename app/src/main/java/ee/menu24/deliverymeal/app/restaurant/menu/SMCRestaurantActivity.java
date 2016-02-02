@@ -477,6 +477,7 @@ public class SMCRestaurantActivity {
         yourPhone.setText(registrationData.getNumPhone());
 
         datePicker = (DatePicker) activity.findViewById(R.id.datePicker);
+//        datePicker.getCalendarView().setShowWeekNumber(false);
         dateOrder.setText(updateDate());
 
         name = (TextView) activity.findViewById(R.id.name);
@@ -582,6 +583,7 @@ public class SMCRestaurantActivity {
                 deliveryData.setDelivaryData(updateDate());
             }
         });
+
 
         datePicker.getCalendarView().setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -1183,10 +1185,10 @@ public class SMCRestaurantActivity {
 
     public float dpToPx(float dp) {
         DisplayMetrics  displayMetrics = activity.getResources().getDisplayMetrics();
-        Log.d("dpToPx ----------------------->  densityDpi:  --->", String.valueOf(displayMetrics.densityDpi));
-        Log.d("dpToPx ----------------------->  density:  --->", String.valueOf(displayMetrics.density));
-        Log.d("dpToPx ----------------------->  xdpi:  --->", String.valueOf(displayMetrics.xdpi));
-        Log.d("dpToPx ----------------------->  ydpi:  --->", String.valueOf(displayMetrics.ydpi));
+//        Log.d("dpToPx ----------------------->  densityDpi:  --->", String.valueOf(displayMetrics.densityDpi));
+//        Log.d("dpToPx ----------------------->  density:  --->", String.valueOf(displayMetrics.density));
+//        Log.d("dpToPx ----------------------->  xdpi:  --->", String.valueOf(displayMetrics.xdpi));
+//        Log.d("dpToPx ----------------------->  ydpi:  --->", String.valueOf(displayMetrics.ydpi));
         int k = 160;
         if (displayMetrics.density > 1){
             k = 260;

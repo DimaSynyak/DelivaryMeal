@@ -641,7 +641,7 @@
                         <LinearLayout
                             android:orientation="vertical"
                             android:layout_width="match_parent"
-                            android:layout_height="0dp"
+                            android:layout_height="match_parent"
                             android:id="@+id/formDataFragmentId"
                             android:visibility="visible">
 
@@ -650,7 +650,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:padding="20dp"
-                                android:foregroundGravity="center_horizontal">
+                                android:foregroundGravity="center_horizontal"
+                                android:visibility="gone">
 
                                 <LinearLayout
                                     android:orientation="horizontal"
@@ -721,7 +722,8 @@
                                 android:orientation="horizontal"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:paddingRight="20dp">
+                                android:paddingRight="20dp"
+                                android:visibility="gone">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -748,7 +750,8 @@
                                 android:orientation="horizontal"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:paddingRight="20dp">
+                                android:paddingRight="20dp"
+                                android:visibility="gone">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -776,7 +779,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:paddingRight="20dp"
-                                android:id="@+id/street">
+                                android:id="@+id/street"
+                                android:visibility="gone">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -804,7 +808,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:paddingRight="20dp"
-                                android:id="@+id/num_house">
+                                android:id="@+id/num_house"
+                                android:visibility="gone">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -832,7 +837,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:paddingRight="20dp"
-                                android:id="@+id/num_flat">
+                                android:id="@+id/num_flat"
+                                android:visibility="gone">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -859,7 +865,8 @@
                                 android:orientation="horizontal"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:paddingRight="20dp">
+                                android:paddingRight="20dp"
+                                android:visibility="gone">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -886,7 +893,8 @@
                                 android:orientation="horizontal"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:paddingRight="20dp">
+                                android:paddingRight="20dp"
+                                android:visibility="gone">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -913,7 +921,8 @@
                                 android:orientation="horizontal"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:paddingRight="20dp">
+                                android:paddingRight="20dp"
+                                android:visibility="gone">
 
                             </LinearLayout>
 
@@ -929,10 +938,12 @@
                                     android:layout_height="wrap_content"
                                     android:id="@+id/datePicker"
                                     android:layout_weight="1"
-                                    android:calendarViewShown="false"
                                     android:scaleX="0.8"
                                     android:scaleY="0.8"
-                                    android:padding="-20dp"/>
+                                    android:padding="-20dp"
+                                    android:calendarViewShown="false"
+                                    android:datePickerMode="spinner"
+                                    style="@style/MyDatePicker" />
 
                                 <TimePicker
                                     android:layout_width="wrap_content"
@@ -941,7 +952,9 @@
                                     android:layout_weight="1"
                                     android:scaleX="0.8"
                                     android:scaleY="0.8"
-                                    android:padding="-20dp"/>
+                                    android:padding="-20dp"
+                                    android:timePickerMode="spinner"
+                                    style="@style/MyTimePicker" />
                             </LinearLayout>
 
                         </LinearLayout>
@@ -957,7 +970,7 @@
                             android:layout_height="match_parent"
                             android:clickable="true"
                             android:id="@+id/orderClick"
-                            android:visibility="visible">
+                            android:visibility="gone">
 
                             <FrameLayout
                                 android:layout_width="fill_parent"
